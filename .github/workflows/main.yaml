@@ -23,17 +23,17 @@ jobs:
         pip install requests beautifulsoup4
 
     - name: Run script
-      id: run-script
-      run: |
-        echo "::set-output name=blog_links::$(python main.py)"
+      run: python main.py
+      id: run-script  # 이 id를 사용하여 이 단계의 출력을 참조합니다.
+      continue-on-error: true
 
-    - name: Create GitHub Issue if new post detected
-      if: steps.run-script.outputs.blog_links
+    - name: Create GitHub Issue for new posts
+      if: steps.run-script.outputs.new-posts  # 새 게시물이 있을 때만 이 단계를 실행합니다.
       uses: actions/github-script@v5
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
-          const links = ${{ steps.run-script.outputs.blog_links }};
+          const links = `${{ steps.run-script.outputs.new-posts }}`;
           if (links) {
             const issueTitle = "New Blog Posts Detected!";
             const issueBody = `New posts have been detected:\n\n${links.split('\n').map(link => `- ${link}`).join('\n')}`;
@@ -44,3 +44,4 @@ jobs:
               body: issueBody
             });
           }
+
