@@ -91,9 +91,9 @@ def delete_last_post_link(blog_name):
         return f"'{file_path}' does not exist."
 
 # 테스트 코드: "Toss" 및 "Woowahan"에 대한 저장된 게시글 정보를 삭제합니다.
-delete_toss_info = delete_last_post_link("Toss")
-delete_woowahan_info = delete_last_post_link("Woowahan")
-delete_kakao_info = delete_last_post_link("Kakao")
+# delete_toss_info = delete_last_post_link("Toss")
+# delete_woowahan_info = delete_last_post_link("Woowahan")
+# delete_kakao_info = delete_last_post_link("Kakao")
 
 
 if __name__ == "__main__":
