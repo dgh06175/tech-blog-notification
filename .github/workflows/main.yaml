@@ -1,8 +1,8 @@
-name: Check New Blog Post
+name: 새로운 블로그 포스트 확인
 
 on:
   schedule:
-    - cron: '0 12 * * *'  # 매일 대한민국 시간으로 아침 9시에 실행 (UTC 기준 오후 12시)
+    - cron: '0 12 * * *'
   workflow_dispatch:
 
 jobs:
