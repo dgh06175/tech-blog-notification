@@ -83,7 +83,7 @@ def check_new_post_and_notify(blog_name, fetch_function):
     # 새로운 게시글이 올라왔는지 확인
     if not last_post_link or (latest_post_info["link"] != last_post_link):
         # 새로운 게시글의 링크를 출력
-        print(f"{blog_name}: [{latest_post_info['title']}]({latest_post_info['link']})\n")
+        print(f"### {blog_name}\n[{latest_post_info['title']}]({latest_post_info['link']})\n")
         # 새로운 게시글 링크 저장
         save_last_post_link(blog_name, latest_post_info["link"])
 
