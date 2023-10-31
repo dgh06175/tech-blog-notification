@@ -52,12 +52,12 @@ def get_latest_post_from_kakao():
 
 def save_last_post_link(blog_name, link):
     """최근 스크래핑한 게시글의 링크를 파일에 저장합니다."""
-    with open(f"{blog_name}_last_post.txt", "w", encoding="utf-8") as file:
+    with open(f"pastData/{blog_name}_last_post.txt", "w", encoding="utf-8") as file:
         file.write(link)
 
 def load_last_post_link(blog_name):
     """저장된 게시글의 링크를 로드합니다."""
-    file_path = f"{blog_name}_last_post.txt"
+    file_path = f"pastData/{blog_name}_last_post.txt"
     if not os.path.exists(file_path):
         return None
     with open(file_path, "r", encoding="utf-8") as file:
@@ -83,12 +83,12 @@ def check_new_post_and_notify(blog_name, fetch_function):
 
 def delete_last_post_link(blog_name):
     """저장된 게시글의 링크 정보를 삭제합니다."""
-    file_path = f"{blog_name}_last_post.txt"
+    file_path = f"pastData/{blog_name}_last_post.txt"
     if os.path.exists(file_path):
         os.remove(file_path)
-        return f"'{file_path}' has been deleted."
+        return f"'pastData/{file_path}' has been deleted."
     else:
-        return f"'{file_path}' does not exist."
+        return f"'pastData/{file_path}' does not exist."
 
 # 테스트 코드: "Toss" 및 "Woowahan"에 대한 저장된 게시글 정보를 삭제합니다.
 # delete_toss_info = delete_last_post_link("Toss")
