@@ -36,8 +36,8 @@ jobs:
         script: |
           const links = process.env.NEW_POSTS.split('::').join('\n');
           if (links) {
-            const issueTitle = "New Blog Posts Detected!";
-            const issueBody = `New posts have been detected:\n\n${links.split('\n').map(link => `- ${link}`).join('\n')}`;
+            const issueTitle = "새로운 블로그 게시글이 올라왔습니다!";
+            const issueBody = `### 새로운 블로그 게시글 목록\n\n${links.split('\n').map(link => `- ${link}`).join('\n')}`;
             github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -45,7 +45,3 @@ jobs:
               body: issueBody
             });
           }
-    
-        
-    
-
