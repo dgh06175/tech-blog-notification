@@ -22,5 +22,38 @@ jobs:
         python -m pip install --upgrade pip
         pip install requests beautifulsoup4
 
-    - name: Run script
-      run: python main.py
+    - name: Check for new posts in Toss
+      id: check_toss
+      run: echo "::set-output name=link::$(python main.py --blog Toss)"
+
+    - name: Check for new posts in Woowahan
+      id: check_woowahan
+      run: echo "::set-output name=link::$(python main.py --blog Woowahan)"
+
+    - name: Create GitHub issue if new post is detected in Toss
+      if: steps.check_toss.outputs.link != ''
+      uses: actions/github-script@v5
+      with:
+        script: |
+          const issueTitle = "New post detected in Toss!";
+          const issueBody = `A new post has been detected in Toss. Check the link: ${{ steps.check_toss.outputs.link }}`;
+          github.rest.issues.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: issueTitle,
+            body: issueBody
+          });
+
+    - name: Create GitHub issue if new post is detected in Woowahan
+      if: steps.check_woowahan.outputs.link != ''
+      uses: actions/github-script@v5
+      with:
+        script: |
+          const issueTitle = "New post detected in Woowahan!";
+          const issueBody = `A new post has been detected in Woowahan. Check the link: ${{ steps.check_woowahan.outputs.link }}`;
+          github.rest.issues.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: issueTitle,
+            body: issueBody
+          });
