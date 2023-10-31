@@ -25,7 +25,7 @@ jobs:
     - name: Run script
       id: run-script
       run: |
-        output=$(python main.py)
+        output=$(python main.py | sed ':a;N;$!ba;s/\n/::/g')
         echo "new-posts=${output}" >> $GITHUB_ENV
 
     - name: Create GitHub Issue for new posts
@@ -34,7 +34,7 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
-          const links = `${{ steps.run-script.outputs.new-posts }}`;
+          const links = process.env.new_posts.split('::').join('\n');
           if (links) {
             const issueTitle = "New Blog Posts Detected!";
             const issueBody = `New posts have been detected:\n\n${links.split('\n').map(link => `- ${link}`).join('\n')}`;
