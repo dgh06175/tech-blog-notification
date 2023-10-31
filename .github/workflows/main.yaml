@@ -37,7 +37,7 @@ jobs:
           const DATA = process.env.NEW_POSTS.split('::').join('\n');
           if (DATA) {
             const issueTitle = "새로운 블로그 게시글이 올라왔습니다!";
-            const issueBody = `## 새로운 블로그 게시글 목록\n\n${DATA.map(link => `${link}`)}`;
+            const issueBody = `## 새로운 블로그 게시글 목록\n\n${DATA.split('\n').map(link => `${link}`).join('\n')}`;
             github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
