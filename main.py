@@ -1,62 +1,101 @@
-import os
 import requests
+import os
 from bs4 import BeautifulSoup
 
-BASE_URLS = {
-    "Toss": "https://toss.tech",
-    "Woowahan": "https://techblog.woowahan.com/",
-    "Kakao": "https://tech.kakao.com/blog"
-}
+class BlogScraper:
+    BLOGS = {
+        "Toss": {
+            "url": "https://toss.tech",
+            "linkParser": lambda soup: soup.find("ul", class_="css-nsslhm e16omkx80").find("a"),
+            "titleParser": lambda link_element: link_element.find("span").text
+        },
+        "Woowahan": {
+            "url": "https://techblog.woowahan.com/",
+            "linkParser": lambda soup: soup.find("div", class_="posts").find("div").find("a"),
+            "titleParser": lambda link_element: link_element.find("h1").text
+        },
+        "Kakao": {
+            "url": "https://tech.kakao.com/blog",
+            "linkParser": lambda soup: soup.find("div", {"class": "elementor-post__text"}).find("a"),
+            "titleParser": lambda link_element: link_element.text
+        }
+    }
 
-FETCH_FUNCTIONS = {
-    "Toss": lambda soup: soup.find("ul", class_="css-nsslhm e16omkx80"),
-    "Woowahan": lambda soup: soup.find("div", class_="posts"),
-    "Kakao": lambda soup: soup.find("div", {"class": "elementor-post__text"})
-}
+    @staticmethod
+    def fetch_html_from_url(url):
+        """URL에서 HTML 내용을 가져옵니다."""
+        response = requests.get(url)
+        response.raise_for_status()
+        return response.text
 
+    @classmethod
+    def scrape_latest_post(cls, blog_name):
+        """특정 블로그에서 최신 게시글의 제목과 링크를 가져옵니다."""
+        blog = cls.BLOGS.get(blog_name)
+        if not blog:
+            return None
 
-def fetch_html(url):
-    """Fetch HTML content from a given URL."""
-    response = requests.get(url)
-    response.raise_for_status()
-    return response.text
+        html_content = cls.fetch_html_from_url(blog["url"])
+        soup = BeautifulSoup(html_content, 'html.parser')
 
+        # 게시글 링크 추출
+        link_element = blog["linkParser"](soup)
+        if not link_element:
+            return None
 
-def get_latest_post(blog_name, soup):
-    """Extract latest post information based on the blog name."""
-    element = FETCH_FUNCTIONS[blog_name](soup)
-    post_link_element = element.find("a") if element else None
-    post_link = post_link_element["href"] if post_link_element else None
-    post_title = post_link_element.text.strip() if post_link_element else "N/A"
+        link = link_element["href"]
+        title = blog["titleParser"](link_element).strip()
 
-    return post_title, post_link
+        return {
+            "title": title,
+            "link": link
+        }
 
+    @staticmethod
+    def save_last_post_link(blog_name, link):
+        """최근 스크래핑한 게시글의 링크를 파일에 저장합니다."""
+        with open(f"pastData/{blog_name}_last_post.txt", "w", encoding="utf-8") as file:
+            file.write(link)
 
-def read_last_post(blog_name):
-    """Read the last post link from the file."""
-    file_path = f"pastData/{blog_name}_last_post.txt"
-    if os.path.exists(file_path):
+    @staticmethod
+    def load_last_post_link(blog_name):
+        """저장된 게시글의 링크를 로드합니다."""
+        file_path = f"pastData/{blog_name}_last_post.txt"
+        if not os.path.exists(file_path):
+            return None
         with open(file_path, "r", encoding="utf-8") as file:
             return file.read().strip()
-    return None
+
+    @classmethod
+    def check_new_post_and_notify(cls, blog_name):
+        """새로운 게시글이 올라왔는지 확인하고 알림을 보냅니다."""
+        # 최신 게시글 정보 가져오기
+        latest_post_info = cls.scrape_latest_post(blog_name)
+
+        # 이전 게시글 링크 로드
+        last_post_link = cls.load_last_post_link(blog_name)
+
+        # 새로운 게시글이 올라왔는지 확인
+        if not last_post_link or (latest_post_info["link"] != last_post_link):
+            # 새로운 게시글의 링크를 출력
+            print(f"### {blog_name}\n\n[{latest_post_info['title']}]({latest_post_info['link']})\n")
+            # 새로운 게시글 링크 저장
+            cls.save_last_post_link(blog_name, latest_post_info["link"])
 
 
-def write_last_post(blog_name, link):
-    """Write the latest post link to the file."""
-    with open(f"pastData/{blog_name}_last_post.txt", "w", encoding="utf-8") as file:
-        file.write(link)
+def clear_all_txt_files_in_pastData():
+    directory = 'pastData'
+    for filename in os.listdir(directory):
+        if filename.endswith('.txt'):
+            filepath = os.path.join(directory, filename)
+            with open(filepath, 'w') as file:
+                pass
 
-
-def check_and_notify_new_post(blog_name):
-    """Check for a new post and print the details if found."""
-    soup = BeautifulSoup(fetch_html(BASE_URLS[blog_name]), 'html.parser')
-    title, link = get_latest_post(blog_name, soup)
-
-    if link != read_last_post(blog_name):
-        print(f"### {blog_name}\n\n[{title}]({link})\n")
-        write_last_post(blog_name, link)
+# 함수 호출
+clear_all_txt_files_in_pastData()
 
 
 if __name__ == "__main__":
-    for blog in BASE_URLS.keys():
-        check_and_notify_new_post(blog)
+    # 각 블로그에서 최신 게시글을 확인합니다.
+    for blog_name in BlogScraper.BLOGS.keys():
+        BlogScraper.check_new_post_and_notify(blog_name)
