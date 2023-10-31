@@ -34,9 +34,11 @@ jobs:
       with:
         github-token: ${{ secrets.TECHBLOG_ALARM_ISSUE_ACTION_TOKEN }}
         script: |
+          const currentDate = new Date();
+          const formattedDate = `${currentDate.getFullYear()}.${currentDate.getMonth() + 1}.${currentDate.getDate()}`;
           const DATA = process.env.NEW_POSTS.split('::').join('\n');
           if (DATA) {
-            const issueTitle = "새로운 블로그 게시글이 올라왔습니다!";
+            const issueTitle = `새로운 블로그 게시글이 올라왔습니다! ${formattedDate}`;
             const issueBody = `## 새로운 블로그 게시글 목록\n\n${DATA.split('\n').map(link => `${link}`).join('\n')}`;
             github.rest.issues.create({
               owner: context.repo.owner,
