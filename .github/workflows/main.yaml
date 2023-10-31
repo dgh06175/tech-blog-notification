@@ -27,15 +27,14 @@ jobs:
       run: |
         output=$(python main.py | sed ':a;N;$!ba;s/\n/::/g')
         echo "new-posts=${output}" >> $GITHUB_ENV
-        echo "::set-output name=new-posts::${output}"
 
     - name: Create GitHub Issue for new posts
-      if: steps.run-script.outputs.new-posts  # 새 게시물이 있을 때만 이 단계를 실행합니다.
+      if: env.NEW_POSTS  # 새 게시물이 있을 때만 이 단계를 실행합니다.
       uses: actions/github-script@v5
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
-          const links = steps.run-script.outputs.new-posts.split('::').join('\n');
+          const links = process.env.NEW_POSTS.split('::').join('\n');
           if (links) {
             const issueTitle = "New Blog Posts Detected!";
             const issueBody = `New posts have been detected:\n\n${links.split('\n').map(link => `- ${link}`).join('\n')}`;
@@ -46,4 +45,5 @@ jobs:
               body: issueBody
             });
           }
+    
 
