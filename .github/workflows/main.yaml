@@ -23,9 +23,10 @@ jobs:
         pip install requests beautifulsoup4
 
     - name: Run script
-      run: python main.py
-      id: run-script  # 이 id를 사용하여 이 단계의 출력을 참조합니다.
-      continue-on-error: true
+      id: run-script
+      run: |
+        output=$(python main.py)
+        echo "new-posts=${output}" >> $GITHUB_ENV
 
     - name: Create GitHub Issue for new posts
       if: steps.run-script.outputs.new-posts  # 새 게시물이 있을 때만 이 단계를 실행합니다.
