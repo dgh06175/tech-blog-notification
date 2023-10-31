@@ -1,0 +1,1 @@
+https://tech.kakao.com/2023/10/19/commonjs-esm-migration/
