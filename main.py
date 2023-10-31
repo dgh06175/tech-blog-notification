@@ -64,7 +64,6 @@ def load_last_post_link(blog_name):
         return file.read().strip()
 
 
-
 def check_new_post_and_notify(blog_name, fetch_function):
     """새로운 게시글이 올라왔는지 확인하고 알림을 보냅니다."""
     # 최신 게시글 정보 가져오기
@@ -73,22 +72,14 @@ def check_new_post_and_notify(blog_name, fetch_function):
     # 이전 게시글 링크 로드
     last_post_link = load_last_post_link(blog_name)
 
-    # 새로운 게시물이 올라왔는지 확인
+    # 새로운 게시글이 올라왔는지 확인
     if not last_post_link or (latest_post_info["link"] != last_post_link):
-        # 새로운 게시물 알림 (여기서는 print로 대체)
-        print(f"[{blog_name}] New post detected! Link: {latest_post_info['link']}")
+        # 새로운 게시글의 링크를 출력
+        print(latest_post_info['link'])
 
-        # 새로운 게시물 링크 저장
+        # 새로운 게시글 링크 저장
         save_last_post_link(blog_name, latest_post_info["link"])
-        return latest_post_info['link']  # 새로운 게시물의 링크 반환
-    return None  # 새 게시물이 없는 경우 None 반환
 
-
-
-# # 테스트 코드: 먼저 "test_blog" 이름으로 임의의 링크를 저장하고, 로드해봅니다.
-# save_last_post_link("test_blog", "https://example.com/post/123")
-# loaded_link = load_last_post_link("test_blog")
-# loaded_link
 
 def delete_last_post_link(blog_name):
     """저장된 게시글의 링크 정보를 삭제합니다."""
@@ -105,7 +96,8 @@ delete_woowahan_info = delete_last_post_link("Woowahan")
 delete_kakao_info = delete_last_post_link("Kakao")
 
 
-# 각 블로그에서 최신 게시글을 확인합니다.
-check_new_post_and_notify("Toss", get_latest_post_from_toss)
-check_new_post_and_notify("Woowahan", get_latest_post_from_woowahan)
-check_new_post_and_notify("Kakao", get_latest_post_from_kakao)
+if __name__ == "__main__":
+    # 각 블로그에서 최신 게시글을 확인합니다.
+    check_new_post_and_notify("Toss", get_latest_post_from_toss)
+    check_new_post_and_notify("Woowahan", get_latest_post_from_woowahan)
+    check_new_post_and_notify("Kakao", get_latest_post_from_kakao)

@@ -22,38 +22,25 @@ jobs:
         python -m pip install --upgrade pip
         pip install requests beautifulsoup4
 
-    - name: Check for new posts in Toss
-      id: check_toss
-      run: echo "::set-output name=link::$(python main.py --blog Toss)"
+    - name: Run script
+      id: run-script
+      run: |
+        echo "::set-output name=blog_links::$(python main.py)"
 
-    - name: Check for new posts in Woowahan
-      id: check_woowahan
-      run: echo "::set-output name=link::$(python main.py --blog Woowahan)"
-
-    - name: Create GitHub issue if new post is detected in Toss
-      if: steps.check_toss.outputs.link != ''
+    - name: Create GitHub Issue if new post detected
+      if: steps.run-script.outputs.blog_links
       uses: actions/github-script@v5
       with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
-          const issueTitle = "New post detected in Toss!";
-          const issueBody = `A new post has been detected in Toss. Check the link: ${{ steps.check_toss.outputs.link }}`;
-          github.rest.issues.create({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            title: issueTitle,
-            body: issueBody
-          });
-
-    - name: Create GitHub issue if new post is detected in Woowahan
-      if: steps.check_woowahan.outputs.link != ''
-      uses: actions/github-script@v5
-      with:
-        script: |
-          const issueTitle = "New post detected in Woowahan!";
-          const issueBody = `A new post has been detected in Woowahan. Check the link: ${{ steps.check_woowahan.outputs.link }}`;
-          github.rest.issues.create({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            title: issueTitle,
-            body: issueBody
-          });
+          const links = ${{ steps.run-script.outputs.blog_links }};
+          if (links) {
+            const issueTitle = "New Blog Posts Detected!";
+            const issueBody = `New posts have been detected:\n\n${links.split('\n').map(link => `- ${link}`).join('\n')}`;
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: issueTitle,
+              body: issueBody
+            });
+          }
