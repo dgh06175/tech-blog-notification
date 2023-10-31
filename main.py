@@ -2,6 +2,7 @@ import requests
 import os
 from bs4 import BeautifulSoup
 
+
 class BlogScraper:
     BLOGS = {
         "Toss": {
@@ -92,7 +93,7 @@ def clear_all_txt_files_in_pastData():
                 pass
 
 # 함수 호출
-clear_all_txt_files_in_pastData()
+# clear_all_txt_files_in_pastData()
 
 
 if __name__ == "__main__":
