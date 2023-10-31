@@ -1,0 +1,25 @@
+name: Check New Blog Post
+
+on:
+  schedule:
+    - cron: '0 12 * * *'  # 매일 대한민국 시간으로 아침 9시에 실행 (UTC 기준 오후 12시)
+
+jobs:
+  check_blog_post:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests beautifulsoup4
+
+    - name: Run script
+      run: python path_to_your_script.py
