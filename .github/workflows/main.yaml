@@ -23,18 +23,18 @@ jobs:
         pip install requests beautifulsoup4
 
     - name: Run script and set output
-      id: run-script  # 이 id는 다음 단계에서 이 단계의 출력에 액세스하기 위해 사용됩니다.
+      id: run-script
       run: |
         output=$(python main.py | sed ':a;N;$!ba;s/\n/::/g')
-        echo "new-posts=${output}" >> $GITHUB_ENV
+        echo "NEW_POSTS=${output}" >> $GITHUB_ENV
 
     - name: Create GitHub Issue for new posts
-      if: env.NEW_POSTS  # 새 게시물이 있을 때만 이 단계를 실행합니다.
+      if: env.NEW_POSTS != ''
       uses: actions/github-script@v5
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
-          const links = process.env.new_posts.split('::').join('\n');
+          const links = process.env.NEW_POSTS.split('::').join('\n');
           if (links) {
             const issueTitle = "New Blog Posts Detected!";
             const issueBody = `New posts have been detected:\n\n${links.split('\n').map(link => `- ${link}`).join('\n')}`;
@@ -45,6 +45,7 @@ jobs:
               body: issueBody
             });
           }
+    
         
     
 
