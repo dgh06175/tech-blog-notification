@@ -2,7 +2,7 @@ name: 새로운 블로그 포스트 확인
 
 on:
   schedule:
-    - cron: '0 11 * * *'
+    - cron: '0 23 * * *'
   workflow_dispatch:
 
 jobs:
