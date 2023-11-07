@@ -2,7 +2,7 @@ name: 새로운 블로그 포스트 확인
 
 on:
   schedule:
-    - cron: '0 12 * * *'
+    - cron: '0 11 * * *'
   workflow_dispatch:
 
 jobs:
@@ -22,11 +22,23 @@ jobs:
         python -m pip install --upgrade pip
         pip install requests beautifulsoup4
 
-    - name: Run script and set output
-      id: run-script
+    - name: Check for new blog posts and update text files
       run: |
         output=$(python main.py | sed ':a;N;$!ba;s/\n/::/g')
-        echo "NEW_POSTS=${output}" >> $GITHUB_ENV
+        if [ -z "$output" ]; then
+          echo "No new posts found."
+        else
+          echo "NEW_POSTS=$output" >> $GITHUB_ENV
+        fi
+
+    - name: Commit and push changes if new posts are found
+      if: env.NEW_POSTS != ''
+      run: |
+        git config --global user.name 'dgh06175'
+        git config --global user.email 'dgh06175@gmail.com'
+        git add pastData/*.txt
+        git commit -m "새로운 블로그 포스트 기록 텍스트 파일 업데이트"
+        git push
 
     - name: Create GitHub Issue for new posts
       if: env.NEW_POSTS != ''
