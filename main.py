@@ -6,19 +6,19 @@ from bs4 import BeautifulSoup
 class BlogScraper:
     BLOGS = {
         "Toss": {
-            "url": "https://toss.tech",
-            "linkParser": lambda soup: soup.find("ul", class_="css-nsslhm e16omkx80").find("a"),
-            "titleParser": lambda link_element: link_element.find("span").text
+            "url": "https://toss.tech/",
+            "linkParser": lambda soup: "https://toss.tech/" + soup.find("ul", class_="css-nsslhm e16omkx80").find("a")["href"],
+            "titleParser": lambda soup: soup.find("ul", class_="css-nsslhm e16omkx80").find("a").find("span").text
         },
         "Woowahan": {
             "url": "https://techblog.woowahan.com/",
-            "linkParser": lambda soup: soup.find("div", class_="posts").find("div").find("a"),
-            "titleParser": lambda link_element: link_element.find("h1").text
+            "linkParser": lambda soup: soup.find("div", class_="posts").find("div").find("a")["href"],
+            "titleParser": lambda soup: soup.find("div", class_="posts").find("div").find("a").find("h2").text
         },
         "Kakao": {
             "url": "https://tech.kakao.com/blog",
-            "linkParser": lambda soup: soup.find("div", {"class": "elementor-post__text"}).find("a"),
-            "titleParser": lambda link_element: link_element.text
+            "linkParser": lambda soup: soup.find("div", {"class": "list_post"}).find("a")["href"],
+            "titleParser": lambda soup: soup.find("div", {"class": "list_post"}).find("a").find("strong").text.strip()
         }
     }
 
@@ -39,13 +39,11 @@ class BlogScraper:
         html_content = cls.fetch_html_from_url(blog["url"])
         soup = BeautifulSoup(html_content, 'html.parser')
 
-        # 게시글 링크 추출
-        link_element = blog["linkParser"](soup)
-        if not link_element:
+        link = blog["linkParser"](soup)
+        if not link:
             return None
 
-        link = link_element["href"]
-        title = blog["titleParser"](link_element).strip()
+        title = blog["titleParser"](soup).strip()
 
         return {
             "title": title,
@@ -92,8 +90,7 @@ def clear_all_txt_files_in_pastData():
             with open(filepath, 'w') as file:
                 pass
 
-# 함수 호출
-# clear_all_txt_files_in_pastData()
+clear_all_txt_files_in_pastData()
 
 
 if __name__ == "__main__":
