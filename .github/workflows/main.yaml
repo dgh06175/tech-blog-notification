@@ -37,7 +37,7 @@ jobs:
         git push
 
     - name: Create GitHub Issue for new posts
-      if: steps.check_new_posts.outputs.issue_title
+      if: steps.check_new_posts.outputs.issue_title != ''
       uses: actions/github-script@v5
       with:
         github-token: ${{ secrets.TECHBLOG_ALARM_ISSUE_ACTION_TOKEN }}
