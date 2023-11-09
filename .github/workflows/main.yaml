@@ -23,12 +23,16 @@ jobs:
         pip install requests beautifulsoup4
 
     - name: Check for new blog posts and update text files
-      id: check_new_posts
       run: |
-        echo "::set-output name=issue_title::$(python main.py)"
+        output=$(python main.py | sed ':a;N;$!ba;s/\n/::/g')
+        if [ -z "$output" ]; then
+          echo "No new posts found."
+        else
+          echo "NEW_POSTS=$output" >> $GITHUB_ENV
+        fi
 
     - name: Commit and push changes if new posts are found
-      if: steps.check_new_posts.outputs.issue_title != ''
+      if: env.NEW_POSTS != ''
       run: |
         git config --global user.name 'dgh06175'
         git config --global user.email 'dgh06175@gmail.com'
@@ -37,19 +41,21 @@ jobs:
         git push
 
     - name: Create GitHub Issue for new posts
-      if: steps.check_new_posts.outputs.issue_title != ''
+      if: env.NEW_POSTS != ''
       uses: actions/github-script@v5
       with:
         github-token: ${{ secrets.TECHBLOG_ALARM_ISSUE_ACTION_TOKEN }}
         script: |
-          const issueTitle = "${{ steps.check_new_posts.outputs.issue_title }}";
           const currentDate = new Date();
-          const formattedDate = `${currentDate.getFullYear()}.${currentDate.getMonth() + 1}.${currentDate.getDate()}`;
-          const fullIssueTitle = `${issueTitle} [${formattedDate}]`;
-          const issueBody = `## 새로운 블로그 게시글 목록\n\n이번에 업데이트된 블로그는 다음과 같습니다:\n\n${issueTitle}`;
-          github.rest.issues.create({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            title: fullIssueTitle,
-            body: issueBody
-          });
+          const formattedDate = `${currentDate.getFullYear()}.${currentDate.getMonth() + 1}.${currentDate.getDate() + 1}`;
+          const DATA = process.env.NEW_POSTS.split('::').join('\n');
+          if (DATA) {
+            const issueTitle = `새로운 블로그 게시글이 올라왔습니다! [${formattedDate}]`;
+            const issueBody = `## 새로운 블로그 게시글 목록\n\n${DATA.split('\n').map(link => `${link}`).join('\n')}`;
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: issueTitle,
+              body: issueBody
+            });
+          }
