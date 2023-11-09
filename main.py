@@ -62,7 +62,35 @@ class BlogScraper:
         file_path = f"pastData/{blog_name}_last_post.txt"
         if not os.path.exists(file_path):
             return None
-수
+        with open(file_path, "r", encoding="utf-8") as file:
+            return file.read().strip()
+
+    @classmethod
+    def check_new_post_and_notify(cls, blog_name):
+        """새로운 게시글이 올라왔는지 확인하고 알림을 보냅니다."""
+        # 최신 게시글 정보 가져오기
+        latest_post_info = cls.scrape_latest_post(blog_name)
+
+        # 이전 게시글 링크 로드
+        last_post_link = cls.load_last_post_link(blog_name)
+
+        # 새로운 게시글이 올라왔는지 확인
+        if not last_post_link or (latest_post_info["link"] != last_post_link):
+            # 새로운 게시글의 링크를 출력
+            print(f"### {blog_name}\n\n[{latest_post_info['title']}]({latest_post_info['link']})\n")
+            # 새로운 게시글 링크 저장
+            cls.save_last_post_link(blog_name, latest_post_info["link"])
+
+
+def clear_all_txt_files_in_pastData():
+    directory = 'pastData'
+    for filename in os.listdir(directory):
+        if filename.endswith('.txt'):
+            filepath = os.path.join(directory, filename)
+            with open(filepath, 'w') as file:
+                pass
+
+# 파일 기록 초기화
 # clear_all_txt_files_in_pastData()
 
 
