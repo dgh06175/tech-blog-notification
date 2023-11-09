@@ -91,19 +91,10 @@ def clear_all_txt_files_in_pastData():
                 pass
 
 # 파일 기록 초기화
-clear_all_txt_files_in_pastData()
+# clear_all_txt_files_in_pastData()
 
 
 if __name__ == "__main__":
-    new_posts_titles = []
     # 각 블로그에서 최신 게시글을 확인합니다.
     for blog_name in BlogScraper.BLOGS.keys():
-        new_post = BlogScraper.check_new_post_and_notify(blog_name)
-        if new_post:
-            new_posts_titles.append(blog_name)
-
-    # 환경 변수에 저장할 문자열을 만듭니다.
-    if new_posts_titles:
-        blogs_updated = ', '.join(new_posts_titles)
-        issue_title = f"새로운 {blogs_updated} 블로그 게시글이 올라왔습니다!"
-        print(f"::set-output name=issue_title::{issue_title}")
+        BlogScraper.check_new_post_and_notify(blog_name)
