@@ -1,8 +1,8 @@
-name: 새로운 블로그 포스트 확인
+name: 새로운 블로그 게시글 확인
 
 on:
   schedule:
-    - cron: '0 23 * * *'
+    - cron: '0 22 * * *'
   workflow_dispatch:
 
 jobs:
@@ -24,9 +24,9 @@ jobs:
 
     - name: Check for new blog posts and update text files
       run: |
-        output=$(python main.py | sed ':a;N;$!ba;s/\n/::/g')
+        output=$(python main.py)
         if [ -z "$output" ]; then
-          echo "No new posts found."
+          echo "새로운 게시글이 없습니다."
         else
           echo "NEW_POSTS=$output" >> $GITHUB_ENV
         fi
@@ -48,10 +48,10 @@ jobs:
         script: |
           const currentDate = new Date();
           const formattedDate = `${currentDate.getFullYear()}.${currentDate.getMonth() + 1}.${currentDate.getDate() + 1}`;
-          const DATA = process.env.NEW_POSTS.split('::').join('\n');
+          const DATA = process.env.NEW_POSTS;
           if (DATA) {
             const issueTitle = `새로운 블로그 게시글이 올라왔습니다! [${formattedDate}]`;
-            const issueBody = `## 새로운 블로그 게시글 목록\n\n${DATA.split('\n').map(link => `${link}`).join('\n')}`;
+            const issueBody = `## 새로운 블로그 게시글 목록\n\n${DATA}`;
             github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
