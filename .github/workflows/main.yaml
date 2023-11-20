@@ -24,7 +24,7 @@ jobs:
 
     - name: Check for new blog posts and update text files
       run: |
-        output=$(python main.py)
+        output=$(python main.py | sed ':a;N;$!ba;s/\n/::/g')
         if [ -z "$output" ]; then
           echo "새로운 게시글이 없습니다."
         else
@@ -51,7 +51,7 @@ jobs:
           const DATA = process.env.NEW_POSTS;
           if (DATA) {
             const issueTitle = `새로운 블로그 게시글이 올라왔습니다! [${formattedDate}]`;
-            const issueBody = `## 새로운 블로그 게시글 목록\n\n${DATA.split('\n').map(link => `${link}`).join('\n')}`;
+            const issueBody = `## 새로운 블로그 게시글 목록\n\n${DATA}`;
             github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
