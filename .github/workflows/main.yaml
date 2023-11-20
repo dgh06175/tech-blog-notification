@@ -48,25 +48,30 @@ jobs:
         script: |
           const currentDate = new Date();
           const formattedDate = `${currentDate.getFullYear()}.${currentDate.getMonth() + 1}.${currentDate.getDate() + 1}`;
-          
+
           const DATA = process.env.NEW_POSTS.split("::");
+          console.log("DATA:", DATA); // 데이터 확인 로그
           const blogNames = [];
           let issueBody = "";
           if (DATA) {
             DATA.forEach(post => {
+                console.log("Processing post:", post); // 각 포스트 처리 확인 로그
                 if (!post || post.trim() === '') return;
-        
+
                 const [blogName, postTitle] = post.split("::::");
+                console.log("Extracted blogName and postTitle:", blogName, postTitle); // 추출된 블로그 이름 및 게시글 제목 확인 로그
                 if (!blogName || !postTitle) return;
-        
+
                 const formattedBlogName = blogName.replace('### ', '').trim();
+                console.log("Formatted blog name:", formattedBlogName); // 포맷된 블로그 이름 확인 로그
                 if (!blogNames.includes(formattedBlogName)) {
                     blogNames.push(formattedBlogName);
                 }
-        
+
                 issueBody += `### ${formattedBlogName}\n\n${postTitle}\n\n`;
             });
-            
+
+            console.log("Final issue body:", issueBody); // 최종 issueBody 확인 로그
             const header = `## 새로운 ${blogNames.join(', ')} 블로그 게시글 이 올라왔습니다!`;
             const issueTitle = `${header} [${formattedDate}]`;
             github.rest.issues.create({
