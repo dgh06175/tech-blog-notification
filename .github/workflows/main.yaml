@@ -48,10 +48,10 @@ jobs:
         script: |
           const currentDate = new Date();
           const formattedDate = `${currentDate.getFullYear()}.${currentDate.getMonth() + 1}.${currentDate.getDate() + 1}`;
-          const DATA = process.env.NEW_POSTS.split('::').join('\n');
+          const DATA = process.env.NEW_POSTS;
           if (DATA) {
             const issueTitle = `새로운 블로그 게시글이 올라왔습니다! [${formattedDate}]`;
-            const issueBody = `## 새로운 블로그 게시글 목록\n\n${DATA}`;
+            const issueBody = `## 새로운 블로그 게시글 목록\n\n${DATA.split('\n').map(link => `${link}`).join('\n')}`;
             github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
