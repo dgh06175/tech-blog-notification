@@ -91,7 +91,7 @@ def clear_all_txt_files_in_pastData():
                 pass
 
 # 파일 기록 초기화
-clear_all_txt_files_in_pastData()
+# clear_all_txt_files_in_pastData()
 
 
 if __name__ == "__main__":
