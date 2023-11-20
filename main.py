@@ -12,13 +12,13 @@ class BlogScraper:
         },
         "Woowahan": {
             "url": "https://techblog.woowahan.com",
-            "linkParser": lambda soup: soup.find("div", class_="posts").find("div").find("a")["href"],
-            "titleParser": lambda soup: soup.find("div", class_="posts").find("div").find("a").find("h2").text
+            "linkParser": lambda soup: soup.find("div", class_="posts").find("div", class_="item").find("a")["href"],
+            "titleParser": lambda soup: soup.find("div", class_="posts").find("div", class_="item").find("a").find("h1").text
         },
         "Kakao": {
             "url": "https://tech.kakao.com/blog",
-            "linkParser": lambda soup: soup.find("div", {"class": "list_post"}).find("a")["href"],
-            "titleParser": lambda soup: soup.find("div", {"class": "list_post"}).find("a").find("strong").text.strip()
+            "linkParser": lambda soup: soup.find("h3", class_="elementor-post__title").find("a")["href"],
+            "titleParser": lambda soup: soup.find("h3", class_="elementor-post__title").find("a").text
         }
     }
 
@@ -91,7 +91,7 @@ def clear_all_txt_files_in_pastData():
                 pass
 
 # 파일 기록 초기화
-# clear_all_txt_files_in_pastData()
+clear_all_txt_files_in_pastData()
 
 
 if __name__ == "__main__":
