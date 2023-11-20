@@ -48,14 +48,31 @@ jobs:
         script: |
           const currentDate = new Date();
           const formattedDate = `${currentDate.getFullYear()}.${currentDate.getMonth() + 1}.${currentDate.getDate() + 1}`;
-          const DATA = process.env.NEW_POSTS;
+          
+          const DATA = process.env.NEW_POSTS.split("::");
+          const blogNames = [];
+          let issueBody = "";
           if (DATA) {
-            const issueTitle = `새로운 블로그 게시글이 올라왔습니다! [${formattedDate}]`;
-            const issueBody = `## 새로운 블로그 게시글 목록\n\n${DATA}`;
+            posts.forEach(post => {
+                if (!post || post.trim() === '') return;
+        
+                const [blogName, postTitle] = post.split("::::");
+                if (!blogName || !postTitle) return;
+        
+                const formattedBlogName = blogName.replace('### ', '').trim();
+                if (!blogNames.includes(formattedBlogName)) {
+                    blogNames.push(formattedBlogName);
+                }
+        
+                issueBody += `### ${formattedBlogName}\n\n${postTitle}\n\n`;
+            });
+            
+            const header = `## 새로운 ${blogNames.join(', ')} 블로그 게시글 이 올라왔습니다!`;
+            const issueTitle = `${header} [${formattedDate}]`;
             github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: issueTitle,
+              title: issueTitle,가
               body: issueBody
             });
           }
