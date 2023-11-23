@@ -7,7 +7,7 @@ class BlogScraper:
     BLOGS = {
         "Toss": {
             "url": "https://toss.tech",
-            "linkParser": lambda soup: "https://toss.tech/" + soup.find("ul", class_="css-nsslhm e16omkx80").find("a")["href"],
+            "linkParser": lambda soup: "https://toss.tech" + soup.find("ul", class_="css-nsslhm e16omkx80").find("a")["href"],
             "titleParser": lambda soup: soup.find("ul", class_="css-nsslhm e16omkx80").find("a").find("span").text
         },
         "Woowahan": {
@@ -19,6 +19,11 @@ class BlogScraper:
             "url": "https://tech.kakao.com/blog",
             "linkParser": lambda soup: soup.find("h3", class_="elementor-post__title").find("a")["href"],
             "titleParser": lambda soup: soup.find("h3", class_="elementor-post__title").find("a").text
+        },
+        "Naver": {
+            "url": "https://d2.naver.com/home",
+            "linkParser": lambda soup: "https://d2.naver.com" + soup.find("div", class_="post_article").find("h2").find("a")["href"],
+            "titleParser": lambda soup: soup.find("div", class_="post_article").find("h2").find("a").text,
         }
     }
 
@@ -91,7 +96,7 @@ def clear_all_txt_files_in_pastData():
                 pass
 
 # 파일 기록 초기화
-# clear_all_txt_files_in_pastData()
+clear_all_txt_files_in_pastData()
 
 
 if __name__ == "__main__":
