@@ -20,13 +20,12 @@ class BlogScraper:
             "linkParser": lambda soup: soup.find("h3", class_="elementor-post__title").find("a")["href"],
             "titleParser": lambda soup: soup.find("h3", class_="elementor-post__title").find("a").text
         },
-        "Naver": {
-            "url": "https://d2.naver.com/home",
-            "linkParser": lambda soup: "https://d2.naver.com" + soup.find("div", class_="post_article").find("h2").find("a")["href"],
-            "titleParser": lambda soup: soup.find("div", class_="post_article").find("h2").find("a").text,
-        }
+        # "Naver": {
+        #     "url": "https://d2.naver.com/",
+        #     "linkParser": lambda soup: "https://d2.naver.com" + soup.find("div", class_="cont_post").find("a").text,
+        #     "titleParser": lambda soup: soup.find("h2").find("a").text,
+        # }
     }
-
     @staticmethod
     def fetch_html_from_url(url):
         """URL에서 HTML 내용을 가져옵니다."""
@@ -96,7 +95,7 @@ def clear_all_txt_files_in_pastData():
                 pass
 
 # 파일 기록 초기화
-clear_all_txt_files_in_pastData()
+# clear_all_txt_files_in_pastData()
 
 
 if __name__ == "__main__":
