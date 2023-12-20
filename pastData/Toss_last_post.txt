@@ -1,1 +1,1 @@
-https://toss.tech/article/reactor-netty-memory-leak
+https://toss.tech/article/engineering-note-5
