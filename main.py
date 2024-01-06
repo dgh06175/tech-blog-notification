@@ -12,8 +12,8 @@ class BlogScraper:
         },
         "Woowahan": {
             "url": "https://techblog.woowahan.com",
-            "linkParser": lambda soup: soup.find("div", class_="posts").find("div", class_="item").find("a")["href"],
-            "titleParser": lambda soup: soup.find("div", class_="posts").find("div", class_="item").find("a").find("h1").text
+            "linkParser": lambda soup: soup.find("div", class_="post-list").find("div", class_="post-item").find("a")["href"],
+            "titleParser": lambda soup: soup.find("div", class_="post-list").find("div", class_="post-item").find("a").find("h2").text
         },
         "Kakao": {
             "url": "https://tech.kakao.com/blog",
@@ -91,7 +91,7 @@ def clear_all_txt_files_in_pastData():
                 pass
 
 # 파일 기록 초기화
-# clear_all_txt_files_in_pastData()
+clear_all_txt_files_in_pastData()
 
 
 if __name__ == "__main__":
