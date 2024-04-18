@@ -10,12 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Set up Python
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v5
       with:
-        python-version: 3.8
+        python-version: 3.10
 
     - name: Install dependencies
       run: |
@@ -39,11 +39,6 @@ jobs:
         git add pastData/*.txt
         git commit -m "새로운 블로그 포스트 기록 텍스트 파일 업데이트"
         git push
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 18
 
     - name: Create GitHub Issue for new posts
       if: env.NEW_POSTS != ''
