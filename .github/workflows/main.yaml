@@ -40,9 +40,14 @@ jobs:
         git commit -m "새로운 블로그 포스트 기록 텍스트 파일 업데이트"
         git push
 
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18
+
     - name: Create GitHub Issue for new posts
       if: env.NEW_POSTS != ''
-      uses: actions/github-script@v5
+      uses: actions/github-script@v6
       with:
         github-token: ${{ secrets.TECHBLOG_ALARM_ISSUE_ACTION_TOKEN }}
         script: |
