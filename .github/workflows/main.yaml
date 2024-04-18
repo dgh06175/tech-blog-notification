@@ -24,7 +24,7 @@ jobs:
 
     - name: Check for new blog posts and update text files
       run: |
-        output=$(python main.py | sed ':a;N;$!ba;s/\n/::/g')
+        output=$(python main.py)
         if [ -z "$output" ]; then
           echo "새로운 게시글이 없습니다."
         else
