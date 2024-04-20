@@ -45,6 +45,8 @@ async function run() {
       body: issueBody
     });
 
+    console.log("-- response --")
+    console.log(response)
     core.setOutput("issue-url", response.data.html_url);
   } catch (error) {
     core.setFailed(`Action failed with error: ${error}`);
