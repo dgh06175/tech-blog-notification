@@ -1,3 +1,4 @@
+---
 name: 새로운 블로그 게시글 확인
 
 on:
@@ -21,7 +22,10 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: '3.10'
-
+    
+    # - name: Setup Java JDK
+    #   uses: actions/setup-java@v4.2.1
+                
     - name: Install python dependencies
       run: |
         python -m pip install --upgrade pip
@@ -43,14 +47,14 @@ jobs:
           echo "POST_DATA=$output" >> $GITHUB_ENV
         fi
     
-    # - name: Commit and push changes if new posts are found
-    #   if: env.POST_DATA != ''
-    #   run: |
-    #     git config --global user.name 'dgh06175'
-    #     git config --global user.email 'dgh06175@gmail.com'
-    #     git add pastData/*.txt
-    #     git commit -m "action: 이슈 발생한 게시글 주소 텍스트 파일에 추가"
-    #     git push
+    - name: Commit and push changes if new posts are found
+      if: env.POST_DATA != ''
+      run: |
+        git config --global user.name 'dgh06175'
+        git config --global user.email 'dgh06175@gmail.com'
+        git add pastData/*.txt
+        git commit -m "action: 이슈 발생한 게시글 주소 텍스트 파일에 추가"
+        git push
 
     - name: Create GitHub Issue for new posts
       if: env.POST_DATA != ''
@@ -58,3 +62,4 @@ jobs:
       with:
         GITHUB_TOKEN: ${{ secrets.TECHBLOG_ALARM_ISSUE_ACTION_TOKEN }}
         POST_DATA: ${{ env.POST_DATA }}
+...
