@@ -2,7 +2,7 @@ name: 새로운 블로그 게시글 확인
 
 on:
   schedule:
-    - cron: '0 22 * * *'
+    - cron: '0 23 * * *' # 한국(UTC+9) 기준 오전 8시
   workflow_dispatch:
 
 jobs:
@@ -47,7 +47,9 @@ jobs:
         github-token: ${{ secrets.TECHBLOG_ALARM_ISSUE_ACTION_TOKEN }}
         script: |
           const currentDate = new Date();
-          const formattedDate = `${currentDate.getFullYear()}.${currentDate.getMonth() + 1}.${currentDate.getDate() + 1}`;
+          const kstOffset = 9 * 60 * 60 * 1000; // 한국 시간에 맞게 UTC 기준 시간에 9시간 추가 (밀리초 단위)
+          const kstDate = new Date(currentDate.getTime() + kstOffset);
+          const formattedDate = `${kstDate.getFullYear()}.${kstDate.getMonth() + 1}.${kstDate.getDate()}`; // 한국 시간에 맞게 포맷
           const DATA = process.env.NEW_POSTS.split('::').join('\n');
           if (DATA) {
             const issueTitle = `새로운 블로그 게시글이 올라왔습니다! [${formattedDate}]`;
