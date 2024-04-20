@@ -56,4 +56,10 @@ function listBlogNames(posts) {
   return blogNames.join(", ");
 }
 
+function formatPostsToMarkdown(posts) {
+  return posts.map(post => {
+    return `### ${post.blogName}\n\n[${post.title}](${post.link})\n`;
+  }).join('\n');
+}
+
 run();
