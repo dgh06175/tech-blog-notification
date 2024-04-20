@@ -27,6 +27,11 @@ jobs:
         python -m pip install --upgrade pip
         pip install requests beautifulsoup4
 
+    - name: Install Node.js dependencies
+      run: |
+        cd ./.github/actions/create-blog-post-issue
+        npm install
+
     - name: Check for new blog posts and update text files
       id: check_posts
       run: |
