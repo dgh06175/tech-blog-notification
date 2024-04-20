@@ -48,6 +48,7 @@ jobs:
         script: |
           const currentDate = new Date();
           const kstOffset = 9 * 60 * 60 * 1000; // 한국 시간에 맞게 UTC 기준 시간에 9시간 추가 (밀리초 단위)
+          const kstDate = new Date(currentDate.getTime() + kstOffset);
           const formattedDate = `${kstDate.getFullYear()}.${kstDate.getMonth() + 1}.${kstDate.getDate()}`; // 한국 시간에 맞게 포맷
           const DATA = process.env.NEW_POSTS.split('::').join('\n');
           if (DATA) {
