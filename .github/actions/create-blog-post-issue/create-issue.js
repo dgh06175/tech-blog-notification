@@ -21,6 +21,8 @@ async function run() {
     const issueTitle = `새로운 블로그 게시글이 올라왔습니다. [${formattedDate}]`;
     const issueBody = `## 새로운 블로그 게시글 목록\n\n${postData.replace(/::/g, '\n')}`;
 
+    console.log(postData)
+
     const response = await octokit.rest.issues.create({
       owner,
       repo,
