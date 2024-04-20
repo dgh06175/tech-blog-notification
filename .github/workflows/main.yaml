@@ -43,14 +43,14 @@ jobs:
           echo "POST_DATA=$output" >> $GITHUB_ENV
         fi
     
-    - name: Commit and push changes if new posts are found
-      if: env.POST_DATA != ''
-      run: |
-        git config --global user.name 'dgh06175'
-        git config --global user.email 'dgh06175@gmail.com'
-        git add pastData/*.txt
-        git commit -m "action: 업로드 확인하여 이슈 발생한 블로그 게시글 주소 기록 담긴 텍스트 파일 업데이트"
-        git push
+    # - name: Commit and push changes if new posts are found
+    #   if: env.POST_DATA != ''
+    #   run: |
+    #     git config --global user.name 'dgh06175'
+    #     git config --global user.email 'dgh06175@gmail.com'
+    #     git add pastData/*.txt
+    #     git commit -m "action: 업로드 확인하여 이슈 발생한 블로그 게시글 주소 기록 담긴 텍스트 파일 업데이트"
+    #     git push
 
     - name: Create GitHub Issue for new posts
       if: env.POST_DATA != ''
