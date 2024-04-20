@@ -6,6 +6,7 @@ async function run() {
     // GitHub 토큰과 포스트 데이터 가져오기
     const token = core.getInput('GITHUB_TOKEN', { required: true });
     const postData = core.getInput('POST_DATA', { required: true });
+    const posts = JSON.parse(postData);
 
     // Octokit 객체 초기화
     const octokit = github.getOctokit(token);
@@ -17,7 +18,7 @@ async function run() {
     const formattedDate = `${kstDate.getFullYear()}.${kstDate.getMonth() + 1}.${kstDate.getDate()}`; // 한국 시간에 맞게 포맷
 
     // 포스트 데이터 파싱
-    const posts = parsingPostData(postData)
+    // const posts = parsingPostData(postData)
     
     console.log("-- postData --")
     console.log(postData)

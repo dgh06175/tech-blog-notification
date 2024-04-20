@@ -1,5 +1,6 @@
 import requests
 import os
+import json
 from bs4 import BeautifulSoup
 
 
@@ -92,13 +93,16 @@ class BlogScraper:
 
         # 새로운 게시글이 올라왔는지 확인
         if not last_post_link or (latest_post_info["link"] != last_post_link):
-            # 새로운 게시글의 링크를 출력
-            # print(f"### {blog_name}\n\n[{latest_post_info['title']}]({latest_post_info['link']})\n")
-            print(
-                f"{blog_name}||{latest_post_info['title']}||{latest_post_info['link']}"
-            )
             # 새로운 게시글 링크 저장
             cls.save_last_post_link(blog_name, latest_post_info["link"])
+
+            # 새로운 게시글의 정보를 반환
+            # f"{blog_name}||{latest_post_info['title']}||{latest_post_info['link']}"
+            return {
+                "blogName": blog_name,
+                "title": latest_post_info["title"],
+                "link": latest_post_info["link"],
+            }
 
 
 def clear_all_txt_files_in_pastData():
@@ -116,5 +120,7 @@ def clear_all_txt_files_in_pastData():
 
 if __name__ == "__main__":
     # 각 블로그에서 최신 게시글을 확인합니다.
+    postDatas = []
     for blog_name in BlogScraper.BLOGS.keys():
-        BlogScraper.check_new_post_and_notify(blog_name)
+        postDatas.append(BlogScraper.check_new_post_and_notify(blog_name))
+    print(json.dumps(postDatas))
