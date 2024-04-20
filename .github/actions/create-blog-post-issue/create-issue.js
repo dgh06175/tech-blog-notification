@@ -6,6 +6,8 @@ async function run() {
     // GitHub 토큰과 포스트 데이터 가져오기
     const token = core.getInput('GITHUB_TOKEN', { required: true });
     const postData = core.getInput('POST_DATA', { required: true });
+    console.log("-- postData --");
+    console.log(postData);
 
     // Octokit 객체 초기화
     const octokit = github.getOctokit(token);
@@ -18,17 +20,18 @@ async function run() {
 
     // JSON 형식의 게시글 데이터 파싱
     const posts = JSON.parse(postData);
-    
-    // 블로그 이름 문자열 생성
-    const blogNames = listBlogNames(posts)
-
-    // 디버깅을 위한 출력
-    console.log("-- postData --");
-    console.log(postData);
     console.log("-- posts --");
     console.log(posts);
 
+    // 블로그 이름 문자열 생성
+    const blogNames = listBlogNames(posts)
+    console.log("-- blogNames --");
+    console.log(blogNames);
+
+    // 본문 마크다운 생성
     const markdownPostsBody = formatPostsToMarkdown(posts)
+    console.log("-- markdownPostsBody --");
+    console.log(markdownPostsBody)
 
     // 이슈 생성
     const { repo, owner } = github.context.repo;
