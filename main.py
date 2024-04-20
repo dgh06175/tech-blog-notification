@@ -7,18 +7,32 @@ class BlogScraper:
     BLOGS = {
         "Toss": {
             "url": "https://toss.tech",
-            "linkParser": lambda soup: "https://toss.tech" + soup.find("ul", class_="css-nsslhm e16omkx80").find("a")["href"],
-            "titleParser": lambda soup: soup.find("ul", class_="css-nsslhm e16omkx80").find("a").find("span").text
+            "linkParser": lambda soup: "https://toss.tech"
+            + soup.find("ul", class_="css-nsslhm e16omkx80").find("a")["href"],
+            "titleParser": lambda soup: soup.find("ul", class_="css-nsslhm e16omkx80")
+            .find("a")
+            .find("span")
+            .text,
         },
         "Woowahan": {
             "url": "https://techblog.woowahan.com",
-            "linkParser": lambda soup: soup.find("div", class_="post-list").find("div", class_="post-item").find("a")["href"],
-            "titleParser": lambda soup: soup.find("div", class_="post-list").find("div", class_="post-item").find("a").find("h2").text
+            "linkParser": lambda soup: soup.find("div", class_="post-list")
+            .find("div", class_="post-item")
+            .find("a")["href"],
+            "titleParser": lambda soup: soup.find("div", class_="post-list")
+            .find("div", class_="post-item")
+            .find("a")
+            .find("h2")
+            .text,
         },
         "Kakao": {
             "url": "https://tech.kakao.com/blog",
-            "linkParser": lambda soup: soup.find("h3", class_="elementor-post__title").find("a")["href"],
-            "titleParser": lambda soup: soup.find("h3", class_="elementor-post__title").find("a").text
+            "linkParser": lambda soup: soup.find(
+                "h3", class_="elementor-post__title"
+            ).find("a")["href"],
+            "titleParser": lambda soup: soup.find("h3", class_="elementor-post__title")
+            .find("a")
+            .text,
         },
         # "Naver": {
         #     "url": "https://d2.naver.com/",
@@ -26,6 +40,7 @@ class BlogScraper:
         #     "titleParser": lambda soup: soup.find("h2").find("a").text,
         # }
     }
+
     @staticmethod
     def fetch_html_from_url(url):
         """URL에서 HTML 내용을 가져옵니다."""
@@ -41,7 +56,7 @@ class BlogScraper:
             return None
 
         html_content = cls.fetch_html_from_url(blog["url"])
-        soup = BeautifulSoup(html_content, 'html.parser')
+        soup = BeautifulSoup(html_content, "html.parser")
 
         link = blog["linkParser"](soup)
         if not link:
@@ -49,10 +64,7 @@ class BlogScraper:
 
         title = blog["titleParser"](soup).strip()
 
-        return {
-            "title": title,
-            "link": link
-        }
+        return {"title": title, "link": link}
 
     @staticmethod
     def save_last_post_link(blog_name, link):
@@ -81,18 +93,21 @@ class BlogScraper:
         # 새로운 게시글이 올라왔는지 확인
         if not last_post_link or (latest_post_info["link"] != last_post_link):
             # 새로운 게시글의 링크를 출력
-            print(f"### {blog_name}\n\n[{latest_post_info['title']}]({latest_post_info['link']})\n")
+            print(
+                f"### {blog_name}\n\n[{latest_post_info['title']}]({latest_post_info['link']})\n"
+            )
             # 새로운 게시글 링크 저장
             cls.save_last_post_link(blog_name, latest_post_info["link"])
 
 
 def clear_all_txt_files_in_pastData():
-    directory = 'pastData'
+    directory = "pastData"
     for filename in os.listdir(directory):
-        if filename.endswith('.txt'):
+        if filename.endswith(".txt"):
             filepath = os.path.join(directory, filename)
-            with open(filepath, 'w') as file:
+            with open(filepath, "w") as file:
                 pass
+
 
 # 파일 기록 초기화
 # clear_all_txt_files_in_pastData()
