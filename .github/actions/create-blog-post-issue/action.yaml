@@ -3,7 +3,6 @@ description: 'Creates an issue in GitHub for new blog posts.'
 runs:
   using: 'node20'
   main: 'create-issue.js'
-  pre: 'npm install'
 inputs:
   GITHUB_TOKEN:
     description: 'GitHub token for authentication.'
