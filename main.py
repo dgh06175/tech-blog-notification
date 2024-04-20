@@ -65,13 +65,15 @@ class BlogScraper:
         html_content = cls.fetch_html_from_url(blog["url"])
         soup = BeautifulSoup(html_content, "html.parser")
 
+        blogName = blog["KRname"]
+
+        title = blog["titleParser"](soup).strip()
+
         link = blog["linkParser"](soup)
         if not link:
             return None
 
-        title = blog["titleParser"](soup).strip()
-
-        return {"title": title, "link": link}
+        return {"blogName": blogName, "title": title, "link": link}
 
     @staticmethod
     def save_last_post_link(blog_name, link):
@@ -108,7 +110,7 @@ class BlogScraper:
             # 새로운 게시글의 정보를 반환
             # f"{blog_name}||{latest_post_info['title']}||{latest_post_info['link']}"
             return {
-                "blogName": blog_name,
+                "blogName": latest_post_info["blogName"],
                 "title": latest_post_info["title"],
                 "link": latest_post_info["link"],
             }
@@ -124,7 +126,7 @@ def clear_all_txt_files_in_pastData():
 
 
 # 파일 기록 초기화
-# clear_all_txt_files_in_pastData()
+clear_all_txt_files_in_pastData()
 
 
 if __name__ == "__main__":
