@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 class BlogScraper:
     BLOGS = {
         "Toss": {
+            "KRname": "토스",
             "url": "https://toss.tech",
             "linkParser": lambda soup: "https://toss.tech"
             + soup.find("ul", class_="css-nsslhm e16omkx80").find("a")["href"],
@@ -16,6 +17,7 @@ class BlogScraper:
             .text,
         },
         "Woowahan": {
+            "KRname": "우아한 형제들",
             "url": "https://techblog.woowahan.com",
             "linkParser": lambda soup: soup.find("div", class_="post-list")
             .find("div", class_="post-item")
@@ -27,6 +29,7 @@ class BlogScraper:
             .text,
         },
         "Kakao": {
+            "KRname": "카카오",
             "url": "https://tech.kakao.com/blog",
             "linkParser": lambda soup: soup.find(
                 "h3", class_="elementor-post__title"
@@ -37,9 +40,12 @@ class BlogScraper:
         },
         # "Naver": {
         #     "url": "https://d2.naver.com/",
-        #     "linkParser": lambda soup: "https://d2.naver.com" + soup.find("div", class_="cont_post").find("a").text,
-        #     "titleParser": lambda soup: soup.find("h2").find("a").text,
-        # }
+        #     "linkParser": lambda soup: "https://d2.naver.com"
+        #     + soup.find("div", class_="cont_post").find("a")["href"],
+        #     "titleParser": lambda soup: soup.find("div", class_="cont_post")
+        #     .find("a")
+        #     .text,
+        # },
     }
 
     @staticmethod
@@ -69,14 +75,17 @@ class BlogScraper:
 
     @staticmethod
     def save_last_post_link(blog_name, link):
-        """최근 스크래핑한 게시글의 링크를 파일에 저장합니다."""
-        with open(f"pastData/{blog_name}_last_post.txt", "w", encoding="utf-8") as file:
+        """최근 스크래핑한 게시글의 링크를 JSON 파일에 저장합니다."""
+        file_path = f"pastData/{blog_name}_last_post.txt"
+
+        with open(file_path, "w", encoding="utf-8") as file:
             file.write(link)
 
     @staticmethod
     def load_last_post_link(blog_name):
         """저장된 게시글의 링크를 로드합니다."""
         file_path = f"pastData/{blog_name}_last_post.txt"
+
         if not os.path.exists(file_path):
             return None
         with open(file_path, "r", encoding="utf-8") as file:

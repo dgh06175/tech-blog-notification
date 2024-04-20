@@ -35,7 +35,7 @@ async function run() {
 
     // 이슈 생성
     const { repo, owner } = github.context.repo;
-    const issueTitle = `[${formattedDate}] ${blogNames} 블로그 새로운 게시글 업로드됨!`;
+    const issueTitle = `[${formattedDate}] ${blogNames} 블로그 새로운 게시글 업로드`;
     const issueBody = "## 새로운 블로그 게시글 목록\n\n" + markdownPostsBody;
 
     const response = await octokit.rest.issues.create({
@@ -46,7 +46,8 @@ async function run() {
     });
 
     console.log("-- response --")
-    console.log(response)
+    console.log(response.title)
+    console.log(response.body)
     core.setOutput("issue-url", response.data.html_url);
   } catch (error) {
     core.setFailed(`Action failed with error: ${error}`);
