@@ -22,7 +22,7 @@ async function run() {
     console.log("-- postData --")
     console.log(postData)
     console.log("-- posts --")
-    console.log(posts); // 확인
+    console.log(posts);
 
     const markdownPosts = formatPostsToMarkdown(posts)
 
@@ -47,8 +47,8 @@ async function run() {
 /// MARK: 파이썬에서 받아온 문자열 데이터를 객체로 바꾸는 함수.
 /// 문자열은 다음과 같이 넘어온다.
 /// f"{blog_name}||{latest_post_info['title']}||{latest_post_info['link']}"
-function parsingPostData(postData) {
-  const postLines = postData.trim().split('::'); // 데이터 분리 (여러개일 경우)
+function parsingPostData(stringPostData) {
+  const postLines = stringPostData.trim().split('::'); // 데이터 분리 (여러개일 경우)
     const posts = postLines.map(line => {
       const parts = line.split('||');
       if (parts.length === 3) { // 정확히 세 부분이 있는지 확인
@@ -62,6 +62,7 @@ function parsingPostData(postData) {
         return null; // 오류 처리
       }
     }).filter(post => post !== null); // null이 아닌 객체만 필터링
+    return posts
 }
 
 /// MARK: posts 객체 배열을 마크다운으로 바꾸는 함수
