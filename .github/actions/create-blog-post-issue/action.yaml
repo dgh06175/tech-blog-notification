@@ -2,7 +2,6 @@ name: 'Create Blog Post Issue'
 description: 'Creates an issue in GitHub for new blog posts.'
 runs:
   using: 'node20'
-  pre: 'npm install'
   main: 'create-issue.js'
 inputs:
   GITHUB_TOKEN:
