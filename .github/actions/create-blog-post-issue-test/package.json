@@ -1,0 +1,28 @@
+{
+    "name": "create-blog-post-issue",
+    "version": "1.0.0",
+    "description": "Creates a GitHub issue for each new blog post detected. This action uses GitHub API to automatically create issues that summarize new posts, making it easier to track and discuss new content.",
+    "main": "create-issue.js",
+    "dependencies": {
+      "@actions/core": "^1.2.6",
+      "@actions/github": "^4.0.0"
+    },
+    "scripts": {
+      "start": "node create-issue.js",
+      "test": "echo \"No tests specified\" && exit 0"
+    },
+    "author": "dgh06175",
+    "license": "ISC",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/dgh06175/techblog-alarm.git"
+    },
+    "keywords": [
+      "GitHub",
+      "Issues",
+      "Automation",
+      "Blog",
+      "GitHub Actions"
+    ]
+  }
+  

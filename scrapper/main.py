@@ -124,6 +124,8 @@ def clear_all_txt_files_in_pastData():
             with open(filepath, "w") as file:
                 pass
 
+# 파일 기록 초기화
+clear_all_txt_files_in_pastData()
 
 if __name__ == "__main__":
     # 각 블로그에서 최신 게시글을 확인합니다.
@@ -133,5 +135,4 @@ if __name__ == "__main__":
     print(json.dumps(postDatas))
 
 
-# 파일 기록 초기화
-clear_all_txt_files_in_pastData()
+
