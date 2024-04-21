@@ -1,31 +1,53 @@
 import requests
 import os
+import json
 from bs4 import BeautifulSoup
 
 
 class BlogScraper:
     BLOGS = {
         "Toss": {
+            "KRname": "토스",
             "url": "https://toss.tech",
-            "linkParser": lambda soup: "https://toss.tech" + soup.find("ul", class_="css-nsslhm e16omkx80").find("a")["href"],
-            "titleParser": lambda soup: soup.find("ul", class_="css-nsslhm e16omkx80").find("a").find("span").text
+            "linkParser": lambda soup: "https://toss.tech"
+            + soup.find("ul", class_="css-nsslhm e16omkx80").find("a")["href"],
+            "titleParser": lambda soup: soup.find("ul", class_="css-nsslhm e16omkx80")
+            .find("a")
+            .find("span")
+            .text,
         },
         "Woowahan": {
+            "KRname": "우아한 형제들",
             "url": "https://techblog.woowahan.com",
-            "linkParser": lambda soup: soup.find("div", class_="post-list").find("div", class_="post-item").find("a")["href"],
-            "titleParser": lambda soup: soup.find("div", class_="post-list").find("div", class_="post-item").find("a").find("h2").text
+            "linkParser": lambda soup: soup.find("div", class_="post-list")
+            .find("div", class_="post-item")
+            .find("a")["href"],
+            "titleParser": lambda soup: soup.find("div", class_="post-list")
+            .find("div", class_="post-item")
+            .find("a")
+            .find("h2")
+            .text,
         },
         "Kakao": {
+            "KRname": "카카오",
             "url": "https://tech.kakao.com/blog",
-            "linkParser": lambda soup: soup.find("h3", class_="elementor-post__title").find("a")["href"],
-            "titleParser": lambda soup: soup.find("h3", class_="elementor-post__title").find("a").text
+            "linkParser": lambda soup: soup.find(
+                "h3", class_="elementor-post__title"
+            ).find("a")["href"],
+            "titleParser": lambda soup: soup.find("h3", class_="elementor-post__title")
+            .find("a")
+            .text,
         },
         # "Naver": {
         #     "url": "https://d2.naver.com/",
-        #     "linkParser": lambda soup: "https://d2.naver.com" + soup.find("div", class_="cont_post").find("a").text,
-        #     "titleParser": lambda soup: soup.find("h2").find("a").text,
-        # }
+        #     "linkParser": lambda soup: "https://d2.naver.com"
+        #     + soup.find("div", class_="cont_post").find("a")["href"],
+        #     "titleParser": lambda soup: soup.find("div", class_="cont_post")
+        #     .find("a")
+        #     .text,
+        # },
     }
+
     @staticmethod
     def fetch_html_from_url(url):
         """URL에서 HTML 내용을 가져옵니다."""
@@ -41,29 +63,31 @@ class BlogScraper:
             return None
 
         html_content = cls.fetch_html_from_url(blog["url"])
-        soup = BeautifulSoup(html_content, 'html.parser')
+        soup = BeautifulSoup(html_content, "html.parser")
+
+        blogName = blog["KRname"]
+
+        title = blog["titleParser"](soup).strip()
 
         link = blog["linkParser"](soup)
         if not link:
             return None
 
-        title = blog["titleParser"](soup).strip()
-
-        return {
-            "title": title,
-            "link": link
-        }
+        return {"blogName": blogName, "title": title, "link": link}
 
     @staticmethod
     def save_last_post_link(blog_name, link):
-        """최근 스크래핑한 게시글의 링크를 파일에 저장합니다."""
-        with open(f"pastData/{blog_name}_last_post.txt", "w", encoding="utf-8") as file:
+        """최근 스크래핑한 게시글의 링크를 JSON 파일에 저장합니다."""
+        file_path = f"pastData/{blog_name}_last_post.txt"
+
+        with open(file_path, "w", encoding="utf-8") as file:
             file.write(link)
 
     @staticmethod
     def load_last_post_link(blog_name):
         """저장된 게시글의 링크를 로드합니다."""
         file_path = f"pastData/{blog_name}_last_post.txt"
+
         if not os.path.exists(file_path):
             return None
         with open(file_path, "r", encoding="utf-8") as file:
@@ -80,19 +104,26 @@ class BlogScraper:
 
         # 새로운 게시글이 올라왔는지 확인
         if not last_post_link or (latest_post_info["link"] != last_post_link):
-            # 새로운 게시글의 링크를 출력
-            print(f"### {blog_name}\n\n[{latest_post_info['title']}]({latest_post_info['link']})\n")
             # 새로운 게시글 링크 저장
             cls.save_last_post_link(blog_name, latest_post_info["link"])
 
+            # 새로운 게시글의 정보를 반환
+            # f"{blog_name}||{latest_post_info['title']}||{latest_post_info['link']}"
+            return {
+                "blogName": latest_post_info["blogName"],
+                "title": latest_post_info["title"],
+                "link": latest_post_info["link"],
+            }
+
 
 def clear_all_txt_files_in_pastData():
-    directory = 'pastData'
+    directory = "pastData"
     for filename in os.listdir(directory):
-        if filename.endswith('.txt'):
+        if filename.endswith(".txt"):
             filepath = os.path.join(directory, filename)
-            with open(filepath, 'w') as file:
+            with open(filepath, "w") as file:
                 pass
+
 
 # 파일 기록 초기화
 # clear_all_txt_files_in_pastData()
@@ -100,5 +131,7 @@ def clear_all_txt_files_in_pastData():
 
 if __name__ == "__main__":
     # 각 블로그에서 최신 게시글을 확인합니다.
+    postDatas = []
     for blog_name in BlogScraper.BLOGS.keys():
-        BlogScraper.check_new_post_and_notify(blog_name)
+        postDatas.append(BlogScraper.check_new_post_and_notify(blog_name))
+    print(json.dumps(postDatas))
