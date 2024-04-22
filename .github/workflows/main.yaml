@@ -38,7 +38,7 @@ jobs:
     - name: Check for new blog posts and update text files
       id: check_posts
       run: |
-        output=$(python scrapper/main.py | sed ':a;N;$!ba;s/\n/::/g')
+        output=$(python scrapper/main.py)
         if [ -z "$output" ]; then
           echo "새로운 게시글이 없습니다."
           echo "POST_DATA=" >> $GITHUB_ENV

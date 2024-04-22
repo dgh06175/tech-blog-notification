@@ -5,7 +5,7 @@ import json
 class DBManager:
     def __init__(self, blog_name):
         self.blog_name = blog_name
-        self.file_path = f"pastData/{blog_name}_link_data.json"
+        self.file_path = f"../pastData/{blog_name}_link_data.json"
         self.links = self.__load_links()
 
     def add_post_link(self, link):
@@ -28,6 +28,7 @@ class DBManager:
 
     def __load_links(self):
         """파일에서 링크를 로드하고 set으로 반환"""
+
         if not os.path.exists(self.file_path) or os.stat(self.file_path).st_size == 0:
             return set()
         try:
@@ -39,5 +40,6 @@ class DBManager:
 
     def __save_links(self):
         """링크 set을 파일에 저장"""
+        os.makedirs(os.path.dirname(self.file_path), exist_ok=True)
         with open(self.file_path, "w", encoding="utf-8") as file:
             json.dump({"links": list(self.links)}, file, ensure_ascii=False, indent=4)
