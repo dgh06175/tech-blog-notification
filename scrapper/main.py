@@ -1,138 +1,47 @@
-import requests
-import os
+import blog_manager
+import data_manager
+import html_manager
 import json
-from bs4 import BeautifulSoup
 
 
-class BlogScraper:
-    BLOGS = {
-        "Toss": {
-            "KRname": "토스",
-            "url": "https://toss.tech",
-            "linkParser": lambda soup: "https://toss.tech"
-            + soup.find("ul", class_="css-nsslhm e16omkx80").find("a")["href"],
-            "titleParser": lambda soup: soup.find("ul", class_="css-nsslhm e16omkx80")
-            .find("a")
-            .find("span")
-            .text,
-        },
-        "Woowahan": {
-            "KRname": "우아한 형제들",
-            "url": "https://techblog.woowahan.com",
-            "linkParser": lambda soup: soup.find("div", class_="post-list")
-            .find("div", class_="post-item")
-            .find("a")["href"],
-            "titleParser": lambda soup: soup.find("div", class_="post-list")
-            .find("div", class_="post-item")
-            .find("a")
-            .find("h2")
-            .text,
-        },
-        "Kakao": {
-            "KRname": "카카오",
-            "url": "https://tech.kakao.com/blog",
-            "linkParser": lambda soup: soup.find(
-                "h3", class_="elementor-post__title"
-            ).find("a")["href"],
-            "titleParser": lambda soup: soup.find("h3", class_="elementor-post__title")
-            .find("a")
-            .text,
-        },
-        # "Naver": {
-        #     "url": "https://d2.naver.com/",
-        #     "linkParser": lambda soup: "https://d2.naver.com"
-        #     + soup.find("div", class_="cont_post").find("a")["href"],
-        #     "titleParser": lambda soup: soup.find("div", class_="cont_post")
-        #     .find("a")
-        #     .text,
-        # },
-    }
-
-    @staticmethod
-    def fetch_html_from_url(url):
-        """URL에서 HTML 내용을 가져옵니다."""
-        response = requests.get(url)
-        response.raise_for_status()
-        return response.text
-
-    @classmethod
-    def scrape_latest_post(cls, blog_name):
-        """특정 블로그에서 최신 게시글의 제목과 링크를 가져옵니다."""
-        blog = cls.BLOGS.get(blog_name)
-        if not blog:
-            return None
-
-        html_content = cls.fetch_html_from_url(blog["url"])
-        soup = BeautifulSoup(html_content, "html.parser")
-
-        blogName = blog["KRname"]
-
-        title = blog["titleParser"](soup).strip()
-
-        link = blog["linkParser"](soup)
-        if not link:
-            return None
-
-        return {"blogName": blogName, "title": title, "link": link}
-
-    @staticmethod
-    def save_last_post_link(blog_name, link):
-        """최근 스크래핑한 게시글의 링크를 JSON 파일에 저장합니다."""
-        file_path = f"pastData/{blog_name}_last_post.txt"
-
-        with open(file_path, "w", encoding="utf-8") as file:
-            file.write(link)
-
-    @staticmethod
-    def load_last_post_link(blog_name):
-        """저장된 게시글의 링크를 로드합니다."""
-        file_path = f"pastData/{blog_name}_last_post.txt"
-
-        if not os.path.exists(file_path):
-            return None
-        with open(file_path, "r", encoding="utf-8") as file:
-            return file.read().strip()
-
-    @classmethod
-    def check_new_post_and_notify(cls, blog_name):
-        """새로운 게시글이 올라왔는지 확인하고 알림을 보냅니다."""
-        # 최신 게시글 정보 가져오기
-        latest_post_info = cls.scrape_latest_post(blog_name)
-
-        # 이전 게시글 링크 로드
-        last_post_link = cls.load_last_post_link(blog_name)
-
-        # 새로운 게시글이 올라왔는지 확인
-        if not last_post_link or (latest_post_info["link"] != last_post_link):
-            # 새로운 게시글 링크 저장
-            cls.save_last_post_link(blog_name, latest_post_info["link"])
-
-            # 새로운 게시글의 정보를 반환
-            # f"{blog_name}||{latest_post_info['title']}||{latest_post_info['link']}"
-            return {
-                "blogName": latest_post_info["blogName"],
-                "title": latest_post_info["title"],
-                "link": latest_post_info["link"],
-            }
-
-
-def clear_all_txt_files_in_pastData():
-    directory = "pastData"
-    for filename in os.listdir(directory):
-        if filename.endswith(".txt"):
-            filepath = os.path.join(directory, filename)
-            with open(filepath, "w") as file:
-                pass
-
-
-# 파일 기록 초기화
-# clear_all_txt_files_in_pastData()
-
-if __name__ == "__main__":
-    # 각 블로그에서 최신 게시글을 확인합니다.
+def main():
     postDatas = []
-    for blog_name in BlogScraper.BLOGS.keys():
-        postData = BlogScraper.check_new_post_and_notify(blog_name)
+    blogs = blog_manager.BLOGS
+    for blog_name in blogs.keys():
+        blog_config = blogs[blog_name]
+        postData = getPostData(blogs, blog_name)
         if postData:
             postDatas.append(postData)
-    print(json.dumps(postDatas))
+
+    print(json.dumps(postDatas))  # 결과 json 형식으로 출력하여 알림 보내기
+
+
+def getPostData(blogs, blog_name):
+    blog_config = blogs[blog_name]  # 하드코딩된 블로그 정보 딕셔너리 불러오기
+    htmlmanager = html_manager.HtmlFetcher  # HTML 클래스 인스턴스 생성
+    dbmanager = data_manager.DBManager(blog_name)  # DB 클래스 인스턴스 생성
+    parser = blog_manager.BlogParser(blog_config)  # 블로그 파싱 정보 전달하며 파서 인스턴스 생성
+
+    html_content = htmlmanager.fetch_html_from_url(
+        blog_config["url"]
+    )  # url로 블로그 링크의 html 가져오기
+
+    # dbmanager.clear_all_txt_files_in_pastData()  # DB 삭제
+
+    latest_blog_link = dbmanager.load_last_post_link()  # 로컬에 저장한 최근 링크 정보 가져오기
+
+    blogKRname = blog_config["KRname"]
+    title = parser.parse_title(html_content)
+    link = parser.parse_link(html_content)
+
+    # 링크 불러오기 실패 or 링크 불러오기 성공, 최근 링크랑 일치 -> None 반환
+    if not link or link == latest_blog_link:
+        return None
+
+    dbmanager.save_last_post_link(link=link)
+    # 링크 불러오기 성곰 - 최근 링크 없음 or 최근 링크랑 불일치 -> 블로그 정보 반환
+    return {"blogName": blogKRname, "title": title, "link": link}
+
+
+if __name__ == "__main__":
+    main()
