@@ -10,35 +10,52 @@
 
 [Kakao](https://tech.kakao.com/blog)
 
+## 실행 과정 및 데이터 흐름
+
+1. Github Workflows (`main.yaml`)
+
+- `/.github/workflows/main.yaml` 은 Github Actions의 워크플로우를 정의한다.
+- 정해진 스케줄에 `jobs`가 트리거되도록 설정된다.
+- check_blog_post 액션을 실행한다.
+
+2. Github Actions (jobs: `check_blog_post`)
+
+- Github Action의 실제 로직이 작성된 곳이다.
+- ubuntu(리눅스) 에서 실행된다.
+- 로직 실행을 위한 준비 (파이썬, 노드 의존성 설치)를 한다.
+- 쉘 스크립트로 `scrapper/main.py` 를 실행한다.
+
+3. 웹 스크래핑 및 데이터 관리 (`scrapper/`, `pastData/`)
+
+- `scrapper/main.py`는 저장된 블로그 링크들에서 게시글의 링크값을 불러온다.
+- `pastData/*.json` 파일에 저장된 링크들과 비교하여 새로운 데이터라면 json에 링크 정보를 추가하고, 출력한다.
+
+4. Github Actions 나머지 작업
+
+- `scrapper/main.py`에서 `print` 된 값을 정제하여 output 변수에 넣는다.
+- 환경변수 파일 `$GITHUB_ENV`에 환경 변수 `POST_DATA`에 결과값을 저장한다.
+
+5. Github 푸쉬
+
+- `POST_DATA`가 비어있지 않을 경우 변경된 json 파이를을 github에 커밋 및 푸쉬한다.
+
+6. Github 이슈 발생
+
+- `POST_DATA`가 비어있지 않을 경우 `/.github/actions/creats-blog-post-issue/` 안의 `action.yaml` 을 실행한다.
+
+- `create-issue.js` 파일을 실행한다.
+- 비밀 변수로 관리되는 깃허브 토큰과 `POST_DATA` 를 받아서 파싱한 다음, 이슈에 들어갈 제목, 본문 문자열로 가공한다.
+- `@actions/core`, `@actions/github` 라이브러리를 사용하여 이슈를 생성한다.
+
+7. 알림 전송
+
+본 레파지토리에서 issues 를 watch 중이라면, 이메일로 알림이 전송된다.
+
 ## 체크리스트
-
-## 1. 파이썬 웹 스크래핑
-
-기술 블로그들의 html 컨텐츠를 파싱하여 JSON 으로 로컬에 저장하고, 최신 게시글 일 경우 그 정보를 JSON 으로 파이썬으로 전달한다.
 
 - [ ] 기능 분리 및 로직 추상화하여 유지보수 시에 변경하는 부분 최소화 하기
 - [x] json 으로 CRUD 기능 구현, 내부적으로 set 사용하여 성능 향상
-- [ ] RDBMS 로 변경
+- [ ] RDBMS 로 변경하기
 - [x] 파이썬 결과물 JSON 형식으로 자바스크립트로 전달
 - [ ] 게시글 하루에 여러개 올라오더라도 적용되도록 개선
-
-## 2. 자바스크립트
-
-최신 블로그 게시글 정보를 JSON 으로 받아서 게시글 형식의 markdown 문자열로 만들고 `@actions/github` 라이브러리를 활용하여 깃허브 add, push, 이슈발생 로직을 수행한다.
-
-## 3. Github Actions로 자동화
-
-위 과정을 Github Actions로 매일 수행하도록 자동화한다.
-
-```
-.github
-├── actions
-│   ├── create-blog-post-issue
-│   │   ├── action.yaml
-└── workflows
-    └── main.yaml
-```
-
-`main.yaml` 파일로 actions 의 job을 정의하고 `action.yaml` 로 이슈를 발생한다.
-
-또한 로컬 환경에서 Github Actions 를 실행하여 테스트 하기 위해 `act` 로 Docker 컨테이너를 사용한다.
+- [ ] 웹 스크래퍼 테스트 자동화
