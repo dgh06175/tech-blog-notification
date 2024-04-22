@@ -5,7 +5,7 @@ import json
 class DBManager:
     def __init__(self, blog_name):
         self.blog_name = blog_name
-        self.file_path = f"../pastData/{blog_name}_link_data.json"
+        self.file_path = f"pastData/{blog_name}_link_data.json"
         self.links = self.__load_links()
 
     def add_post_link(self, link):
