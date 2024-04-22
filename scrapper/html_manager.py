@@ -2,7 +2,6 @@ import requests
 
 
 class HtmlFetcher:
-    @staticmethod
     def fetch_html_from_url(url):
         """URL에서 HTML 내용을 가져온다.
 
@@ -14,4 +13,6 @@ class HtmlFetcher:
             response.raise_for_status()
             return response.text
         except requests.RequestException as e:
-            raise ConnectionError(f"[ERROR] url에서 HTML 응답을 가져오는데 실패했습니다: {e}")
+            raise ConnectionError(
+                f"[ERROR] url에서 HTML 응답을 가져오는데 실패했습니다: {e}"
+            )

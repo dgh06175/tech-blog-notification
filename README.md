@@ -1,4 +1,5 @@
 # TechBlog_Alarm
+
 기술 블로그 새로운 글 알림
 
 매일 아침 8시~8시30분 사이에 아래 블로그중 새로운 게시글이 올라왔을 경우 Issues 를 발생시켜 알림을 보냅니다.
@@ -8,3 +9,53 @@
 [Woowahan](https://techblog.woowahan.com)
 
 [Kakao](https://tech.kakao.com/blog)
+
+## 실행 과정 및 데이터 흐름
+
+1. Github Workflows (`main.yaml`)
+
+- `/.github/workflows/main.yaml` 은 Github Actions의 워크플로우를 정의한다.
+- 정해진 스케줄에 `jobs`가 트리거되도록 설정된다.
+- check_blog_post 액션을 실행한다.
+
+2. Github Actions (jobs: `check_blog_post`)
+
+- Github Action의 실제 로직이 작성된 곳이다.
+- ubuntu(리눅스) 에서 실행된다.
+- 로직 실행을 위한 준비 (파이썬, 노드 의존성 설치)를 한다.
+- 쉘 스크립트로 `scrapper/main.py` 를 실행한다.
+
+3. 웹 스크래핑 및 데이터 관리 (`scrapper/`, `pastData/`)
+
+- `scrapper/main.py`는 저장된 블로그 링크들에서 게시글의 링크값을 불러온다.
+- `pastData/*.json` 파일에 저장된 링크들과 비교하여 새로운 데이터라면 json에 링크 정보를 추가하고, 출력한다.
+
+4. Github Actions 나머지 작업
+
+- `scrapper/main.py`에서 `print` 된 값을 정제하여 output 변수에 넣는다.
+- 환경변수 파일 `$GITHUB_ENV`에 환경 변수 `POST_DATA`에 결과값을 저장한다.
+
+5. Github 푸쉬
+
+- `POST_DATA`가 비어있지 않을 경우 변경된 json 파이를을 github에 커밋 및 푸쉬한다.
+
+6. Github 이슈 발생
+
+- `POST_DATA`가 비어있지 않을 경우 `/.github/actions/creats-blog-post-issue/` 안의 `action.yaml` 을 실행한다.
+
+- `create-issue.js` 파일을 실행한다.
+- 비밀 변수로 관리되는 깃허브 토큰과 `POST_DATA` 를 받아서 파싱한 다음, 이슈에 들어갈 제목, 본문 문자열로 가공한다.
+- `@actions/core`, `@actions/github` 라이브러리를 사용하여 이슈를 생성한다.
+
+7. 알림 전송
+
+본 레파지토리에서 issues 를 watch 중이라면, 이메일로 알림이 전송된다.
+
+## 체크리스트
+
+- [ ] 기능 분리 및 로직 추상화하여 유지보수 시에 변경하는 부분 최소화 하기
+- [x] json 으로 CRUD 기능 구현, 내부적으로 set 사용하여 성능 향상
+- [ ] RDBMS 로 변경하기
+- [x] 파이썬 결과물 JSON 형식으로 자바스크립트로 전달
+- [ ] 게시글 하루에 여러개 올라오더라도 적용되도록 개선
+- [ ] 웹 스크래퍼 테스트 자동화
