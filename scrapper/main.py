@@ -124,15 +124,15 @@ def clear_all_txt_files_in_pastData():
             with open(filepath, "w") as file:
                 pass
 
+
 # 파일 기록 초기화
-clear_all_txt_files_in_pastData()
+# clear_all_txt_files_in_pastData()
 
 if __name__ == "__main__":
     # 각 블로그에서 최신 게시글을 확인합니다.
     postDatas = []
     for blog_name in BlogScraper.BLOGS.keys():
-        postDatas.append(BlogScraper.check_new_post_and_notify(blog_name))
+        postData = BlogScraper.check_new_post_and_notify(blog_name)
+        if postData:
+            postDatas.append(postData)
     print(json.dumps(postDatas))
-
-
-
