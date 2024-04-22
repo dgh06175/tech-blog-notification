@@ -28,7 +28,7 @@ def getPostData(blogs, blog_name):
         blog_config["url"]
     )  # url로 블로그 링크의 html 가져오기
 
-    # dbmanager.clear_all_txt_files_in_pastData()  # DB 삭제
+    # dbmanager.clear_all_files_in_pastData()  # DB 삭제
 
     blogKRname = blog_config["KRname"]
     title = parser.parse_title(html_content)
@@ -36,7 +36,7 @@ def getPostData(blogs, blog_name):
 
     # 링크 불러오기 성곰 - DB에 존재하지 않는 링크 -> 블로그 정보 반환
     if link and not dbmanager.link_exists(link):
-        dbmanager.save_last_post_link(link=link)
+        dbmanager.add_post_link(link=link)
         return {"blogName": blogKRname, "title": title, "link": link}
 
     # 링크 불러오기 실패 or 링크 불러오기 성공했고, DB에 이미 존재하는 링크일때 -> None 반환
