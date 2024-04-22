@@ -51,7 +51,7 @@ jobs:
       run: |
         git config --global user.name 'dgh06175'
         git config --global user.email 'dgh06175@gmail.com'
-        git add pastData/*.txt
+        git add pastData/*.json
         git commit -m "action: 이슈 발생한 게시글 주소 텍스트 파일에 추가"
         git push
 
