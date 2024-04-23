@@ -13,7 +13,8 @@ def main():
         if postData:
             postDatas.append(postData)
 
-    print(json.dumps(postDatas))  # 결과 json 형식으로 출력하여 알림 보내기
+    if postDatas:
+        print(json.dumps(postDatas))  # 결과 json 형식으로 출력하여 알림 보내기
 
 
 def getPostData(blogs, blog_name):
