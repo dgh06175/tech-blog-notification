@@ -2,7 +2,7 @@ import requests
 
 
 class HtmlFetcher:
-    def fetch_html_from_url(url):
+    def fetch_html_from_url(self, url):
         """URL에서 HTML 내용을 가져온다.
 
         :param url: HTML을 가져올 웹 페이지의 URL
