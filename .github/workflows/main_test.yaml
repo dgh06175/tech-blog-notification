@@ -8,40 +8,41 @@ jobs:
   check_blog_post_test: # action 메인 job
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
-    - name: Set up Java
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: '21'
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
 
-    - name: Install Node.js dependencies
-      run: |
-        cd ./.github/actions/create-blog-post-issue-test
-        npm install
+      - name: Install Node.js dependencies
+        run: |
+          cd ./.github/actions/create-blog-post-issue-test
+          npm install
 
-    - name: Check for new blog posts and update text files
-      id: check_posts
-      run: |
-        output=$(java src/main/java/org/example/Main.java)
-        if [ -z "$output" ]; then
-          echo "새로운 게시글이 없습니다."
-          echo "POST_DATA=" >> $GITHUB_ENV
-        else
-          echo "새로운 게시글이 있습니다."
-          echo "POST_DATA=$output" >> $GITHUB_ENV
-        fi
+      - name: Check for new blog posts and update text files
+        id: check_posts
+        run: |
+          javac src/main/java/org/example/Main.java
+          output=$(java -cp src/main/java org.example.Main)
+          if [ -z "$output" ]; then
+            echo "새로운 게시글이 없습니다."
+            echo "POST_DATA=" >> $GITHUB_ENV
+          else
+            echo "새로운 게시글이 있습니다."
+            echo "POST_DATA=$output" >> $GITHUB_ENV
+          fi
 
-    - name: Create GitHub Issue for new posts
-      if: env.POST_DATA != ''
-      uses: ./.github/actions/create-blog-post-issue-test
-      with:
-        POST_DATA: ${{ env.POST_DATA }}
+      - name: Create GitHub Issue for new posts
+        if: env.POST_DATA != ''
+        uses: ./.github/actions/create-blog-post-issue-test
+        with:
+          POST_DATA: ${{ env.POST_DATA }}
 ...
