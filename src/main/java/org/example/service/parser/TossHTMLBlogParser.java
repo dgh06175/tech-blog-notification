@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class TossBlogParser extends AbstractJsoupBlogParser {
+public class TossHTMLBlogParser extends AbstractJsoupBlogParser {
 
     @Override
     protected String getItemTagName() {
@@ -17,16 +17,14 @@ public class TossBlogParser extends AbstractJsoupBlogParser {
     @Override
     protected Map<String, String> parseElement(Element element) {
         Map<String, String> article = new HashMap<>();
-        String link = "https://toss.tech" + element.select("a").attr("href");
         Element titleSpan = element.select("a").select("div > span").first();
         String title = titleSpan != null ? titleSpan.text() : "";
-        String author = ""; // 저자 정보가 없음
         Element dateSpan = element.select("a").first();
         String date = extractDate(dateSpan);
 
-        article.put("link", link);
+        article.put("link", "https://toss.tech" + element.select("a").attr("href"));
         article.put("title", title);
-        article.put("author", author);
+        article.put("author", ""); // 작성자 정보 없음
         article.put("date", date);
         return article;
     }

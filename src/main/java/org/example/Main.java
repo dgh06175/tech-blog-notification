@@ -2,22 +2,28 @@ package org.example;
 
 import java.util.List;
 import java.util.Map;
-import org.example.service.parser.TossBlogParser;
-import org.example.service.parser.WoowahanBlogParser;
+import org.example.service.parser.TossHTMLBlogParser;
+import org.example.service.parser.XMLBlogParser;
 
 public class Main {
     public static void main(String[] args) {
-        WoowahanBlogParser woowahanBlogParser = new WoowahanBlogParser();
-        List<Map<String, String>> woowahanArticles = woowahanBlogParser.parse("https://techblog.woowahan.com/rss/");
+        XMLBlogParser XMLBlogParser = new XMLBlogParser();
+        List<Map<String, String>> woowahanArticles = XMLBlogParser.parse("https://techblog.woowahan.com/rss/");
         System.out.println("우아한 형제들 블로그");
         for (var article : woowahanArticles) {
             System.out.println(article);
         }
 
-        TossBlogParser tossBlogParser = new TossBlogParser();
-        List<Map<String, String>> articles = tossBlogParser.parse("https://toss.tech/");
+        TossHTMLBlogParser tossHTMLBlogParser = new TossHTMLBlogParser();
+        List<Map<String, String>> tossArticles = tossHTMLBlogParser.parse("https://toss.tech/");
         System.out.println("토스 블로그");
-        for (var article : articles) {
+        for (var article : tossArticles) {
+            System.out.println(article);
+        }
+
+        List<Map<String, String>> kakaoArticles = XMLBlogParser.parse("https://tech.kakao.com/feed");
+        System.out.println("카카오 블로그");
+        for (var article : kakaoArticles) {
             System.out.println(article);
         }
     }
