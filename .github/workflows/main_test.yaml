@@ -16,15 +16,11 @@ jobs:
       with:
         node-version: '20'
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
+    - name: Set up Java
+      uses: actions/setup-java@v4
       with:
-        python-version: '3.10'
-    
-    - name: Install python dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install requests beautifulsoup4
+        distribution: 'temurin'
+        java-version: '21'
 
     - name: Install Node.js dependencies
       run: |
@@ -34,11 +30,12 @@ jobs:
     - name: Check for new blog posts and update text files
       id: check_posts
       run: |
-        output=$(python scrapper/main.py)
+        output=$(java src/main/java/org/example/Main.java)
         if [ -z "$output" ]; then
           echo "새로운 게시글이 없습니다."
           echo "POST_DATA=" >> $GITHUB_ENV
         else
+          echo "새로운 게시글이 있습니다."
           echo "POST_DATA=$output" >> $GITHUB_ENV
         fi
 
