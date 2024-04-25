@@ -7,6 +7,9 @@ import java.time.format.DateTimeParseException;
 import java.util.Locale;
 import java.util.Objects;
 
+/**
+ * 블로그의 게시글 하나의 정보
+ */
 public class Article {
     @JsonProperty("link")
     private final String link;
