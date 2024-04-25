@@ -22,8 +22,8 @@ public class BlogController {
     }
 
     public void run() {
-//        List<Articles> blogArticles = loadArticlesFromWeb();
-//        blogArticles.forEach(this::saveArticlesToDB);
+        List<Articles> blogArticles = loadArticlesFromWeb();
+        blogArticles.forEach(this::saveArticlesToDB);
         readArticlesFromDB().forEach(Articles::printArticles);
     }
 

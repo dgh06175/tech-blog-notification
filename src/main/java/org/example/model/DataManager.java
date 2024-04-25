@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class DataManager {
     // 상수 선언
@@ -25,11 +27,14 @@ public class DataManager {
     public Articles readArticlesFromJsonFile(String blogName) {
         ObjectMapper mapper = new ObjectMapper();
         try {
-            List<Map<String, String>> value = mapper.readValue(new File(getFileName(blogName)), new TypeReference<>() {
-            });
-            return new Articles(value, blogName);
+            List<Map<String, String>> mapList = mapper.readValue(new File(getFileName(blogName)),
+                    new TypeReference<>() {
+                    });
+            Set<Article> articles = mapList.stream()
+                    .map(this::createArticleFromMap)
+                    .collect(Collectors.toSet());
+            return new Articles(articles, blogName);
         } catch (IOException e) {
-            e.printStackTrace();
             System.err.println(JSON_LOAD_FAILURE + e.getMessage());
             return null;
         }
@@ -43,13 +48,21 @@ public class DataManager {
     public void saveArticlesToJsonFile(Articles articles) {
         String filename = getFileName(articles.blogName);
         ObjectMapper mapper = new ObjectMapper();
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
         try {
-            mapper.enable(SerializationFeature.INDENT_OUTPUT);
             mapper.writeValue(new File(filename), articles.getArticles());
             System.out.printf(DATA_SAVED_TO, filename);
         } catch (IOException e) {
             System.err.println(JSON_SAVE_FAILURE + e.getMessage());
         }
+    }
+
+    private Article createArticleFromMap(Map<String, String> articleMap) {
+        String link = articleMap.get("link");
+        String title = articleMap.get("title");
+        String author = articleMap.get("author");
+        String date = articleMap.get("date");
+        return new Article(link, title, author, date);
     }
 
     private String getFileName(String blogName) {

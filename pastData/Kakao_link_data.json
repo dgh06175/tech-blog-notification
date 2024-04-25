@@ -1,46 +1,46 @@
 [ {
-  "date" : "2024. 03. 20",
-  "author" : "kakao tech",
   "link" : "https://tech.kakao.com/2024/03/20/kakao-tech-meet-5/",
-  "title" : "제5회 Kakao Tech Meet에 초대합니다!"
+  "title" : "제5회 Kakao Tech Meet에 초대합니다!",
+  "author" : "kakao tech",
+  "date" : "2024. 3. 20"
 }, {
-  "date" : "2024. 03. 11",
-  "author" : "sue.cream",
   "link" : "https://tech.kakao.com/2024/03/11/tech-meets-of-2023/",
-  "title" : "테크밋 다시 달릴 준비!"
+  "title" : "테크밋 다시 달릴 준비!",
+  "author" : "sue.cream",
+  "date" : "2024. 3. 11"
 }, {
-  "date" : "2024. 01. 09",
-  "author" : "denn.is",
   "link" : "https://tech.kakao.com/2024/01/09/ororforge-2/",
-  "title" : "OROR Forge: Figma to Code 도구 제작기 (2) 실전용으로 만들기"
+  "title" : "OROR Forge: Figma to Code 도구 제작기 (2) 실전용으로 만들기",
+  "author" : "denn.is",
+  "date" : "2024. 1. 9"
 }, {
-  "date" : "2024. 01. 09",
-  "author" : "teo.v",
   "link" : "https://tech.kakao.com/2024/01/09/ororforge-1/",
-  "title" : "OROR Forge: Figma to Code 도구 제작기 (1) 디자인을 코드로 만들어보자!"
+  "title" : "OROR Forge: Figma to Code 도구 제작기 (1) 디자인을 코드로 만들어보자!",
+  "author" : "teo.v",
+  "date" : "2024. 1. 9"
 }, {
-  "date" : "2023. 12. 27",
-  "author" : "jack.pot",
   "link" : "https://tech.kakao.com/2023/12/27/2024-coding-test-winter-internship/",
-  "title" : "2024 카카오 겨울 인턴십 코딩테스트 문제해설"
+  "title" : "2024 카카오 겨울 인턴십 코딩테스트 문제해설",
+  "author" : "jack.pot",
+  "date" : "2023. 12. 27"
 }, {
-  "date" : "2023. 12. 22",
-  "author" : "kakao tech",
   "link" : "https://tech.kakao.com/2023/12/22/techmeet-curas/",
-  "title" : "큐라스: 메시지 광고 추천 플랫폼 / 제4회 Kakao Tech Meet"
-}, {
-  "date" : "2023. 12. 22",
+  "title" : "큐라스: 메시지 광고 추천 플랫폼 / 제4회 Kakao Tech Meet",
   "author" : "kakao tech",
+  "date" : "2023. 12. 22"
+}, {
   "link" : "https://tech.kakao.com/2023/12/22/techmeet-virtualthread/",
-  "title" : "JDK 21의 신기능 Virtual Thread 알아보기 / 제4회 Kakao Tech Meet"
-}, {
-  "date" : "2023. 11. 14",
+  "title" : "JDK 21의 신기능 Virtual Thread 알아보기 / 제4회 Kakao Tech Meet",
   "author" : "kakao tech",
-  "link" : "https://tech.kakao.com/2023/11/14/kakao-tech-meet-4/",
-  "title" : "제4회 Kakao Tech Meet에 초대합니다!"
+  "date" : "2023. 12. 22"
 }, {
-  "date" : "2023. 11. 07",
-  "author" : "nia.hm",
+  "link" : "https://tech.kakao.com/2023/11/14/kakao-tech-meet-4/",
+  "title" : "제4회 Kakao Tech Meet에 초대합니다!",
+  "author" : "kakao tech",
+  "date" : "2023. 11. 14"
+}, {
   "link" : "https://tech.kakao.com/2023/11/07/2024-winter-internship/",
-  "title" : "2024 카카오 채용 연계형 겨울 인턴십 Coming soon!"
+  "title" : "2024 카카오 채용 연계형 겨울 인턴십 Coming soon!",
+  "author" : "nia.hm",
+  "date" : "2023. 11. 7"
 } ]
