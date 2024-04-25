@@ -16,8 +16,9 @@ public class DataManager {
     private static final String JSON_LOAD_FAILURE = "JSON 데이터 불러오기 실패: ";
     private static final String JSON_SAVE_FAILURE = "JSON 데이터 저장 실패: ";
     private static final String DATA_SAVED_TO = "데이터 %s 에 저장됨%n";
-    private static final String PAST_DATA_FOLDER = "/pastData/";
-    private static final String LINK_DATA_SUFFIX = "_link_data.json";
+    private static final String DATABASE_FOLDER = "/database/";
+    private static final String OLD_DATA_SUFFIX = "_old.json";
+    private static final String NEW_DATA_SUFFIX = "_new.json";
 
     /**
      * JSON 파일에서 데이터를 읽는다.
@@ -27,7 +28,7 @@ public class DataManager {
      */
     public Articles readArticlesFromJsonFile(String blogName) {
         ObjectMapper mapper = new ObjectMapper();
-        File file = new File(getFilePath(blogName));
+        File file = new File(getOldDataFilePath(blogName));
         if (!file.exists()) {
             System.out.println("파일이 존재하지 않습니다: " + file.getPath());
             return null;
@@ -55,8 +56,17 @@ public class DataManager {
      *
      * @param articles 변환할 데이터 목록
      */
-    public void saveArticlesToJsonFile(Articles articles) {
-        String filePath = getFilePath(articles.blogName);
+    public void saveOldArticlesToJsonFile(Articles articles) {
+        String filePath = getOldDataFilePath(articles.blogName);
+        saveJsonFile(articles, filePath);
+    }
+
+    public void saveNewArticlesToJsonFile(Articles articles) {
+        String filePath = getNewDataFilePath(articles.blogName);
+        saveJsonFile(articles, filePath);
+    }
+
+    private static void saveJsonFile(Articles articles, String filePath) {
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
         File file = new File(filePath);
@@ -70,7 +80,11 @@ public class DataManager {
         }
     }
 
-    private String getFilePath(String blogName) {
-        return Paths.get(System.getProperty("user.dir"), PAST_DATA_FOLDER, blogName + LINK_DATA_SUFFIX).toString();
+    private String getOldDataFilePath(String blogName) {
+        return Paths.get(System.getProperty("user.dir"), DATABASE_FOLDER, blogName + OLD_DATA_SUFFIX).toString();
+    }
+
+    private String getNewDataFilePath(String blogName) {
+        return Paths.get(System.getProperty("user.dir"), DATABASE_FOLDER, blogName + NEW_DATA_SUFFIX).toString();
     }
 }

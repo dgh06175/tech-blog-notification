@@ -1,7 +1,6 @@
 package org.example;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import org.example.model.Articles;
 import org.example.model.DataManager;
 import org.example.parser.TossHTMLBlogParser;
@@ -15,37 +14,59 @@ public class BlogController {
     private static final String KAKAO_LINK = "https://tech.kakao.com/feed";
     private static final String KAKAO_NAME = "Kakao";
 
-    DataManager dataManager;
+    private final DataManager dataManager;
 
     public BlogController() {
         this.dataManager = new DataManager();
     }
 
     public void run() {
-        List<Articles> blogArticles = loadArticlesFromWeb();
-        blogArticles.forEach(this::saveArticlesToDB);
-        readArticlesFromDB().forEach(Articles::printArticles);
+        Map<String, Articles> loadedBlogsArticles = loadArticlesFromWeb();
+        Map<String, Articles> readBlogsArticles = readArticlesFromDB();
+        List<Articles> newBlogsArticles = new ArrayList<>();
+        List<Articles> oldBlogsArticles = new ArrayList<>();
+        // loadedBlogsArticles 의 데이터들 중에 같은 블로그일 경우 filterNewArticles 를 사용해서 새로 나온 아티클들만 들어있는 Articles 를 만든다.
+        for (var entry : loadedBlogsArticles.entrySet()) {
+            String blogName = entry.getKey();
+            Articles loadedArticles = entry.getValue();
+
+            if (readBlogsArticles.containsKey(blogName)) {
+                Articles readArticle = readBlogsArticles.get(blogName);
+                newBlogsArticles.add(readArticle.filterNewArticles(loadedArticles));
+                oldBlogsArticles.add(readArticle.sumArticles(loadedArticles));
+            }
+        }
+        newBlogsArticles.forEach(this::saveNewArticlesToDatabase);
+        oldBlogsArticles.forEach(this::saveOldArticlesToDatabase);
     }
 
-    private List<Articles> readArticlesFromDB() {
-        return List.of(dataManager.readArticlesFromJsonFile(WOOWAHAN_NAME),
-                dataManager.readArticlesFromJsonFile(TOSS_NAME),
-                dataManager.readArticlesFromJsonFile(KAKAO_NAME));
+    private Map<String, Articles> readArticlesFromDB() {
+        Map<String, Articles> blogArticles = new HashMap<>();
+        blogArticles.put(WOOWAHAN_NAME, dataManager.readArticlesFromJsonFile(WOOWAHAN_NAME));
+        blogArticles.put(TOSS_NAME, dataManager.readArticlesFromJsonFile(TOSS_NAME));
+        blogArticles.put(KAKAO_NAME, dataManager.readArticlesFromJsonFile(KAKAO_NAME));
+        return blogArticles;
     }
 
-    private List<Articles> loadArticlesFromWeb() {
+    private Map<String, Articles> loadArticlesFromWeb() {
         XMLBlogParser XMLBlogParser = new XMLBlogParser();
         TossHTMLBlogParser tossHTMLBlogParser = new TossHTMLBlogParser();
-        List<Articles> blogArticles = new ArrayList<>();
-
-        blogArticles.add(XMLBlogParser.parse(WOOWAHAN_LINK, WOOWAHAN_NAME));
-        blogArticles.add(tossHTMLBlogParser.parse(TOSS_LINK, TOSS_NAME));
-        blogArticles.add(XMLBlogParser.parse(KAKAO_LINK, KAKAO_NAME));
+        Map<String, Articles> blogArticles = new HashMap<>();
+        Articles woowahanArticles = XMLBlogParser.parse(WOOWAHAN_LINK, WOOWAHAN_NAME);
+        blogArticles.put(woowahanArticles.blogName, woowahanArticles);
+        Articles tossArticles = tossHTMLBlogParser.parse(TOSS_LINK, TOSS_NAME);
+        blogArticles.put(tossArticles.blogName, tossArticles);
+        Articles kakaoArticles = XMLBlogParser.parse(KAKAO_LINK, KAKAO_NAME);
+        blogArticles.put(kakaoArticles.blogName, kakaoArticles);
 
         return blogArticles;
     }
 
-    private void saveArticlesToDB(Articles articles) {
-        dataManager.saveArticlesToJsonFile(articles);
+    private void saveOldArticlesToDatabase(Articles articles) {
+        dataManager.saveOldArticlesToJsonFile(articles);
+    }
+
+    private void saveNewArticlesToDatabase(Articles articles) {
+        dataManager.saveNewArticlesToJsonFile(articles);
     }
 }
