@@ -3,6 +3,7 @@ package org.example.parser;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.example.model.Articles;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -10,7 +11,7 @@ import org.jsoup.select.Elements;
 
 public abstract class AbstractJsoupBlogParser implements ParserStrategy {
     @Override
-    public List<Map<String, String>> parse(String url) {
+    public Articles parse(String url, String blogName) {
         List<Map<String, String>> articles = new ArrayList<>();
         try {
             Document document = Jsoup.connect(url).get();
@@ -21,7 +22,7 @@ public abstract class AbstractJsoupBlogParser implements ParserStrategy {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return articles;
+        return new Articles(articles, blogName);
     }
 
     /// MARK: 블로그 게시글의 태그

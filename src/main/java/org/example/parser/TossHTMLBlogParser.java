@@ -8,6 +8,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class TossHTMLBlogParser extends AbstractJsoupBlogParser {
+    public String blogName = "";
 
     @Override
     protected String getItemTagName() {
