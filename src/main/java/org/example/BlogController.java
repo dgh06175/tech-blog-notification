@@ -13,7 +13,7 @@ public class BlogController {
     private static final String TOSS_LINK = "https://toss.tech/";
     private static final String TOSS_NAME = "Toss";
     private static final String KAKAO_LINK = "https://tech.kakao.com/feed";
-    private static final String KAKAO_NAME = "KaKao";
+    private static final String KAKAO_NAME = "Kakao";
 
     DataManager dataManager;
 

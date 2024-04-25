@@ -17,18 +17,13 @@ public class Article {
     @JsonProperty("date")
     private final String date;
     private final LocalDate localDate;
-//    private final LocalDate date;
 
     public Article(String link, String title, String author, String dateString) {
         this.link = link;
         this.title = title;
         this.author = author;
         this.localDate = parseDate(dateString);
-        if (localDate != null) {
-            this.date = localDate.format(DateTimeFormatter.ofPattern("yyyy. M. d", Locale.ENGLISH));
-        } else {
-            this.date = null;  // 또는 기본 날짜 지정
-        }
+        this.date = localDate.format(DateTimeFormatter.ofPattern("yyyy. M. d", Locale.ENGLISH));
 
     }
 
@@ -49,8 +44,7 @@ public class Article {
             try {
                 return LocalDate.parse(dateString, formatterCustom);
             } catch (DateTimeParseException ex) {
-                return null;
-//                throw new IllegalArgumentException("날짜 형식이 올바르지 않습니다." + dateString);
+                throw new IllegalArgumentException("날짜 형식이 올바르지 않습니다." + dateString);
             }
         }
     }
