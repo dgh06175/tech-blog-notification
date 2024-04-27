@@ -17,47 +17,62 @@ jobs:
       with:
         node-version: '20'
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
+    - name: Set up Java
+      uses: actions/setup-java@v4
       with:
-        python-version: '3.10'
-    
-    # - name: Setup Java JDK
-    #   uses: actions/setup-java@v4.2.1
+        distribution: 'temurin'
+        java-version: '21'
                 
-    - name: Install python dependencies
+    - name: Install Maven
       run: |
-        python -m pip install --upgrade pip
-        pip install requests beautifulsoup4
+        wget https://dlcdn.apache.org/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.tar.gz
+        tar -xvf apache-maven-3.9.6-bin.tar.gz
+        mv apache-maven-3.9.6 /opt/
+        echo "/opt/apache-maven-3.9.6/bin" >> $GITHUB_PATH
 
     - name: Install Node.js dependencies
       run: |
         cd ./.github/actions/create-blog-post-issue
         npm install
+      
+    - name: Build with Maven
+      run: |
+        echo $PATH
+        mvn --batch-mode --update-snapshots verify
+
+    - name: Update json files
+      id: update_files
+      run: |
+        mvn package
+        java -jar target/teckblog-alarm-1.0-SNAPSHOT.jar
 
     - name: Check for new blog posts and update text files
-      id: check_posts
+      id: check_new_posts
       run: |
-        output=$(python scrapper/main.py)
-        if [ -z "$output" ]; then
+        POSTS_FOUND=false
+        for file in database/new/*.json; do
+          content=$(cat "$file")
+          if [ -n "$content" ] && [ "$content" != "[ ]" ] && [ "$content" != "[]" ]; then
+            POSTS_FOUND=true
+            echo "새로운 게시글이 있는 파일: $file"
+            echo "::set-output name=new_posts::true"
+          fi
+        done
+        if [ "$POSTS_FOUND" = false ]; then
           echo "새로운 게시글이 없습니다."
-          echo "POST_DATA=" >> $GITHUB_ENV
-        else
-          echo "POST_DATA=$output" >> $GITHUB_ENV
         fi
     
     - name: Commit and push changes if new posts are found
-      if: env.POST_DATA != ''
+      if: steps.check_new_posts.outputs.new_posts == 'true'
       run: |
         git config --global user.name 'dgh06175'
         git config --global user.email 'dgh06175@gmail.com'
-        git add pastData/*.json
+        git add database/*.json
         git commit -m "action: 이슈 발생한 게시글 주소 텍스트 파일에 추가"
         git push
 
     - name: Create GitHub Issue for new posts
-      if: env.POST_DATA != ''
+      if: steps.check_new_posts.outputs.new_posts == 'true'
       uses: ./.github/actions/create-blog-post-issue
       with:
         GITHUB_TOKEN: ${{ secrets.TECHBLOG_ALARM_ISSUE_ACTION_TOKEN }}
-        POST_DATA: ${{ env.POST_DATA }}

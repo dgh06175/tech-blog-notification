@@ -1,17 +1,15 @@
 const core = require('@actions/core');
 const { createIssue } = require('./service/issueManager');
-const { processData } = require('./service/postDataHandler');
+const { formatBlogMarkdown } = require('./service/articleDataHandler')
 
 async function run() {
   try {
     const token = core.getInput('GITHUB_TOKEN', { required: true });
-    const postData = core.getInput('POST_DATA', { required: true });
-
-    const { issueTitle, issueBody } = processData(postData);
+    const { issueTitle, issueBody } = await formatBlogMarkdown();
 
     await createIssue(token, issueTitle, issueBody);
   } catch (error) {
-    core.setFailed(`Action failed with error: ${error}`);
+    core.setFailed(`액션 실패: ${error}`);
   }
 }
 

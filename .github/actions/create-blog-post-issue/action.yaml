@@ -7,9 +7,6 @@ inputs:
   GITHUB_TOKEN:
     description: 'GitHub token for authentication.'
     required: true
-  POST_DATA:
-    description: 'Data of the new blog posts to include in the issue.'
-    required: true
 outputs:
   issue-url:
     description: 'URL of the created issue.'
