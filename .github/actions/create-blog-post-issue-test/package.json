@@ -1,5 +1,5 @@
 {
-    "name": "create-blog-post-issue",
+    "name": "create-blog-post-issue-test",
     "version": "1.0.0",
     "description": "Creates a GitHub issue for each new blog post detected. This action uses GitHub API to automatically create issues that summarize new posts, making it easier to track and discuss new content.",
     "main": "create-issue.js",

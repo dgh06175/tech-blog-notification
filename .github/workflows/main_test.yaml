@@ -34,36 +34,35 @@ jobs:
           cd ./.github/actions/create-blog-post-issue-test
           npm install
 
-      #      - name: Install tree
-      #        run: sudo apt-get update && sudo apt-get install tree
-      #
-      #      - name: Run tree to display structure
-      #        run: tree
-      
       - name: Build with Maven
         run: |
           echo $PATH
           mvn --batch-mode --update-snapshots verify
 
-      - name: Check for new blog posts and update text files
-        id: check_posts
+      - name: Update json files
+        id: update_files
         run: |
           mvn package
-          output=$(java -jar target/teckblog-alarm-1.0-SNAPSHOT.jar)
-          cd database
-          cat Kakao_new.json
-          echo "$output"
-          if [ -z "$output" ]; then
+          java -jar target/teckblog-alarm-1.0-SNAPSHOT.jar
+
+      - name: Check for new blog posts and update text files
+        id: check_new_posts
+        run: |
+          POSTS_FOUND=false
+          for file in database/new/*.json; do
+            content=$(cat "$file")
+            if [ -n "$content" ] && [ "$content" != "[ ]" ] && [ "$content" != "[]" ]; then
+              POSTS_FOUND=true
+              echo "새로운 게시글이 있는 파일: $file"
+              echo "::set-output name=new_posts::true"
+            fi
+          done
+          if [ "$POSTS_FOUND" = false ]; then
             echo "새로운 게시글이 없습니다."
-            echo "POST_DATA=" >> $GITHUB_ENV
-          else
-            echo "새로운 게시글이 있습니다."
-            echo "POST_DATA=$output" >> $GITHUB_ENV
           fi
 
       - name: Create GitHub Issue for new posts
-        if: env.POST_DATA != ''
+        id: create_issue
+        if: steps.check_new_posts.outputs.new_posts == 'true'
         uses: ./.github/actions/create-blog-post-issue-test
-        with:
-          POST_DATA: ${{ env.POST_DATA }}
 ...

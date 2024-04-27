@@ -16,7 +16,8 @@ public class DataManager {
     private static final String JSON_LOAD_FAILURE = "JSON 데이터 불러오기 실패: ";
     private static final String JSON_SAVE_FAILURE = "JSON 데이터 저장 실패: ";
     private static final String DATA_SAVED_TO = "데이터 %s 에 저장됨%n";
-    private static final String DATABASE_FOLDER = "/database/";
+    private static final String OLD_DATABASE_FOLDER = "/database/";
+    private static final String NEW_DATABASE_FOLDER = "/database/new/";
     private static final String OLD_DATA_SUFFIX = "_old.json";
     private static final String NEW_DATA_SUFFIX = "_new.json";
 
@@ -81,10 +82,10 @@ public class DataManager {
     }
 
     private String getOldDataFilePath(String blogName) {
-        return Paths.get(System.getProperty("user.dir"), DATABASE_FOLDER, blogName + OLD_DATA_SUFFIX).toString();
+        return Paths.get(System.getProperty("user.dir"), OLD_DATABASE_FOLDER, blogName + OLD_DATA_SUFFIX).toString();
     }
 
     private String getNewDataFilePath(String blogName) {
-        return Paths.get(System.getProperty("user.dir"), DATABASE_FOLDER, blogName + NEW_DATA_SUFFIX).toString();
+        return Paths.get(System.getProperty("user.dir"), NEW_DATABASE_FOLDER, blogName + NEW_DATA_SUFFIX).toString();
     }
 }
