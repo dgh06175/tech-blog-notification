@@ -49,7 +49,7 @@ async function formatBlogMarkdown() {
       }
     });
 
-    const issueTitle = `[${date}] ${newBlogNames.join(', ')} 블로그 새로운 게시글 업로드`;
+    const issueTitle = `[${date}] 새로운 블로그 게시글이 업로드 되었습니다. (${newBlogNames.join(', ')})`;
     return { issueTitle, issueBody };
   } catch (error) {
     console.error('issueBody markdown 생성 에러:', error);
