@@ -1,4 +1,9 @@
 [ {
+  "link" : "https://techblog.woowahan.com/17221/",
+  "title" : "JPA에서 아이디를 자동증가 값으로 사용 시 하이버네이트의 @NaturalId 사용해 보기",
+  "author" : "권순규",
+  "date" : "2024. 4. 30"
+}, {
   "link" : "https://techblog.woowahan.com/15903/",
   "title" : "우리 팀을 위한 ESLint, Prettier 공유 컨피그 만들어보기",
   "author" : "김하림",
