@@ -16,35 +16,34 @@
 
 - `/.github/workflows/main.yaml` 은 Github Actions의 워크플로우를 정의한다.
 - 정해진 스케줄에 `jobs`가 트리거되도록 설정된다.
-- check_blog_post 액션을 실행한다.
+- check_blog_post job을 실행한다.
 
 2. Github Actions (jobs: `check_blog_post`)
 
 - Github Action의 실제 로직이 작성된 곳이다.
 - ubuntu(리눅스) 에서 실행된다.
-- 로직 실행을 위한 준비 (파이썬, 노드 의존성 설치)를 한다.
-- 쉘 스크립트로 `scrapper/main.py` 를 실행한다.
+- 로직 실행을 위한 준비 (자바, 노드 및 라이브러리 설치)를 한다.
+- 자바 코드를 빌드 한 후 `target/teckblog-alarm-1.0-SNAPSHOT.jar` 파일을 실행한다.
 
-3. 웹 스크래핑 및 데이터 관리 (`scrapper/`, `pastData/`)
+3. 웹 스크래핑 및 데이터 관리 (`src/main/java/org.example/`, `database/`)
 
-- `scrapper/main.py`는 저장된 블로그 링크들에서 게시글의 링크값을 불러온다.
-- `pastData/*.json` 파일에 저장된 링크들과 비교하여 새로운 데이터라면 json에 링크 정보를 추가하고, 출력한다.
+- 저장된 블로그 링크들에서 게시글의 링크값을 불러온다.
+- `database/` 폴더 내부의 파일에 저장된 링크들과 비교하여 새로운 데이터와 과거 데이터를 추가한다.
 
 4. Github Actions 나머지 작업
 
-- `scrapper/main.py`에서 `print` 된 값을 정제하여 output 변수에 넣는다.
-- 환경변수 파일 `$GITHUB_ENV`에 환경 변수 `POST_DATA`에 결과값을 저장한다.
+- `database/new` 에 저장된 결과값들을 읽어서 새로운 게시글이 있는지 확인 후 이번 단계의 `output` 으로 불리언 `new_posts`를 반환한다.
 
-5. Github 푸쉬
+5. Github 커밋, 푸쉬
 
-- `POST_DATA`가 비어있지 않을 경우 변경된 json 파이를을 github에 커밋 및 푸쉬한다.
+- `new_posts`가 true 일 경우 변경된 DB를 github에 커밋 및 푸쉬한다.
 
 6. Github 이슈 발생
 
-- `POST_DATA`가 비어있지 않을 경우 `/.github/actions/creats-blog-post-issue/` 안의 `action.yaml` 을 실행한다.
+- `new_posts`가 true 일 경우 `/.github/actions/creats-blog-post-issue/` 안의 `action.yaml` 을 실행한다.
 
 - `create-issue.js` 파일을 실행한다.
-- 비밀 변수로 관리되는 깃허브 토큰과 `POST_DATA` 를 받아서 파싱한 다음, 이슈에 들어갈 제목, 본문 문자열로 가공한다.
+- 비밀 변수로 관리되는 깃허브 토큰을 받고, `database/new/*.json` 파일들을 읽어서 파싱한 후 이슈에 들어갈 제목, 본문 문자열로 가공한다.
 - `@actions/core`, `@actions/github` 라이브러리를 사용하여 이슈를 생성한다.
 
 7. 알림 전송
@@ -57,7 +56,7 @@
 - [x] json 으로 CRUD 기능 구현, 내부적으로 set 사용하여 성능 향상
 - [ ] RDBMS 로 변경하기
 - [x] 파이썬 결과물 JSON 형식으로 자바스크립트로 전달
-- [ ] 게시글 하루에 여러개 올라오더라도 적용되도록 개선
+- [x] 게시글 하루에 여러개 올라오더라도 적용되도록 개선
 - [ ] 웹 스크래퍼 테스트 자동화
 - [x] 파이썬에서 자바로 옮기기
 
@@ -76,12 +75,15 @@
         - [x] 카카오 기술블로그
 
 - 데이터 관리
-    - [ ] 파싱한 결과와 저장된 결과를 비교
-        - [ ] 새로 올라온 게시글 정보 반환
-        - [ ] DB에 저장할 게시글 정보들 반환
+    - [x] 파싱한 결과와 저장된 결과를 비교
+        - [x] 새로 올라온 게시글 정보 반환
+        - [x] DB에 저장할 게시글 정보들 반환
 
 - 새로 올라온 게시글 정보 출력
-    - [ ] print 해서 우분투의 깃허브 액션 환경변수에 저장
+    - [x] 파일에 저장
+
+- [ ] Gradle로 변경
+- [ ] Spring 적용
 
 - RDBMS 로 바꾸기 (github workflows - PostgreSQL)
     - [ ] 파일 새로 만들기
