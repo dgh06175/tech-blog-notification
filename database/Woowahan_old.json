@@ -16,7 +16,7 @@
 }, {
   "link" : "https://techblog.woowahan.com/17081/",
   "title" : "우아한형제들 디자인 시스템에 시각적 회귀 테스트 적용하기",
-  "author" : "이수정 , 금교영",
+  "author" : "이수정",
   "date" : "2024. 4. 16"
 }, {
   "link" : "https://techblog.woowahan.com/17163/",
@@ -31,7 +31,7 @@
 }, {
   "link" : "https://techblog.woowahan.com/16877/",
   "title" : "리뷰를 재료로 GPT가 뚝딱뚝딱 만들어낸 메뉴추천, 메뉴뚝딱AI",
-  "author" : "오혜진 , 이지혜",
+  "author" : "오혜진",
   "date" : "2024. 3. 28"
 }, {
   "link" : "https://techblog.woowahan.com/16979/",
@@ -41,7 +41,7 @@
 }, {
   "link" : "https://techblog.woowahan.com/16021/",
   "title" : "셀프서비스, 챗봇에게 물어보세요",
-  "author" : "송지은 , 김영빈",
+  "author" : "송지은",
   "date" : "2024. 3. 26"
 }, {
   "link" : "https://techblog.woowahan.com/16044/",
@@ -63,6 +63,21 @@
   "title" : "프론트엔드 개발자들의 즐거운 상상 \uD83C\uDF88 – 쓰면글림체 사이드 프로젝트 이야기",
   "author" : "김하루",
   "date" : "2024. 3. 14"
+}, {
+  "link" : "https://techblog.woowahan.com/16021/",
+  "title" : "셀프서비스, 챗봇에게 물어보세요",
+  "author" : "송지은 , 김영빈",
+  "date" : "2024. 3. 26"
+}, {
+  "link" : "https://techblog.woowahan.com/16877/",
+  "title" : "리뷰를 재료로 GPT가 뚝딱뚝딱 만들어낸 메뉴추천, 메뉴뚝딱AI",
+  "author" : "오혜진 , 이지혜",
+  "date" : "2024. 3. 28"
+}, {
+  "link" : "https://techblog.woowahan.com/17081/",
+  "title" : "우아한형제들 디자인 시스템에 시각적 회귀 테스트 적용하기",
+  "author" : "이수정 , 금교영",
+  "date" : "2024. 4. 16"
 }, {
   "link" : "https://techblog.woowahan.com/17081/",
   "title" : "우아한형제들 디자인 시스템에 시각적 회귀 테스트 적용하기",
