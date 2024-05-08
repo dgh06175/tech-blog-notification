@@ -62,14 +62,11 @@ public class Article {
             return false;
         }
         Article article = (Article) o;
-        return Objects.equals(link, article.link) &&
-                Objects.equals(title, article.title) &&
-                Objects.equals(author, article.author) &&
-                Objects.equals(date, article.date);
+        return Objects.equals(link, article.link);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(link, title, author, date);
+        return Objects.hash(link);
     }
 }
