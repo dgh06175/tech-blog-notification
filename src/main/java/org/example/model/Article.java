@@ -67,6 +67,6 @@ public class Article {
 
     @Override
     public int hashCode() {
-        return Objects.hash(link, title, author, date);
+        return Objects.hash(link);
     }
 }
