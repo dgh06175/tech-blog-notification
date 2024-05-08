@@ -36,7 +36,7 @@ public class DataManager {
         }
 
         try {
-            List<Map<String, String>> mapList = mapper.readValue(file, new TypeReference<>() {
+            List<Map<String, String>> mapList = mapper.readValue(file, new TypeReference<List<Map<String, String>>>() {
             });
             Set<Article> articles = mapList.stream()
                     .map(map -> new Article(
