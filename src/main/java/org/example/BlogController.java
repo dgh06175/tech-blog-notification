@@ -3,8 +3,7 @@ package org.example;
 import java.util.*;
 import org.example.model.Articles;
 import org.example.model.DataManager;
-import org.example.parser.TossHTMLBlogParser;
-import org.example.parser.XMLBlogParser;
+import org.example.parser.ParserStrategy;
 
 public class BlogController {
     private static final String WOOWAHAN_LINK = "https://techblog.woowahan.com/rss/";
@@ -15,9 +14,13 @@ public class BlogController {
     private static final String KAKAO_NAME = "Kakao";
 
     private final DataManager dataManager;
+    private final ParserStrategy xmlParser;
+    private final ParserStrategy tossHtmlParser;
 
-    public BlogController() {
-        this.dataManager = new DataManager();
+    public BlogController(DataManager dataManager, ParserStrategy xmlParser, ParserStrategy tossHtmlParser) {
+        this.dataManager = dataManager;
+        this.xmlParser = xmlParser;
+        this.tossHtmlParser = tossHtmlParser;
     }
 
     public void run() {
@@ -49,14 +52,15 @@ public class BlogController {
     }
 
     private Map<String, Articles> loadArticlesFromWeb() {
-        XMLBlogParser XMLBlogParser = new XMLBlogParser();
-        TossHTMLBlogParser tossHTMLBlogParser = new TossHTMLBlogParser();
         Map<String, Articles> blogArticles = new HashMap<>();
-        Articles woowahanArticles = XMLBlogParser.parse(WOOWAHAN_LINK, WOOWAHAN_NAME);
+
+        Articles woowahanArticles = xmlParser.parse(WOOWAHAN_LINK, WOOWAHAN_NAME);
         blogArticles.put(woowahanArticles.blogName, woowahanArticles);
-        Articles tossArticles = tossHTMLBlogParser.parse(TOSS_LINK, TOSS_NAME);
+
+        Articles tossArticles = tossHtmlParser.parse(TOSS_LINK, TOSS_NAME);
         blogArticles.put(tossArticles.blogName, tossArticles);
-        Articles kakaoArticles = XMLBlogParser.parse(KAKAO_LINK, KAKAO_NAME);
+
+        Articles kakaoArticles = xmlParser.parse(KAKAO_LINK, KAKAO_NAME);
         blogArticles.put(kakaoArticles.blogName, kakaoArticles);
 
         return blogArticles;
