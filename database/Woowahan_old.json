@@ -1,4 +1,9 @@
 [ {
+  "link" : "https://techblog.woowahan.com/17713/",
+  "title" : "[신청 시작] 6월 우아한테크세미나 : 글로벌 개발자로 성장하는 법",
+  "author" : "우아한형제들 DevRel",
+  "date" : "2024. 5. 27"
+}, {
   "link" : "https://techblog.woowahan.com/17466/",
   "title" : "운송 관리 시스템(TMS)의 탄생부터 현장에서 사용하기까지",
   "author" : "이준한",
@@ -44,15 +49,15 @@
   "author" : "이수정",
   "date" : "2024. 4. 16"
 }, {
-  "link" : "https://techblog.woowahan.com/17163/",
-  "title" : "[다시 보기] 4월 우아한테크세미나: Java의 미래, Virtual Thread",
-  "author" : "우아한형제들 DevRel",
-  "date" : "2024. 4. 16"
-}, {
   "link" : "https://techblog.woowahan.com/16917/",
   "title" : "우아한형제들 PM들은 어떤 책을 읽을까?",
   "author" : "홍지현",
   "date" : "2024. 4. 2"
+}, {
+  "link" : "https://techblog.woowahan.com/17163/",
+  "title" : "[다시 보기] 4월 우아한테크세미나: Java의 미래, Virtual Thread",
+  "author" : "우아한형제들 DevRel",
+  "date" : "2024. 4. 16"
 }, {
   "link" : "https://techblog.woowahan.com/15883/",
   "title" : "갤럭시 S24가 찾아준 배민커넥트 Android 성능 이슈 해결기(feat. React Native)",
