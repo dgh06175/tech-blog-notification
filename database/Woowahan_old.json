@@ -1,4 +1,9 @@
 [ {
+  "link" : "https://techblog.woowahan.com/17416/",
+  "title" : "WMS 재고 이관을 위한 분산 락 사용기",
+  "author" : "김준홍",
+  "date" : "2024. 5. 28"
+}, {
   "link" : "https://techblog.woowahan.com/17713/",
   "title" : "[신청 시작] 6월 우아한테크세미나 : 글로벌 개발자로 성장하는 법",
   "author" : "우아한형제들 DevRel",
@@ -44,11 +49,6 @@
   "author" : "김하림",
   "date" : "2024. 4. 24"
 }, {
-  "link" : "https://techblog.woowahan.com/17081/",
-  "title" : "우아한형제들 디자인 시스템에 시각적 회귀 테스트 적용하기",
-  "author" : "이수정",
-  "date" : "2024. 4. 16"
-}, {
   "link" : "https://techblog.woowahan.com/16917/",
   "title" : "우아한형제들 PM들은 어떤 책을 읽을까?",
   "author" : "홍지현",
@@ -73,6 +73,11 @@
   "title" : "리뷰를 재료로 GPT가 뚝딱뚝딱 만들어낸 메뉴추천, 메뉴뚝딱AI",
   "author" : "오혜진",
   "date" : "2024. 3. 28"
+}, {
+  "link" : "https://techblog.woowahan.com/17081/",
+  "title" : "우아한형제들 디자인 시스템에 시각적 회귀 테스트 적용하기",
+  "author" : "이수정",
+  "date" : "2024. 4. 16"
 }, {
   "link" : "https://techblog.woowahan.com/16979/",
   "title" : "[모집 마감] 2024 우아한테크캠프 7기",
