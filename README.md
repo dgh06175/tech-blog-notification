@@ -1,4 +1,4 @@
-# TechBlog_Alarm
+# Tech Blog Notification
 
 기술 블로그 새로운 글 알림
 
