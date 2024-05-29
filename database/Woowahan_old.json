@@ -1,4 +1,9 @@
 [ {
+  "link" : "https://techblog.woowahan.com/17721/",
+  "title" : "코드와 함께 살펴보는 프론트엔드 단위 테스트 – Part 2. 실전 편",
+  "author" : "배민근",
+  "date" : "2024. 5. 29"
+}, {
   "link" : "https://techblog.woowahan.com/17416/",
   "title" : "WMS 재고 이관을 위한 분산 락 사용기",
   "author" : "김준홍",
@@ -44,11 +49,6 @@
   "author" : "권순규",
   "date" : "2024. 4. 30"
 }, {
-  "link" : "https://techblog.woowahan.com/15903/",
-  "title" : "우리 팀을 위한 ESLint, Prettier 공유 컨피그 만들어보기",
-  "author" : "김하림",
-  "date" : "2024. 4. 24"
-}, {
   "link" : "https://techblog.woowahan.com/16917/",
   "title" : "우아한형제들 PM들은 어떤 책을 읽을까?",
   "author" : "홍지현",
@@ -83,6 +83,11 @@
   "title" : "[모집 마감] 2024 우아한테크캠프 7기",
   "author" : "TX팀",
   "date" : "2024. 3. 27"
+}, {
+  "link" : "https://techblog.woowahan.com/15903/",
+  "title" : "우리 팀을 위한 ESLint, Prettier 공유 컨피그 만들어보기",
+  "author" : "김하림",
+  "date" : "2024. 4. 24"
 }, {
   "link" : "https://techblog.woowahan.com/16021/",
   "title" : "셀프서비스, 챗봇에게 물어보세요",
