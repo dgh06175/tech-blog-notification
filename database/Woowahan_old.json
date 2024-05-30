@@ -1,4 +1,9 @@
 [ {
+  "link" : "https://techblog.woowahan.com/17386/",
+  "title" : "우리팀은 카프카를 어떻게 사용하고 있을까",
+  "author" : "김나은",
+  "date" : "2024. 5. 30"
+}, {
   "link" : "https://techblog.woowahan.com/17721/",
   "title" : "코드와 함께 살펴보는 프론트엔드 단위 테스트 – Part 2. 실전 편",
   "author" : "배민근",
@@ -44,15 +49,15 @@
   "author" : "김희선",
   "date" : "2024. 5. 2"
 }, {
-  "link" : "https://techblog.woowahan.com/17221/",
-  "title" : "JPA에서 아이디를 자동증가 값으로 사용 시 하이버네이트의 @NaturalId 사용해 보기",
-  "author" : "권순규",
-  "date" : "2024. 4. 30"
-}, {
   "link" : "https://techblog.woowahan.com/16917/",
   "title" : "우아한형제들 PM들은 어떤 책을 읽을까?",
   "author" : "홍지현",
   "date" : "2024. 4. 2"
+}, {
+  "link" : "https://techblog.woowahan.com/17221/",
+  "title" : "JPA에서 아이디를 자동증가 값으로 사용 시 하이버네이트의 @NaturalId 사용해 보기",
+  "author" : "권순규",
+  "date" : "2024. 4. 30"
 }, {
   "link" : "https://techblog.woowahan.com/17163/",
   "title" : "[다시 보기] 4월 우아한테크세미나: Java의 미래, Virtual Thread",
