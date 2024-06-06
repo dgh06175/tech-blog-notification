@@ -12,7 +12,7 @@ import SwiftData
 struct TeckBlogNotificationsApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
+            Post.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
@@ -22,10 +22,12 @@ struct TeckBlogNotificationsApp: App {
             fatalError("Could not create ModelContainer: \(error)")
         }
     }()
+    
+    var postService = PostService()
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(postService: postService)
         }
         .modelContainer(sharedModelContainer)
     }

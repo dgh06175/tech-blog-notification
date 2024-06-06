@@ -10,39 +10,34 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
+    @Query private var items: [Post]
+    var postService: PostService
+    var groupedPosts : [String: [Post]] {
+        postService.groupPostsByDate(posts: SamplePosts.contents)
+    }
 
     var body: some View {
         NavigationSplitView {
             List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
+                ForEach(groupedPosts.keys.sorted().reversed(), id: \.self) { key in
+                    Section {
+                        ForEach(groupedPosts[key]!) { post in
+                            PostRowView(post: post)
+                        }
+                        .onDelete(perform: deleteItems)
+                    } header: {
+                        Text(key)
                     }
                 }
-                .onDelete(perform: deleteItems)
             }
+            .navigationTitle("기술 블로그 게시글")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     EditButton()
                 }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
-                }
             }
         } detail: {
             Text("Select an item")
-        }
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
         }
     }
 
@@ -55,7 +50,43 @@ struct ContentView: View {
     }
 }
 
+struct PostRowView: View {
+    var post: Post
+    
+    var body: some View {
+        NavigationLink {
+            WebView(url: URL(string: post.link)!)
+        } label: {
+            HStack {
+                VStack(alignment: .leading, spacing: 10) {
+                    HStack {
+                        Text("\(post.blogName)")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                        Spacer()
+                        Text(post.timestamp, format: Date.FormatStyle(date: .numeric, time: .omitted))
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                    }
+                    Text(post.title)
+                        .font(.headline)
+                        .fontWeight(.bold)
+                }
+                VStack {
+                    Image(systemName: "bookmark")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 16)
+                    Spacer()
+                }
+                .padding(.vertical, 10)
+            }
+        }
+    }
+}
+
 #Preview {
-    ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
+    ContentView(postService: PostService())
+        .modelContainer(previewContainer)
+        //.modelContainer(for: Post.self, inMemory: true)
 }
