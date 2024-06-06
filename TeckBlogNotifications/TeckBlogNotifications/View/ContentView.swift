@@ -17,7 +17,7 @@ struct ContentView: View {
     }
 
     var body: some View {
-        NavigationSplitView {
+        NavigationStack {
             List {
                 ForEach(groupedPosts.keys.sorted().reversed(), id: \.self) { key in
                     Section {
@@ -30,14 +30,12 @@ struct ContentView: View {
                     }
                 }
             }
-            .navigationTitle("기술 블로그 게시글")
+            .navigationTitle(Constants.Messages.HOME_TITLE)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     EditButton()
                 }
             }
-        } detail: {
-            Text("Select an item")
         }
     }
 

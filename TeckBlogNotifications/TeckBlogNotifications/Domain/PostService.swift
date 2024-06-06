@@ -8,6 +8,7 @@
 import Foundation
 
 class PostService {
+    private static let RECENT_POST_DAY = 1
     
     /**
      날짜 별로 게시글들을 딕셔너리로 그룹화 하는 함수
@@ -19,15 +20,13 @@ class PostService {
         let now = Date()
         
         for post in posts {
-            let components = calendar.dateComponents([.year, .month, .day], from: post.timestamp, to: now)
+            let dateComponentsToNow = calendar.dateComponents([.year, .month, .day], from: post.timestamp, to: now)
             
             let groupKey: String
-            if components.year == 0 && components.month == 0 && components.day ?? 0 <= 1 {
-                groupKey = "최신"
+            if dateComponentsToNow.year == 0 && dateComponentsToNow.month == 0 && dateComponentsToNow.day ?? 0 <= PostService.RECENT_POST_DAY {
+                groupKey = Constants.Messages.RECENT
             } else {
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "yyyy년 MM월"
-                groupKey = dateFormatter.string(from: post.timestamp)
+                groupKey = post.timestamp.formatDateToYearMonth()
             }
             
             if groupedPosts[groupKey] != nil {
