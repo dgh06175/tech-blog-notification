@@ -6,11 +6,10 @@
 //
 
 import Foundation
-import SwiftData
 
-@Model
-final class Post {
-    @Attribute(.unique) var link: String
+@Observable
+class Post: Identifiable {
+    var link: String
     var blogName: String
     var title: String
     var timestamp: Date

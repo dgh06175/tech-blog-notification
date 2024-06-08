@@ -6,29 +6,15 @@
 //
 
 import SwiftUI
-import SwiftData
 
 @main
 struct TeckBlogNotificationsApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Post.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
+    @State var postManager: PostManager = PostManager()
     
-    var postService = PostService()
-
     var body: some Scene {
         WindowGroup {
-            ContentView(postService: postService)
+            MainView()
+                .environment(postManager)
         }
-        .modelContainer(sharedModelContainer)
     }
 }

@@ -1,34 +1,14 @@
 //
-//  MockData.swift
+//  MockPostData.swift
 //  TeckBlogNotifications
 //
-//  Created by 이상현 on 5/29/24.
+//  Created by 이상현 on 6/8/24.
 //
 
 import Foundation
-import SwiftData
 
-@MainActor
-let previewContainer: ModelContainer = {
-    do {
-        let container = try ModelContainer(
-            for: Post.self,
-            configurations: ModelConfiguration(isStoredInMemoryOnly: true)
-        )
-        let modelContext = container.mainContext
-        if try modelContext.fetch(FetchDescriptor<Post>()).isEmpty {
-            SamplePosts.contents.forEach {
-                container.mainContext.insert($0)
-            }
-        }
-        return container
-    } catch {
-        fatalError("임시 Container 생성 실패")
-    }
-}()
-
-struct SamplePosts {
-    static var contents: [Post] = [
+struct MockData {
+    static var samplePosts: [Post] = [
         Post(blogName: "Toss Tech", link: "https://toss.tech/article/react-native-2024", title: "토스가 꿈꾸는 React Native 기술의 미래", timestamp: Date(), isBookMark: false, bookMarkCount: 0, isSeen: false, tags: ["React Native", "Mobile"]),
         Post(blogName: "Kakao Tech", link: "https://tech.kakao.com/2024/04/29/techmeet-web-editor/", title: "웹 텍스트 에디터 개발에 필요한 고민과 신규 에디터 소개 / 제5회 Kakao Tech Meet", timestamp: Date(), isBookMark: false, bookMarkCount: 0, isSeen: false, tags: ["Web", "Editor"]),
         Post(blogName: "Toss Tech", link: "https://toss.tech/article/docs-engineering", title: "더 자유롭고, 빠르고, 정확하게: 토스페이먼츠 API 문서 엔지니어링", timestamp: "2024. 3. 20".parseDate(), isBookMark: false, bookMarkCount: 0, isSeen: false, tags: ["API", "Engineering"]),

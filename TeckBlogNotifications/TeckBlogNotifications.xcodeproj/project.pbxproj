@@ -7,30 +7,36 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5576404A2C084F460004DCBF /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557640492C084F460004DCBF /* PostService.swift */; };
+		550AFCF12C14216D00A7D7B0 /* PostRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550AFCF02C14216D00A7D7B0 /* PostRowView.swift */; };
+		550AFCF72C142A5100A7D7B0 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550AFCF62C142A5100A7D7B0 /* MockData.swift */; };
+		550AFCF92C14316100A7D7B0 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550AFCF82C14316100A7D7B0 /* SettingView.swift */; };
+		550AFCFB2C14321800A7D7B0 /* BookmarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550AFCFA2C14321800A7D7B0 /* BookmarkView.swift */; };
 		5576404D2C0859170004DCBF /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5576404C2C0859170004DCBF /* WebView.swift */; };
 		5576404F2C085EF20004DCBF /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5576404E2C085EF20004DCBF /* Date+.swift */; };
-		5588718A2C070B8E00D7B574 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558871892C070B8E00D7B574 /* MockData.swift */; };
 		55D646DC2C06F9E90064C6F2 /* TeckBlogNotificationsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D646DB2C06F9E90064C6F2 /* TeckBlogNotificationsApp.swift */; };
-		55D646DE2C06F9E90064C6F2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D646DD2C06F9E90064C6F2 /* ContentView.swift */; };
+		55D646DE2C06F9E90064C6F2 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D646DD2C06F9E90064C6F2 /* MainView.swift */; };
 		55D646E02C06F9E90064C6F2 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D646DF2C06F9E90064C6F2 /* Post.swift */; };
 		55D646E22C06F9EA0064C6F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55D646E12C06F9EA0064C6F2 /* Assets.xcassets */; };
 		55D646E52C06F9EA0064C6F2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55D646E42C06F9EA0064C6F2 /* Preview Assets.xcassets */; };
 		55EE8D102C11D0C70072E377 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EE8D0F2C11D0C70072E377 /* Constants.swift */; };
+		55EE8D132C11D8A80072E377 /* PostManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EE8D122C11D8A80072E377 /* PostManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		557640492C084F460004DCBF /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
+		550AFCF02C14216D00A7D7B0 /* PostRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRowView.swift; sourceTree = "<group>"; };
+		550AFCF62C142A5100A7D7B0 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
+		550AFCF82C14316100A7D7B0 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
+		550AFCFA2C14321800A7D7B0 /* BookmarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkView.swift; sourceTree = "<group>"; };
 		5576404C2C0859170004DCBF /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		5576404E2C085EF20004DCBF /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
-		558871892C070B8E00D7B574 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		55D646D82C06F9E90064C6F2 /* TeckBlogNotifications.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TeckBlogNotifications.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		55D646DB2C06F9E90064C6F2 /* TeckBlogNotificationsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeckBlogNotificationsApp.swift; sourceTree = "<group>"; };
-		55D646DD2C06F9E90064C6F2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		55D646DD2C06F9E90064C6F2 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		55D646DF2C06F9E90064C6F2 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		55D646E12C06F9EA0064C6F2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		55D646E42C06F9EA0064C6F2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		55EE8D0F2C11D0C70072E377 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		55EE8D122C11D8A80072E377 /* PostManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,7 +53,6 @@
 		557640482C084F350004DCBF /* Domain */ = {
 			isa = PBXGroup;
 			children = (
-				557640492C084F460004DCBF /* PostService.swift */,
 				5576404E2C085EF20004DCBF /* Date+.swift */,
 			);
 			path = Domain;
@@ -56,8 +61,11 @@
 		5576404B2C08590C0004DCBF /* View */ = {
 			isa = PBXGroup;
 			children = (
-				55D646DD2C06F9E90064C6F2 /* ContentView.swift */,
+				55D646DD2C06F9E90064C6F2 /* MainView.swift */,
 				5576404C2C0859170004DCBF /* WebView.swift */,
+				550AFCF02C14216D00A7D7B0 /* PostRowView.swift */,
+				550AFCF82C14316100A7D7B0 /* SettingView.swift */,
+				550AFCFA2C14321800A7D7B0 /* BookmarkView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -66,7 +74,6 @@
 			isa = PBXGroup;
 			children = (
 				55D646DF2C06F9E90064C6F2 /* Post.swift */,
-				558871892C070B8E00D7B574 /* MockData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -90,6 +97,7 @@
 		55D646DA2C06F9E90064C6F2 /* TeckBlogNotifications */ = {
 			isa = PBXGroup;
 			children = (
+				55EE8D112C11D8950072E377 /* Repository */,
 				55EE8D0E2C11D0B00072E377 /* Utils */,
 				5576404B2C08590C0004DCBF /* View */,
 				557640482C084F350004DCBF /* Domain */,
@@ -113,8 +121,17 @@
 			isa = PBXGroup;
 			children = (
 				55EE8D0F2C11D0C70072E377 /* Constants.swift */,
+				550AFCF62C142A5100A7D7B0 /* MockData.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		55EE8D112C11D8950072E377 /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				55EE8D122C11D8A80072E377 /* PostManager.swift */,
+			);
+			path = Repository;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -188,12 +205,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				5576404F2C085EF20004DCBF /* Date+.swift in Sources */,
-				5576404A2C084F460004DCBF /* PostService.swift in Sources */,
-				55D646DE2C06F9E90064C6F2 /* ContentView.swift in Sources */,
+				550AFCF92C14316100A7D7B0 /* SettingView.swift in Sources */,
+				55D646DE2C06F9E90064C6F2 /* MainView.swift in Sources */,
 				55EE8D102C11D0C70072E377 /* Constants.swift in Sources */,
-				5588718A2C070B8E00D7B574 /* MockData.swift in Sources */,
 				5576404D2C0859170004DCBF /* WebView.swift in Sources */,
+				550AFCF12C14216D00A7D7B0 /* PostRowView.swift in Sources */,
 				55D646E02C06F9E90064C6F2 /* Post.swift in Sources */,
+				55EE8D132C11D8A80072E377 /* PostManager.swift in Sources */,
+				550AFCFB2C14321800A7D7B0 /* BookmarkView.swift in Sources */,
+				550AFCF72C142A5100A7D7B0 /* MockData.swift in Sources */,
 				55D646DC2C06F9E90064C6F2 /* TeckBlogNotificationsApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
