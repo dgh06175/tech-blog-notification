@@ -59,9 +59,9 @@
 			isa = PBXGroup;
 			children = (
 				55AB4CDF2C16980300BCD34A /* Assets.xcassets */,
+				55AB4CE32C16980300BCD34A /* Preview Content */,
 				55AB4CE12C16980300BCD34A /* Domain */,
 				55AB4CDE2C16980300BCD34A /* Model */,
-				55AB4CE32C16980300BCD34A /* Preview Content */,
 				55AB4CD32C16980200BCD34A /* Repository */,
 				55AB4CD62C16980200BCD34A /* Utils */,
 				55AB4CDC2C16980300BCD34A /* View */,
