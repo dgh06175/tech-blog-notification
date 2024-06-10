@@ -35,6 +35,7 @@ struct MainView: View {
                     }
                 }
             }
+            .disabled(postManager.isLoading)
             .redacted(reason: postManager.isLoading ? .placeholder : [])
             .navigationTitle(Constants.Messages.HOME_TITLE)
             .toolbar {

@@ -8,6 +8,19 @@
 import Foundation
 
 struct MockData {
+    static var placeHolderPosts: [Post] = [
+        Post(blogName: "Tech Blog", link: "https://tech.blog/article/future-of-tech-2024", title: "미래 기술에 대한 전망", timestamp: Date(), isBookMark: false, bookMarkCount: 0, isSeen: false, tags: ["Tech", "Future"]),
+        Post(blogName: "Dev Blog", link: "https://dev.blog/2024/04/29/editor-dev/", title: "에디터 개발의 고충과 새로운 기능 소개", timestamp: "2024. 5. 20".parseDate(), isBookMark: false, bookMarkCount: 0, isSeen: false, tags: ["Editor", "Development"]),
+        Post(blogName: "Tech Blog", link: "https://tech.blog/article/api-engineering", title: "API 엔지니어링: 자유롭고 빠르게", timestamp: "2024. 3. 20".parseDate(), isBookMark: false, bookMarkCount: 0, isSeen: false, tags: ["API", "Engineering"]),
+        Post(blogName: "Tech Blog", link: "https://tech.blog/article/deployment-system", title: "프론트엔드 배포 시스템 진화: 카나리 배포 적용", timestamp: "2024. 3. 5".parseDate(), isBookMark: false, bookMarkCount: 0, isSeen: false, tags: ["Frontend", "Deployment"]),
+        Post(blogName: "Dev Blog", link: "https://dev.blog/2024/04/29/webview-debugging/", title: "Devtools로 웹뷰 디버깅 환경 만들기", timestamp: "2024. 4. 29".parseDate(), isBookMark: false, bookMarkCount: 0, isSeen: false, tags: ["Webview", "Debugging"]),
+        Post(blogName: "Dev Blog", link: "https://dev.blog/2024/04/29/image-viewer/", title: "스벨트 이미지 뷰어 라이브러리 소개", timestamp: "2024. 4. 29".parseDate(), isBookMark: false, bookMarkCount: 0, isSeen: false, tags: ["Image Viewer", "Svelte"]),
+        Post(blogName: "Tech World", link: "https://tech.world/ai-messages/", title: "AI 메시지 생성기: 센스있는 메시지 만들기", timestamp: "2024. 5. 2".parseDate(), isBookMark: false, bookMarkCount: 0, isSeen: false, tags: ["AI", "Messaging"]),
+        Post(blogName: "Tech World", link: "https://tech.world/jpa-hibernate/", title: "Hibernate에서 @NaturalId 사용하기", timestamp: "2024. 4. 30".parseDate(), isBookMark: false, bookMarkCount: 0, isSeen: false, tags: ["JPA", "Hibernate"]),
+        Post(blogName: "Tech World", link: "https://tech.world/eslint-prettier/", title: "ESLint와 Prettier 설정 공유하기", timestamp: "2024. 4. 24".parseDate(), isBookMark: false, bookMarkCount: 0, isSeen: false, tags: ["ESLint", "Prettier"])
+    ]
+
+    
     static var samplePosts: [Post] = [
         Post(blogName: "Toss Tech", link: "https://toss.tech/article/react-native-2024", title: "토스가 꿈꾸는 React Native 기술의 미래", timestamp: Date(), isBookMark: false, bookMarkCount: 0, isSeen: false, tags: ["React Native", "Mobile"]),
         Post(blogName: "Kakao Tech", link: "https://tech.kakao.com/2024/04/29/techmeet-web-editor/", title: "웹 텍스트 에디터 개발에 필요한 고민과 신규 에디터 소개 / 제5회 Kakao Tech Meet", timestamp: Date(), isBookMark: false, bookMarkCount: 0, isSeen: false, tags: ["Web", "Editor"]),
