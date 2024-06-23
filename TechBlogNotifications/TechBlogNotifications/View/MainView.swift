@@ -9,6 +9,9 @@ import SwiftUI
 
 struct MainView: View {
     @Environment(PostManager.self) private var postManager
+    @State var selectedHour: Int = 9
+    @State private var isPickerPresented = false
+
     var groupedPosts : [String: [Post]] {
         groupPostsByDate(posts: postManager.posts)
     }
@@ -40,10 +43,37 @@ struct MainView: View {
             .navigationTitle(Constants.Messages.HOME_TITLE)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink(destination: SettingView()) {
-                        Image(systemName: "gearshape")
+                    Button(action: {isPickerPresented.toggle()}) {
+                        HStack {
+                            Image(systemName: "bell")
+                            if selectedHour <= 12 {
+                                Text("\(selectedHour) AM")
+                            } else {
+                                Text("\(selectedHour - 12) PM")
+                            }
+                        }
                     }
                 }
+            }
+            .sheet(isPresented: $isPickerPresented) {
+                VStack {
+                    Text("알림 시간을 선택하세요")
+                        .font(.headline)
+                    Picker("알림 시간", selection: $selectedHour) {
+                        ForEach(0..<24) { hour in
+                            Text("\(hour)시").tag(hour)
+                        }
+                    }
+                    .pickerStyle(WheelPickerStyle())
+                    .labelsHidden()
+                    .frame(height: 150)
+                    .clipped()
+                    Button("확인") {
+                        isPickerPresented = false
+                    }
+                }
+                .padding()
+                .presentationDetents([.height(240)])
             }
             // TODO: 실제 북마크 로직
 //            .toolbar {
@@ -60,7 +90,7 @@ struct MainView: View {
 extension MainView {
     private static let RECENT_POST_DAY = 1
     
-    func groupPostsByDate(posts: [Post]) -> [String: [Post]] {
+    private func groupPostsByDate(posts: [Post]) -> [String: [Post]] {
         var groupedPosts: [String: [Post]] = [:]
         
         let calendar = Calendar.current
@@ -85,8 +115,6 @@ extension MainView {
         return groupedPosts
     }
 }
-
-
 
 #Preview {
     MainView()

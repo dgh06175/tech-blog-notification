@@ -9,23 +9,22 @@ import Foundation
 
 @Observable
 class Post: Identifiable {
+    var id: Int64
     var link: String
     var blogName: String
     var title: String
     var timestamp: Date
-    var isBookMark: Bool
-    var bookMarkCount: Int
-    var isSeen: Bool
-    var tags: [String]
     
-    init(blogName: String, link: String, title: String, timestamp: Date, isBookMark: Bool = false, bookMarkCount: Int, isSeen: Bool = false, tags: [String]) {
+    init(id: Int64, blogName: String, link: String, title: String, timestamp: Date) {
+        self.id = id
         self.blogName = blogName
         self.link = link
         self.title = title
-        self.isBookMark = isBookMark
-        self.bookMarkCount = bookMarkCount
-        self.isSeen = isSeen
-        self.tags = tags
         self.timestamp = timestamp
     }
 }
+
+//var isBookMark: Bool
+//var bookMarkCount: Int
+//var isSeen: Bool
+//var tags: [String]

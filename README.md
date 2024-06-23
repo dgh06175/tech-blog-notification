@@ -144,7 +144,15 @@ AWS EC2에 배포된 Spring Boot 애플리케이션의 REST API를 호출하여 
 
 - 데이터베이스: MySQL
 - 스키마 설계
-- 데이터 마이그레이션
+```sql
+CREATE TABLE posts (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    link VARCHAR(2048) NOT NULL,
+    blog_name VARCHAR(255) NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    timestamp DATETIME NOT NULL
+);
+```
 
 ## 인프라 및 배포 계획
 

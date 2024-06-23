@@ -30,5 +30,11 @@ struct PostRowView: View {
                     .fontWeight(.bold)
             }
         }
+        
     }
+}
+
+#Preview {
+    MainView()
+        .environment(PostManager())
 }
