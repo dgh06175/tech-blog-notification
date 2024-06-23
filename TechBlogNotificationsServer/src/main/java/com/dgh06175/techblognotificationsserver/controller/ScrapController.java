@@ -5,6 +5,7 @@ import com.dgh06175.techblognotificationsserver.config.html.Toss;
 import com.dgh06175.techblognotificationsserver.config.rss.Kakao;
 import com.dgh06175.techblognotificationsserver.config.rss.Woowahan;
 import com.dgh06175.techblognotificationsserver.domain.Post;
+import com.dgh06175.techblognotificationsserver.repository.PostRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.jsoup.Jsoup;
@@ -13,9 +14,15 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
+@Controller
 public class ScrapController {
     private static final Logger logger = LoggerFactory.getLogger(ScrapController.class.getName());
+
+    @Autowired
+    private PostRepository postRepository;
 
     public void run() {
         // 1. 블로그에서 포스트 불러오기
@@ -31,6 +38,7 @@ public class ScrapController {
         }
 
         // 2. DB에 중복 데이터 제외하고 추가하기
+        savePosts(posts);
     }
 
     public List<Post> parse(List<BlogConfig> blogConfigs) {
@@ -48,5 +56,13 @@ public class ScrapController {
         }
 
         return posts;
+    }
+
+    private void savePosts(List<Post> posts) {
+        for (Post post : posts) {
+            if (postRepository.findByLink(post.getLink()) == null) {
+                postRepository.save(post);
+            }
+        }
     }
 }

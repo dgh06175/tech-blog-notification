@@ -29,7 +29,6 @@ public class DateParserTest {
             "'23-06-2023', 2023-06-23"
     })
     void 다양한_형식의_날짜_파싱(String input, String expected) {
-        System.out.println("input: " + input);
         LocalDate expectedDate = LocalDate.parse(expected);
         assertThat(DateParser.parseDate(input)).isEqualTo(expectedDate);
     }

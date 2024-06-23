@@ -14,6 +14,7 @@ public class DateParser {
     private static final Pattern SIMPLE_DATE_PATTERN = Pattern.compile("(\\d{4})\\D+(\\d{1,2})\\D+(\\d{1,2})");
     private static final Logger logger = LoggerFactory.getLogger(DateParser.class.getName());
 
+    // MARK: - 새로운 날짜 형식이 발견되면 이 부분에 알맞은 패턴 문자열 추가
     private static final List<DateTimeFormatter> DATE_FORMATTERS = Arrays.asList(
             DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH),
             DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss z", Locale.ENGLISH),
@@ -29,7 +30,7 @@ public class DateParser {
             } catch (DateTimeParseException ignored) {}
         }
 
-        // 구분자가 있는 날짜 추출 시도
+        // 구분자가 있는 보편적인 날짜 형식 추출
         Matcher matcher = SIMPLE_DATE_PATTERN.matcher(dateString);
         if (matcher.find()) {
             String extractedDate = String.format("%s-%s-%s", matcher.group(1), matcher.group(2), matcher.group(3));
