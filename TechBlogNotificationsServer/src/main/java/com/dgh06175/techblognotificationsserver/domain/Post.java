@@ -22,7 +22,7 @@ public class Post {
 
     private LocalDate pubDate;
 
-    private LocalDateTime scrapedDate;
+    private LocalDate scrapedDate;
 
     public Post(){}
 
@@ -31,7 +31,7 @@ public class Post {
         this.link = link;
         this.title = title;
         this.pubDate = DateParser.parseDate(dateString);
-        this.scrapedDate = LocalDateTime.now();
+        this.scrapedDate = LocalDate.now();
     }
 
     public void printPost() {

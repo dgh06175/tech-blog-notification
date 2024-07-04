@@ -11,7 +11,6 @@ public class TechBlogNotificationsServerApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(TechBlogNotificationsServerApplication.class, args);
-//        new ScrapController().run();
     }
 
     @Bean
