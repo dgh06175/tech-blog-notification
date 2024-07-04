@@ -9,6 +9,7 @@ import Foundation
 
 struct Constants {
     struct DateFormat {
+        static let JSON_DATE_FORMAT = "yyyy-MM-dd"
         static let YEAR_MONTH_DAY_DATEFORMAT = "yyyy. MM. dd"
         static let YEAR_MONTH_DATEFORMAT = "yyyy. MM"
         static let DAY_DATEFORMAT = "dd"

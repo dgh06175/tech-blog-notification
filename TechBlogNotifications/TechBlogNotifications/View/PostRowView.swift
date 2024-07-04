@@ -21,7 +21,7 @@ struct PostRowView: View {
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                     Spacer()
-                    Text(post.timestamp, format: Date.FormatStyle(date: .numeric, time: .omitted))
+                    Text(post.pubDate, format: Date.FormatStyle(date: .numeric, time: .omitted))
                         .font(.caption)
                         .foregroundColor(.gray)
                 }

@@ -32,3 +32,11 @@ extension Date {
         return formatter.string(from: self)
     }
 }
+
+extension DateFormatter {
+    static let iso8601Full : DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = Constants.DateFormat.JSON_DATE_FORMAT
+        return dateFormatter
+    }()
+}

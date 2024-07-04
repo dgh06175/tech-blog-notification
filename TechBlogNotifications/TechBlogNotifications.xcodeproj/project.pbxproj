@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		55A12B982C2DAAE200C01A6E /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 55A12B972C2DAAE200C01A6E /* .swiftlint.yml */; };
 		55AB4CC42C1697B100BCD34A /* TechBlogNotificationsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AB4CC32C1697B100BCD34A /* TechBlogNotificationsApp.swift */; };
 		55AB4CC82C1697B200BCD34A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55AB4CC72C1697B200BCD34A /* Assets.xcassets */; };
 		55AB4CCC2C1697B200BCD34A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55AB4CCB2C1697B200BCD34A /* Preview Assets.xcassets */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		55A12B972C2DAAE200C01A6E /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		55AB4CC02C1697B100BCD34A /* TechBlogNotifications.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TechBlogNotifications.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		55AB4CC32C1697B100BCD34A /* TechBlogNotificationsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechBlogNotificationsApp.swift; sourceTree = "<group>"; };
 		55AB4CC72C1697B200BCD34A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -58,6 +60,7 @@
 		55AB4CB72C1697B100BCD34A = {
 			isa = PBXGroup;
 			children = (
+				55A12B972C2DAAE200C01A6E /* .swiftlint.yml */,
 				55AB4CDF2C16980300BCD34A /* Assets.xcassets */,
 				55AB4CE32C16980300BCD34A /* Preview Content */,
 				55AB4CE12C16980300BCD34A /* Domain */,
@@ -166,10 +169,12 @@
 				55AB4CBC2C1697B100BCD34A /* Sources */,
 				55AB4CBD2C1697B100BCD34A /* Frameworks */,
 				55AB4CBE2C1697B100BCD34A /* Resources */,
+				55D16B332C2DADA70084887B /* Run Script */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				55A12B962C2DA8B200C01A6E /* PBXTargetDependency */,
 			);
 			name = TechBlogNotifications;
 			productName = TechBlogNotifications;
@@ -200,6 +205,9 @@
 				Base,
 			);
 			mainGroup = 55AB4CB72C1697B100BCD34A;
+			packageReferences = (
+				55A12B942C2DA6C700C01A6E /* XCRemoteSwiftPackageReference "SwiftLintPlugin" */,
+			);
 			productRefGroup = 55AB4CC12C1697B100BCD34A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -214,6 +222,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				55A12B982C2DAAE200C01A6E /* .swiftlint.yml in Resources */,
 				55AB4CEF2C16980300BCD34A /* Preview Assets.xcassets in Resources */,
 				55AB4CCC2C1697B200BCD34A /* Preview Assets.xcassets in Resources */,
 				55AB4CED2C16980300BCD34A /* Assets.xcassets in Resources */,
@@ -222,6 +231,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		55D16B332C2DADA70084887B /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif [[ \"$(dgh06175 -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		55AB4CBC2C1697B100BCD34A /* Sources */ = {
@@ -243,6 +273,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		55A12B962C2DA8B200C01A6E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 55A12B952C2DA8B200C01A6E /* SwiftLintBuildTool */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		55AB4CCD2C1697B200BCD34A /* Debug */ = {
@@ -461,6 +498,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		55A12B942C2DA6C700C01A6E /* XCRemoteSwiftPackageReference "SwiftLintPlugin" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/GayleDunham/SwiftLintPlugin.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		55A12B952C2DA8B200C01A6E /* SwiftLintBuildTool */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 55A12B942C2DA6C700C01A6E /* XCRemoteSwiftPackageReference "SwiftLintPlugin" */;
+			productName = "plugin:SwiftLintBuildTool";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 55AB4CB82C1697B100BCD34A /* Project object */;
 }

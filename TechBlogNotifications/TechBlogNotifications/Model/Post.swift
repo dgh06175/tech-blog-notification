@@ -7,20 +7,21 @@
 
 import Foundation
 
-@Observable
-class Post: Identifiable {
+struct Post: Identifiable, Decodable {
     var id: Int64
     var link: String
     var blogName: String
     var title: String
-    var timestamp: Date
+    var pubDate: Date
+    var scrapedDate: Date
     
-    init(id: Int64, blogName: String, link: String, title: String, timestamp: Date) {
-        self.id = id
-        self.blogName = blogName
-        self.link = link
-        self.title = title
-        self.timestamp = timestamp
+    enum CodingKeys: String, CodingKey {
+        case id
+        case link
+        case blogName
+        case title
+        case pubDate
+        case scrapedDate
     }
 }
 

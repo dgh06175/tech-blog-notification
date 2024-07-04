@@ -12,7 +12,7 @@ struct MainView: View {
     @State var selectedHour: Int = 9
     @State private var isPickerPresented = false
 
-    var groupedPosts : [String: [Post]] {
+    var groupedPosts: [String: [Post]] {
         groupPostsByDate(posts: postManager.posts)
     }
     
@@ -43,7 +43,7 @@ struct MainView: View {
             .navigationTitle(Constants.Messages.HOME_TITLE)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button(action: {isPickerPresented.toggle()}) {
+                    Button(action: { isPickerPresented.toggle() }, label: {
                         HStack {
                             Image(systemName: "bell")
                             if selectedHour <= 12 {
@@ -52,7 +52,7 @@ struct MainView: View {
                                 Text("\(selectedHour - 12) PM")
                             }
                         }
-                    }
+                    })
                 }
             }
             .sheet(isPresented: $isPickerPresented) {
@@ -97,13 +97,13 @@ extension MainView {
         let now = Date()
         
         for post in posts {
-            let dateComponentsToNow = calendar.dateComponents([.year, .month, .day], from: post.timestamp, to: now)
+            let dateComponentsToNow = calendar.dateComponents([.year, .month, .day], from: post.pubDate, to: now)
             
             let groupKey: String
             if dateComponentsToNow.year == 0 && dateComponentsToNow.month == 0 && dateComponentsToNow.day ?? 0 <= MainView.RECENT_POST_DAY {
                 groupKey = Constants.Messages.RECENT
             } else {
-                groupKey = post.timestamp.formatDateToYearMonth()
+                groupKey = post.pubDate.formatDateToYearMonth()
             }
             
             if groupedPosts[groupKey] != nil {
