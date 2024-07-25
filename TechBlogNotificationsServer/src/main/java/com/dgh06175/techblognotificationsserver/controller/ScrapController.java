@@ -5,7 +5,12 @@ import com.dgh06175.techblognotificationsserver.config.html.Toss;
 import com.dgh06175.techblognotificationsserver.config.rss.Kakao;
 import com.dgh06175.techblognotificationsserver.config.rss.Woowahan;
 import com.dgh06175.techblognotificationsserver.domain.Post;
+import com.dgh06175.techblognotificationsserver.exception.ScrapException;
+import com.dgh06175.techblognotificationsserver.exception.ScrapHttpException;
+import com.dgh06175.techblognotificationsserver.exception.ScrapParsingException;
 import com.dgh06175.techblognotificationsserver.repository.PostRepository;
+import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import org.jsoup.Jsoup;
@@ -30,28 +35,37 @@ public class ScrapController {
         blogConfigs.add(new Toss());
         blogConfigs.add(new Woowahan());
         blogConfigs.add(new Kakao());
-        List<Post> posts = parse(blogConfigs);
-//        posts.sort(Post::getPubDate);
-        for (Post post : posts) {
-            post.printPost();
-            System.out.println();
+        try {
+            List<Post> posts = parse(blogConfigs);
+            // 2. DB에 중복 데이터 제외하고 추가하기
+            savePosts(posts);
+        } catch (ScrapException e) {
+            logger.warn(e.getMessage());
         }
-
-        // 2. DB에 중복 데이터 제외하고 추가하기
-        savePosts(posts);
     }
 
-    public List<Post> parse(List<BlogConfig> blogConfigs) {
+    public List<Post> parse(List<BlogConfig> blogConfigs) throws ScrapException {
         List<Post> posts = new ArrayList<>();
         for (BlogConfig blogConfig : blogConfigs) {
             try {
                 Document document = Jsoup.connect(blogConfig.getBlogUrl()).get();
                 Elements items = document.select(blogConfig.getListTagName());
-                for (Element item : items) {
-                    posts.add(blogConfig.parseElement(item));
+                if (items.isEmpty()) {
+                    throw new ScrapParsingException(blogConfig.getBlogUrl());
+                } else {
+                    for (Element item : items) {
+                        Post post = blogConfig.parseElement(item);
+                        if (post.getTitle().isEmpty() || post.getLink().equals(blogConfig.getBlogUrl())) {
+                            post.printPost();
+                            throw new ScrapParsingException(blogConfig.getBlogUrl());
+                        }
+                        posts.add(post);
+                    }
                 }
-            } catch (Exception e) {
-                logger.warn(String.format("%s %s", "ScrapController ERROR", e.getMessage()));
+            } catch (UnknownHostException e2) {
+                throw new ScrapHttpException(blogConfig.getBlogUrl());
+            } catch (IOException e) {
+                throw new ScrapException(e.getLocalizedMessage());
             }
         }
 
@@ -59,10 +73,16 @@ public class ScrapController {
     }
 
     private void savePosts(List<Post> posts) {
+        int count = 0;
         for (Post post : posts) {
             if (postRepository.findByLink(post.getLink()) == null) {
+                count += 1;
+                System.out.println("포스트 저장됨: " + post.getLink());
+                post.printPost();
+                System.out.println();
                 postRepository.save(post);
             }
         }
+        System.out.printf("%d 개의 포스트 저장됨\n", count);
     }
 }

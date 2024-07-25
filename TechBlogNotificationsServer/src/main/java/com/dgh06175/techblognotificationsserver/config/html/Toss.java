@@ -15,7 +15,7 @@ public class Toss implements BlogConfig {
 
     @Override
     public String getBlogUrl() {
-        return "https://toss.tech/";
+        return "https://toss.tech";
     }
 
     @Override
@@ -25,7 +25,7 @@ public class Toss implements BlogConfig {
 
     @Override
     public Post parseElement(Element element) {
-        String link = "https://toss.tech" + element.select("a").attr("href");
+        String link = this.getBlogUrl() + element.select("a").attr("href");
 
         Element titleSpan = element.select("a").select("div > span").first();
         String title = titleSpan != null ? titleSpan.text() : "";
