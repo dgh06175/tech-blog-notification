@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  TeckBlogNotifications
+//  TechBlogNotifications
 //
 //  Created by 이상현 on 5/29/24.
 //

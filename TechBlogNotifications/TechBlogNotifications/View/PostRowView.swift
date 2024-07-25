@@ -1,6 +1,6 @@
 //
 //  PostRowView.swift
-//  TeckBlogNotifications
+//  TechBlogNotifications
 //
 //  Created by 이상현 on 6/8/24.
 //

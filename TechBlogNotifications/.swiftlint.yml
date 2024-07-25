@@ -11,6 +11,7 @@ disabled_rules:
 - large_tuple # 튜플 개수 제한
 - identifier_name # 변수명 이름
 - comment_spacing # 주석 뒤에 띄어쓰기 불가
+- force_unwrapping
 
 # 기본 룰은 아니지만 추가적으로 설정한 Rule
 opt_in_rules:
