@@ -1,4 +1,14 @@
 [ {
+  "link" : "https://techblog.woowahan.com/18980/",
+  "title" : "로봇 ML 모델의 경량화 #1: 훈련 후 양자화",
+  "author" : "박준수",
+  "date" : "2024. 8. 22"
+}, {
+  "link" : "https://techblog.woowahan.com/19317/",
+  "title" : "[신청 시작] 8월 우아한테크세미나: 생성AI로 똑똑하게 일하는 법",
+  "author" : "우아한형제들 DevRel",
+  "date" : "2024. 8. 22"
+}, {
   "link" : "https://techblog.woowahan.com/18362/",
   "title" : "AI 데이터 분석가 ‘물어보새’ 등장 – 2부. Data Discovery",
   "author" : "성한영",
@@ -39,26 +49,6 @@
   "author" : "천은정",
   "date" : "2024. 7. 9"
 }, {
-  "link" : "https://techblog.woowahan.com/17383/",
-  "title" : "실시간 반응형 추천 개발 일지 #1. 프로젝트 소개",
-  "author" : "김정헌",
-  "date" : "2024. 6. 27"
-}, {
-  "link" : "https://techblog.woowahan.com/17911/",
-  "title" : "B마트 주문 유실을 없애보자: 네트워크 편",
-  "author" : "안필호",
-  "date" : "2024. 6. 25"
-}, {
-  "link" : "https://techblog.woowahan.com/17466/",
-  "title" : "운송 관리 시스템(TMS)의 탄생부터 현장에서 사용하기까지",
-  "author" : "이준한",
-  "date" : "2024. 5. 23"
-}, {
-  "link" : "https://techblog.woowahan.com/16917/",
-  "title" : "우아한형제들 PM들은 어떤 책을 읽을까?",
-  "author" : "홍지현",
-  "date" : "2024. 4. 2"
-}, {
   "link" : "https://techblog.woowahan.com/17221/",
   "title" : "JPA에서 아이디를 자동증가 값으로 사용 시 하이버네이트의 @NaturalId 사용해 보기",
   "author" : "권순규",
@@ -79,21 +69,6 @@
   "author" : "김희선",
   "date" : "2024. 5. 2"
 }, {
-  "link" : "https://techblog.woowahan.com/17163/",
-  "title" : "[다시 보기] 4월 우아한테크세미나: Java의 미래, Virtual Thread",
-  "author" : "우아한형제들 DevRel",
-  "date" : "2024. 4. 16"
-}, {
-  "link" : "https://techblog.woowahan.com/15883/",
-  "title" : "갤럭시 S24가 찾아준 배민커넥트 Android 성능 이슈 해결기(feat. React Native)",
-  "author" : "고우혁 and 김정혁",
-  "date" : "2024. 3. 19"
-}, {
-  "link" : "https://techblog.woowahan.com/16547/",
-  "title" : "프론트엔드 개발자들의 즐거운 상상 \uD83C\uDF88 – 쓰면글림체 사이드 프로젝트 이야기",
-  "author" : "김하루",
-  "date" : "2024. 3. 14"
-}, {
   "link" : "https://techblog.woowahan.com/16910/",
   "title" : "웹 애플리케이션 페이지를 패키지로 개발해 본 경험 공유",
   "author" : "조호정",
@@ -109,30 +84,15 @@
   "author" : "이수정",
   "date" : "2024. 4. 16"
 }, {
-  "link" : "https://techblog.woowahan.com/16979/",
-  "title" : "[모집 마감] 2024 우아한테크캠프 7기",
-  "author" : "TX팀",
-  "date" : "2024. 3. 27"
-}, {
-  "link" : "https://techblog.woowahan.com/15903/",
-  "title" : "우리 팀을 위한 ESLint, Prettier 공유 컨피그 만들어보기",
-  "author" : "김하림",
-  "date" : "2024. 4. 24"
-}, {
-  "link" : "https://techblog.woowahan.com/16021/",
-  "title" : "셀프서비스, 챗봇에게 물어보세요",
-  "author" : "송지은",
-  "date" : "2024. 3. 26"
-}, {
   "link" : "https://techblog.woowahan.com/16044/",
   "title" : "셸 스크립트를 몰라도 자동화는 하고 싶어, ChatGPT를 활용한 git flow 관리 스크립트 자동화 진행기",
   "author" : "성시형",
   "date" : "2024. 3. 21"
 }, {
-  "link" : "https://techblog.woowahan.com/17710/",
-  "title" : "Vite로 구버전 브라우저 지원하기",
-  "author" : "김하림",
-  "date" : "2024. 6. 7"
+  "link" : "https://techblog.woowahan.com/17911/",
+  "title" : "B마트 주문 유실을 없애보자: 네트워크 편",
+  "author" : "안필호",
+  "date" : "2024. 6. 25"
 }, {
   "link" : "https://techblog.woowahan.com/17721/",
   "title" : "코드와 함께 살펴보는 프론트엔드 단위 테스트 – Part 2. 실전 편",
@@ -149,13 +109,63 @@
   "author" : "김준홍",
   "date" : "2024. 5. 28"
 }, {
-  "link" : "https://techblog.woowahan.com/17328/",
-  "title" : "[모집 마감] 우아한스터디 2024 여름시즌",
-  "author" : "우아한형제들 DevRel",
-  "date" : "2024. 5. 8"
-}, {
   "link" : "https://techblog.woowahan.com/17713/",
   "title" : "[신청 시작] 6월 우아한테크세미나 : 글로벌 개발자로 성장하는 법",
   "author" : "우아한형제들 DevRel",
   "date" : "2024. 5. 27"
+}, {
+  "link" : "https://techblog.woowahan.com/17466/",
+  "title" : "운송 관리 시스템(TMS)의 탄생부터 현장에서 사용하기까지",
+  "author" : "이준한",
+  "date" : "2024. 5. 23"
+}, {
+  "link" : "https://techblog.woowahan.com/16917/",
+  "title" : "우아한형제들 PM들은 어떤 책을 읽을까?",
+  "author" : "홍지현",
+  "date" : "2024. 4. 2"
+}, {
+  "link" : "https://techblog.woowahan.com/17383/",
+  "title" : "실시간 반응형 추천 개발 일지 #1. 프로젝트 소개",
+  "author" : "김정헌",
+  "date" : "2024. 6. 27"
+}, {
+  "link" : "https://techblog.woowahan.com/17163/",
+  "title" : "[다시 보기] 4월 우아한테크세미나: Java의 미래, Virtual Thread",
+  "author" : "우아한형제들 DevRel",
+  "date" : "2024. 4. 16"
+}, {
+  "link" : "https://techblog.woowahan.com/15883/",
+  "title" : "갤럭시 S24가 찾아준 배민커넥트 Android 성능 이슈 해결기(feat. React Native)",
+  "author" : "고우혁 and 김정혁",
+  "date" : "2024. 3. 19"
+}, {
+  "link" : "https://techblog.woowahan.com/16547/",
+  "title" : "프론트엔드 개발자들의 즐거운 상상 \uD83C\uDF88 – 쓰면글림체 사이드 프로젝트 이야기",
+  "author" : "김하루",
+  "date" : "2024. 3. 14"
+}, {
+  "link" : "https://techblog.woowahan.com/16979/",
+  "title" : "[모집 마감] 2024 우아한테크캠프 7기",
+  "author" : "TX팀",
+  "date" : "2024. 3. 27"
+}, {
+  "link" : "https://techblog.woowahan.com/15903/",
+  "title" : "우리 팀을 위한 ESLint, Prettier 공유 컨피그 만들어보기",
+  "author" : "김하림",
+  "date" : "2024. 4. 24"
+}, {
+  "link" : "https://techblog.woowahan.com/16021/",
+  "title" : "셀프서비스, 챗봇에게 물어보세요",
+  "author" : "송지은",
+  "date" : "2024. 3. 26"
+}, {
+  "link" : "https://techblog.woowahan.com/17710/",
+  "title" : "Vite로 구버전 브라우저 지원하기",
+  "author" : "김하림",
+  "date" : "2024. 6. 7"
+}, {
+  "link" : "https://techblog.woowahan.com/17328/",
+  "title" : "[모집 마감] 우아한스터디 2024 여름시즌",
+  "author" : "우아한형제들 DevRel",
+  "date" : "2024. 5. 8"
 } ]
