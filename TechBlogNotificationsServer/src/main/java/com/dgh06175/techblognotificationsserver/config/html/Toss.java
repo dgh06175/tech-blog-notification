@@ -20,7 +20,7 @@ public class Toss implements BlogConfig {
 
     @Override
     public String getListTagName() {
-        return "a.css-nq2ijc.e3wfjt74";
+        return "a.css-1qr3mg1.e1sck7qg4";
     }
 
     @Override

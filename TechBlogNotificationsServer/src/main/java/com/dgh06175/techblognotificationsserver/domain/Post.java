@@ -5,10 +5,15 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
-import lombok.Data;
+import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,16 +27,14 @@ public class Post {
 
     private LocalDate pubDate;
 
+    @CreatedDate
     private LocalDate scrapedDate;
-
-    public Post(){}
 
     public Post(String blogName, String link, String title, String dateString) {
         this.blogName = blogName;
         this.link = link;
         this.title = title;
         this.pubDate = DateParser.parseDate(dateString);
-        this.scrapedDate = LocalDate.now();
     }
 
     public void printPost() {
