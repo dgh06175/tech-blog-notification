@@ -2,7 +2,7 @@ name: 새로운 블로그 게시글 스크래핑
 
 on:
   schedule:
-    - cron: '0 23 * * *'
+    - cron: '0 20 * * *'
   workflow_dispatch:
 
 jobs:
