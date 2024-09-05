@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5512349C2C8984E700B7199C /* config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 5512349B2C8984E700B7199C /* config.xcconfig */; };
 		55A12B982C2DAAE200C01A6E /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 55A12B972C2DAAE200C01A6E /* .swiftlint.yml */; };
 		55AB4CC42C1697B100BCD34A /* TechBlogNotificationsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AB4CC32C1697B100BCD34A /* TechBlogNotificationsApp.swift */; };
 		55AB4CC82C1697B200BCD34A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55AB4CC72C1697B200BCD34A /* Assets.xcassets */; };
@@ -24,11 +23,11 @@
 		55AB4CED2C16980300BCD34A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55AB4CDF2C16980300BCD34A /* Assets.xcassets */; };
 		55AB4CEE2C16980300BCD34A /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AB4CE02C16980300BCD34A /* Date+.swift */; };
 		55AB4CEF2C16980300BCD34A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55AB4CE22C16980300BCD34A /* Preview Assets.xcassets */; };
+		55E5B59C2C89AF3F00942368 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E5B59B2C89AF3F00942368 /* Config.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		551234992C89844100B7199C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		5512349B2C8984E700B7199C /* config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = config.xcconfig; sourceTree = "<group>"; };
 		55A12B972C2DAAE200C01A6E /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		55AB4CC02C1697B100BCD34A /* TechBlogNotifications.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TechBlogNotifications.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		55AB4CC32C1697B100BCD34A /* TechBlogNotificationsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechBlogNotificationsApp.swift; sourceTree = "<group>"; };
@@ -47,6 +46,7 @@
 		55AB4CDF2C16980300BCD34A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = TechBlogNotifications/Assets.xcassets; sourceTree = "<group>"; };
 		55AB4CE02C16980300BCD34A /* Date+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		55AB4CE22C16980300BCD34A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		55E5B59B2C89AF3F00942368 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,18 +60,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5512349A2C8984CA00B7199C /* config */ = {
-			isa = PBXGroup;
-			children = (
-				5512349B2C8984E700B7199C /* config.xcconfig */,
-			);
-			path = config;
-			sourceTree = "<group>";
-		};
 		55AB4CB72C1697B100BCD34A = {
 			isa = PBXGroup;
 			children = (
-				5512349A2C8984CA00B7199C /* config */,
+				55E5B59A2C89AF3100942368 /* Config */,
 				55A12B972C2DAAE200C01A6E /* .swiftlint.yml */,
 				55AB4CDF2C16980300BCD34A /* Assets.xcassets */,
 				55AB4CE32C16980300BCD34A /* Preview Content */,
@@ -172,6 +164,14 @@
 			path = "TechBlogNotifications/Preview Content";
 			sourceTree = "<group>";
 		};
+		55E5B59A2C89AF3100942368 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				55E5B59B2C89AF3F00942368 /* Config.swift */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -237,7 +237,6 @@
 			files = (
 				55A12B982C2DAAE200C01A6E /* .swiftlint.yml in Resources */,
 				55AB4CEF2C16980300BCD34A /* Preview Assets.xcassets in Resources */,
-				5512349C2C8984E700B7199C /* config.xcconfig in Resources */,
 				55AB4CCC2C1697B200BCD34A /* Preview Assets.xcassets in Resources */,
 				55AB4CED2C16980300BCD34A /* Assets.xcassets in Resources */,
 				55AB4CC82C1697B200BCD34A /* Assets.xcassets in Resources */,
@@ -281,6 +280,7 @@
 				55AB4CC42C1697B100BCD34A /* TechBlogNotificationsApp.swift in Sources */,
 				55AB4CE42C16980300BCD34A /* PostManager.swift in Sources */,
 				55AB4CE92C16980300BCD34A /* PostRowView.swift in Sources */,
+				55E5B59C2C89AF3F00942368 /* Config.swift in Sources */,
 				55AB4CE52C16980300BCD34A /* Constants.swift in Sources */,
 				55AB4CE62C16980300BCD34A /* MockData.swift in Sources */,
 			);

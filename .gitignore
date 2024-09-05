@@ -11,7 +11,7 @@ tempCodeRunnerFile.js
 application-aws.*
 application-local.*
 
-config.xcconfig
+Config.swift
 
 ### Default Spring gitignore ###
 
