@@ -1,6 +1,4 @@
-package com.dgh06175.techblognotificationsserver.exception;
-
-import java.util.IllegalFormatException;
+package com.dgh06175.techblognotificationsscrapper.exception;
 
 public class ScrapException extends RuntimeException {
     private static final String ERROR_PREFIX = "[ERROR]";

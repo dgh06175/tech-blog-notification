@@ -1,12 +1,12 @@
-package com.dgh06175.techblognotificationsserver.service;
+package com.dgh06175.techblognotificationsscrapper.service;
 
-import com.dgh06175.techblognotificationsserver.config.BlogConfig;
-import com.dgh06175.techblognotificationsserver.controller.ScrapController;
-import com.dgh06175.techblognotificationsserver.domain.Post;
-import com.dgh06175.techblognotificationsserver.exception.ScrapException;
-import com.dgh06175.techblognotificationsserver.exception.ScrapHttpException;
-import com.dgh06175.techblognotificationsserver.exception.ScrapParsingException;
-import com.dgh06175.techblognotificationsserver.repository.PostRepository;
+
+import com.dgh06175.techblognotificationsscrapper.config.BlogConfig;
+import com.dgh06175.techblognotificationsscrapper.domain.Post;
+import com.dgh06175.techblognotificationsscrapper.exception.ScrapException;
+import com.dgh06175.techblognotificationsscrapper.exception.ScrapHttpException;
+import com.dgh06175.techblognotificationsscrapper.exception.ScrapParsingException;
+import com.dgh06175.techblognotificationsscrapper.repository.PostRepository;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -18,7 +18,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service

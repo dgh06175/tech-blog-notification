@@ -1,7 +1,7 @@
-package com.dgh06175.techblognotificationsserver.config.html;
+package com.dgh06175.techblognotificationsscrapper.config.html;
 
-import com.dgh06175.techblognotificationsserver.config.BlogConfig;
-import com.dgh06175.techblognotificationsserver.domain.Post;
+import com.dgh06175.techblognotificationsscrapper.config.BlogConfig;
+import com.dgh06175.techblognotificationsscrapper.domain.Post;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.jsoup.nodes.Element;

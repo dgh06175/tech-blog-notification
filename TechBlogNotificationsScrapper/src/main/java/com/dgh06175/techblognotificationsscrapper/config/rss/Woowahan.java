@@ -1,18 +1,18 @@
-package com.dgh06175.techblognotificationsserver.config.rss;
+package com.dgh06175.techblognotificationsscrapper.config.rss;
 
-import com.dgh06175.techblognotificationsserver.config.BlogConfig;
-import com.dgh06175.techblognotificationsserver.domain.Post;
+import com.dgh06175.techblognotificationsscrapper.config.BlogConfig;
+import com.dgh06175.techblognotificationsscrapper.domain.Post;
 import org.jsoup.nodes.Element;
 
-public class Kakao implements BlogConfig {
+final public class Woowahan implements BlogConfig {
     @Override
     public String getBlogName() {
-        return "Kakao";
+        return "Woowahan";
     }
 
     @Override
     public String getBlogUrl() {
-        return "https://tech.kakao.com/blog/feed";
+        return "https://techblog.woowahan.com/feed/";
     }
 
     @Override

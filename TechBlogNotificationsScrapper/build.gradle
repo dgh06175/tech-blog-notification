@@ -18,18 +18,21 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter'
+    // web/boot start 없이 Spring Data JPA 만 사용
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
-    // Database
+    // Database 연결을 위한 MySQL connector
     runtimeOnly 'com.mysql:mysql-connector-j'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
-    // Web scrap
+    // Web scrap 라이브러리
     implementation 'org.jsoup:jsoup:1.17.2'
 
+    // Lombok
     implementation 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+
+    // Test
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 tasks.named('test') {

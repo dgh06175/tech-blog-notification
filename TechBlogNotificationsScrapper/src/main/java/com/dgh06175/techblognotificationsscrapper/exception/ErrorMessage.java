@@ -1,4 +1,4 @@
-package com.dgh06175.techblognotificationsserver.exception;
+package com.dgh06175.techblognotificationsscrapper.exception;
 
 public enum ErrorMessage {
     SCRAP_UNKNOWN_HOST_EXCEPTION("UnknownHost 예외 발생. 네트워크 상태를 확인해주세요."),

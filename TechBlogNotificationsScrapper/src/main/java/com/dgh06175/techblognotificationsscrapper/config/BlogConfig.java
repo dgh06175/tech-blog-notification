@@ -1,6 +1,6 @@
-package com.dgh06175.techblognotificationsserver.config;
+package com.dgh06175.techblognotificationsscrapper.config;
 
-import com.dgh06175.techblognotificationsserver.domain.Post;
+import com.dgh06175.techblognotificationsscrapper.domain.Post;
 import org.jsoup.nodes.Element;
 
 public interface BlogConfig {

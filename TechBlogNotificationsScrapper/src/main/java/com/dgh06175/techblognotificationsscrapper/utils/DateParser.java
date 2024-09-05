@@ -1,8 +1,11 @@
-package com.dgh06175.techblognotificationsserver.utils;
+package com.dgh06175.techblognotificationsscrapper.utils;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.slf4j.Logger;

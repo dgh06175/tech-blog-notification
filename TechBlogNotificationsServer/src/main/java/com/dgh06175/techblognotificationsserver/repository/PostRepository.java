@@ -4,6 +4,4 @@ import com.dgh06175.techblognotificationsserver.domain.Post;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PostRepository extends JpaRepository<Post, Long> {
-    Post findByLink(String link);
-}
+public interface PostRepository extends JpaRepository<Post, Long> {}

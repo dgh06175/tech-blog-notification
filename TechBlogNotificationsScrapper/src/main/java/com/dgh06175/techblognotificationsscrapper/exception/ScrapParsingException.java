@@ -1,6 +1,6 @@
-package com.dgh06175.techblognotificationsserver.exception;
+package com.dgh06175.techblognotificationsscrapper.exception;
 
-import static com.dgh06175.techblognotificationsserver.exception.ErrorMessage.SCRAP_EMPTY_PARSED_DATA;
+import static com.dgh06175.techblognotificationsscrapper.exception.ErrorMessage.SCRAP_EMPTY_PARSED_DATA;
 
 public class ScrapParsingException extends ScrapException {
     public ScrapParsingException(String blogUrl) {
