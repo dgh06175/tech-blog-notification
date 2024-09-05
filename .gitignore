@@ -6,6 +6,11 @@ package.json
 package-lock.json
 tempCodeRunnerFile.js
 
+
+### Secret config files ###
+application-aws.*
+application-local.*
+
 HELP.md
 .gradle
 build/

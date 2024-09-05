@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: TechBlogNotificationsServer
+  jpa:
+    database-platform:
+      org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+      properties:
+        hibernate.jdbc.time_zone: Asia/Seoul
+  profiles:
+    include: aws
