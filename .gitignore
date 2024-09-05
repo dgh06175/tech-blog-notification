@@ -11,6 +11,10 @@ tempCodeRunnerFile.js
 application-aws.*
 application-local.*
 
+config.xcconfig
+
+### Default Spring gitignore ###
+
 HELP.md
 .gradle
 build/

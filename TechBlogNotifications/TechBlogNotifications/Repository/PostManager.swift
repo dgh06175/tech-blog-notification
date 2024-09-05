@@ -38,7 +38,8 @@ class PostManager {
     
     // 실제 데이터 받아오기
     private func fetchPosts() async throws {
-        guard let url = URL(string: "http://localhost:8080/find-all") else {
+        guard let urlString = ProcessInfo.processInfo.environment["APIBaseURL"],
+              let url = URL(string: urlString) else {
             throw PostError.urlError
         }
         
@@ -50,6 +51,7 @@ class PostManager {
             self.posts = fetchedPosts
             self.isLoading = false
         } catch {
+            print("디코딩 오류: \(error)")
             throw PostError.parseError
         }
     }
