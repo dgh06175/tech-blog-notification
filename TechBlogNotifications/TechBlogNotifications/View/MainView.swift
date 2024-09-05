@@ -26,7 +26,7 @@ struct MainView: View {
                         }
 //                        .swipeActions(edge: .leading) {
 //                            Button(action: {
-//                                // TODO: 실제 북마크 로직
+//                                // TODO: 북마크
 //                                print("Bookmark!")
 //                            }) {
 //                                Label("Star", systemImage: "star")
@@ -75,7 +75,7 @@ struct MainView: View {
                 .padding()
                 .presentationDetents([.height(240)])
             }
-            // TODO: 실제 북마크 로직
+            // TODO: 북마크
 //            .toolbar {
 //                ToolbarItem(placement: .topBarTrailing) {
 //                    NavigationLink(destination: BookmarkView()) {

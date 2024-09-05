@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		55501A882C3DA85F00230566 /* ArticleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55501A872C3DA85F00230566 /* ArticleTests.swift */; };
 		55A12B982C2DAAE200C01A6E /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 55A12B972C2DAAE200C01A6E /* .swiftlint.yml */; };
 		55AB4CC42C1697B100BCD34A /* TechBlogNotificationsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AB4CC32C1697B100BCD34A /* TechBlogNotificationsApp.swift */; };
 		55AB4CC82C1697B200BCD34A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55AB4CC72C1697B200BCD34A /* Assets.xcassets */; };
@@ -38,7 +37,6 @@
 
 /* Begin PBXFileReference section */
 		55501A852C3DA85F00230566 /* ArticleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ArticleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		55501A872C3DA85F00230566 /* ArticleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleTests.swift; sourceTree = "<group>"; };
 		55A12B972C2DAAE200C01A6E /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		55AB4CC02C1697B100BCD34A /* TechBlogNotifications.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TechBlogNotifications.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		55AB4CC32C1697B100BCD34A /* TechBlogNotificationsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechBlogNotificationsApp.swift; sourceTree = "<group>"; };
@@ -77,14 +75,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		55501A862C3DA85F00230566 /* ArticleTests */ = {
-			isa = PBXGroup;
-			children = (
-				55501A872C3DA85F00230566 /* ArticleTests.swift */,
-			);
-			path = ArticleTests;
-			sourceTree = "<group>";
-		};
 		55AB4CB72C1697B100BCD34A = {
 			isa = PBXGroup;
 			children = (
@@ -97,7 +87,6 @@
 				55AB4CD62C16980200BCD34A /* Utils */,
 				55AB4CDC2C16980300BCD34A /* View */,
 				55AB4CC22C1697B100BCD34A /* TechBlogNotifications */,
-				55501A862C3DA85F00230566 /* ArticleTests */,
 				55AB4CC12C1697B100BCD34A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -318,7 +307,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				55501A882C3DA85F00230566 /* ArticleTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

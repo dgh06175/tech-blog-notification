@@ -74,7 +74,7 @@ class Database: ArticleRepository {
 
 class ArticleService {
     private var articles: [Article]
-    private let repository: ArticleRepository // 의존성 주입
+    private let repository: ArticleRepository
     
     init(repository: ArticleRepository) {
         self.articles = repository.loadArticles()
