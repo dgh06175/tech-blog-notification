@@ -2,7 +2,7 @@
 
 기술 블로그 새로운 글 알림
 
-매일 아침 8시~8시30분 사이에 아래 블로그중 새로운 게시글이 올라왔을 경우 Issues 를 발생시켜 알림을 보냅니다.
+매일 아침 8시~8시30분 사이에 아래 블로그중 새로운 게시글을 스크랩하여 앱으로 확인할 수 있게 한다.
 
 [Toss](https://toss.tech)
 
@@ -12,7 +12,7 @@
 
 `iOS 17.0+`
 
-`SwiftUI` / `AWS` / `Java Spring`
+`SwiftUI` / `AWS` / `Java Spring boot`
 
 ## 비즈니스 요구사항
 
@@ -26,29 +26,29 @@
 
 ### iOS APP
 
-- [ ] 블로그들의 최신 게시글의 정보를 표시한다.
+- [x] 블로그들의 최신 게시글의 정보를 표시한다.
   - 블로그 이름
   - 업로드 날짜
   - 게시글 제목
-- [ ] 클릭 시 해당 게시글의 웹뷰로 이동한다.
+- [x] 클릭 시 해당 게시글의 웹뷰로 이동한다.
 - [ ] 새로운 게시글이 올라왔을 경우 익일 사용자가 정한 시간에 알림 전송 (백그라운드)
 
 ### 스크래핑 스크립트
 
 - [ ] 매일 새벽 5시에 새로운 게시글 DB 업데이트
-  - [ ] 웹 스크래핑
-    - [ ] 카카오
-    - [ ] 토스
-    - [ ] 우아한형제들
+  - [x] 웹 스크래핑
+    - [x] 카카오
+    - [x] 토스
+    - [x] 우아한형제들
   - [ ] 스크래핑 실패 시 재시도
   - [ ] 스크래핑 로직 모니터링 및 로그 수집
-  - [ ] AWS EC2 - MySQL 에 저장
+  - [x] AWS EC2 - MySQL 에 저장
 
 ### Rest API & DB
 
-- [ ] 사용자가 앱을 실행할 경우 최근 게시글 정보 불러오기
-  - [ ] 서버의 DB에서 앱으로 데이터 가져오기
-    - 페이지네이션 지원 (10개씩)
+- [x] 사용자가 앱을 실행할 경우 최근 게시글 정보 불러오기
+  - [x] 서버의 DB에서 앱으로 데이터 가져오기
+    - [ ] 페이지네이션 지원 (20개씩)
 
 <details>
 <summary>추가 기능</summary>
@@ -101,18 +101,12 @@
 
 <img src="https://drive.google.com/uc?export=download&id=1uiO_O5tHSMn_gWIUN4yRNU0bA7DDQAgT"/>
 
-### AWS Lambda (Web Scrapping Script)
-
-매일 정해진 시간에 실행되어 카카오, 토스, 우아한형제들의 기술 블로그에서 최신 게시글을 스크래핑한다.
-
-스크래핑한 데이터를 AWS EC2에 배포된 Spring Boot 애플리케이션으로 전송
-
 ### AWS EC2 (Spring Boot REST API)
 
-사용자 요청을 처리하고 데이터베이스와 상호작용하여 필요한 데이터 제공
+1. 매일 정해진 시간에 실행되어 카카오, 토스, 우아한형제들의 기술 블로그에서 최신 게시글을 스크래핑한다.
+  스크래핑 데이터를 처리하여 AWS RDS(MySQL)에 저장
 
-AWS Lambda로부터 받은 스크래핑 데이터를 처리하여 AWS RDS(MySQL)에 저장
-iOS 앱으로부터 API 요청을 받아서 AWS RDS(MySQL)에서 데이터를 조회하고 응답을 반환한다.
+2. iOS 앱으로부터 API 요청을 받아서 AWS RDS(MySQL)에서 데이터를 조회하고 응답을 반환한다.
 
 ### AWS RDS (MySQL)
 
@@ -133,10 +127,10 @@ AWS EC2에 배포된 Spring Boot 애플리케이션의 REST API를 호출하여 
 ## API 설계
 
 - GET /posts: 최신 게시글 불러오기
-- 프로토콜 및 포맷 결정
-- 테스트 코드 작성
-  - 스크래핑 로직 수정 했을때 제대로 된건지 한번에 테스트 가능하도록
-  - 핵심 로직 제대로 작동 하는지 테스트
+
+- [ ] 테스트 코드 작성
+  - [ ] 스크래핑 로직 수정 했을때 제대로 된건지 한번에 테스트 가능하도록
+  - [ ] 핵심 로직 제대로 작동 하는지 테스트
 
 ## 데이터베이스 설계
 
@@ -144,25 +138,29 @@ AWS EC2에 배포된 Spring Boot 애플리케이션의 REST API를 호출하여 
 
 - 데이터베이스: MySQL
 - 스키마 설계
+
 ```sql
 CREATE TABLE posts (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     link VARCHAR(2048) NOT NULL,
     blog_name VARCHAR(255) NOT NULL,
     title VARCHAR(255) NOT NULL,
-    timestamp DATETIME NOT NULL
+    pub_date DATETIME,
+    scraped_date DATETIME NOT NULL
 );
 ```
 
 ## 인프라 및 배포 계획
 
 - 호스팅 환경
-  - AWS
+  - [x] AWS EC2
+  - [ ] AWS RDS
 - 서버 및 네트워크 구성
+  - [x] Spring boot
 - 배포 전략
-  - CI/CD
+  - [ ] CI/CD
 
 ## 로그 및 모니터링 계획
 
-- 알림 시스템
-  - 스크래핑 로직에 오류가 발생했을 경우 관리자 화면에 표시되고 알림 오도록 구성
+- [ ] 알림 시스템
+  - [ ] 스크래핑 로직에 오류가 발생했을 경우 관리자 화면에 표시되고 알림 오도록 구성
