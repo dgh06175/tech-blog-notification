@@ -6,3 +6,5 @@ spring:
       ddl-auto: update
   profiles:
     include: aws
+server:
+  port: 8081
