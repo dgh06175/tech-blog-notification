@@ -39,7 +39,7 @@ class PostManager {
     // 실제 데이터 받아오기
     private func fetchPosts() async throws {
         guard let urlString = ProcessInfo.processInfo.environment["APIBaseURL"],
-              let url = URL(string: urlString) else {
+              let url = URL(string: urlString + "posts") else {
             throw PostError.urlError
         }
         

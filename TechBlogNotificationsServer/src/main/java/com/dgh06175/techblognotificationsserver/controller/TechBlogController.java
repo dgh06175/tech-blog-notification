@@ -16,7 +16,7 @@ public class TechBlogController {
 
     private final PostRepository postRepository;
 
-    @GetMapping("find-all")
+    @GetMapping("posts")
     @ResponseBody
     public List<Post> findAll() {
         return postRepository.findAll();
