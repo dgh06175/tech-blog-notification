@@ -13,6 +13,7 @@ import com.dgh06175.techblognotificationsscrapper.repository.PostRepository;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
@@ -44,7 +45,7 @@ public class PostService {
             return parse(blogConfigs);
         } catch (ScrapException e) {
             logger.warn(e.getMessage());
-            return List.of();
+            return Collections.emptyList();
         }
     }
 
@@ -52,7 +53,9 @@ public class PostService {
         List<Post> scrapedPosts = new ArrayList<>();
         for (BlogConfig blogConfig : blogConfigs) {
             try {
-                Document document = Jsoup.connect(blogConfig.getBlogUrl()).get();
+                Document document = Jsoup.connect(blogConfig.getBlogUrl())
+                        .userAgent("Mozilla/5.0") // User-Agent 설정
+                        .get();
                 Elements items = document.select(blogConfig.getListTagName());
                 if (items.isEmpty()) {
                     throw new ScrapParsingException(blogConfig.getBlogUrl());
