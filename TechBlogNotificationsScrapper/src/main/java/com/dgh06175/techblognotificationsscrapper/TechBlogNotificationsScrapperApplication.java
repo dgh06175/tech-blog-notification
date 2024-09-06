@@ -18,7 +18,7 @@ public class TechBlogNotificationsScrapperApplication {
     @Bean
     CommandLineRunner runScraper(ScrapController scrapController) {
         return args -> {
-            scrapController.scrapPosts();
+            scrapController.run();
         };
     }
 }
