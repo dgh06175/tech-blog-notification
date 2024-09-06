@@ -54,7 +54,8 @@ public class PostService {
         for (BlogConfig blogConfig : blogConfigs) {
             try {
                 Document document = Jsoup.connect(blogConfig.getBlogUrl())
-                        .userAgent("Mozilla/5.0") // User-Agent 설정
+                        .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
+                        .header("Referer", "https://techblog.woowahan.com/")
                         .get();
                 Elements items = document.select(blogConfig.getListTagName());
                 if (items.isEmpty()) {
