@@ -8,10 +8,10 @@ tempCodeRunnerFile.js
 
 
 ### Secret config files ###
-application-aws.*
 application-local.*
+application-aws.*
 
-config.xcconfig
+Config.swift
 
 ### Default Spring gitignore ###
 

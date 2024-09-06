@@ -11,7 +11,7 @@ struct MainView: View {
     @Environment(PostManager.self) private var postManager
     @State var selectedHour: Int = 9
     @State private var isPickerPresented = false
-
+    
     var groupedPosts: [String: [Post]] {
         groupPostsByDate(posts: postManager.posts)
     }
@@ -21,21 +21,33 @@ struct MainView: View {
             List {
                 ForEach(groupedPosts.keys.sorted().reversed(), id: \.self) { key in
                     Section {
-                        ForEach(groupedPosts[key]!) { post in
-                            PostRowView(post: post)
+                        if let posts = groupedPosts[key] {
+                            ForEach(posts) { post in
+                                PostRowView(post: post)
+                            }
+                        } else {
+                            Text("게시글 없음")
                         }
-//                        .swipeActions(edge: .leading) {
-//                            Button(action: {
-//                                // TODO: 북마크
-//                                print("Bookmark!")
-//                            }) {
-//                                Label("Star", systemImage: "star")
-//                            }
-//                        }
-//                        .tint(.orange)
+                        //                        .swipeActions(edge: .leading) {
+                        //                            Button(action: {
+                        //                                // TODO: 북마크
+                        //                                print("Bookmark!")
+                        //                            }) {
+                        //                                Label("Star", systemImage: "star")
+                        //                            }
+                        //                        }
+                        //                        .tint(.orange)
                     } header: {
                         Text(key)
                     }
+                }
+                if !groupedPosts.isEmpty {
+                    LastListLoadingView()
+                        .onAppear {
+                            Task {
+                                await postManager.loadNextPage()
+                            }
+                        }
                 }
             }
             .disabled(postManager.isLoading)
@@ -76,13 +88,13 @@ struct MainView: View {
                 .presentationDetents([.height(240)])
             }
             // TODO: 북마크
-//            .toolbar {
-//                ToolbarItem(placement: .topBarTrailing) {
-//                    NavigationLink(destination: BookmarkView()) {
-//                        Image(systemName: "bookmark")
-//                    }
-//                }
-//            }
+            //            .toolbar {
+            //                ToolbarItem(placement: .topBarTrailing) {
+            //                    NavigationLink(destination: BookmarkView()) {
+            //                        Image(systemName: "bookmark")
+            //                    }
+            //                }
+            //            }
         }
     }
 }
@@ -113,6 +125,12 @@ extension MainView {
             }
         }
         return groupedPosts
+    }
+}
+
+struct LastListLoadingView: View {
+    var body: some View {
+        Text("게시글 로딩중..")
     }
 }
 
