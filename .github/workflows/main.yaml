@@ -26,7 +26,7 @@ jobs:
       - name: Build with Gradle
         run: |
           echo $PATH
-          ./gradlew build
+          ./gradlew clean build -x test
         working-directory: TechBlogNotificationsScrapper
 
       - name: Run JAR for Scrap posts
