@@ -29,6 +29,10 @@ jobs:
           ./gradlew clean build -x test
         working-directory: TechBlogNotificationsScrapper
 
+      - name: Find JAR file
+        run: find . -name "*.jar"
+        working-directory: TechBlogNotificationsScrapper
+
       - name: Run JAR for Scrap posts
         run: java -jar build/libs/tech-blog-notifications-scrapper-0.0.1-SNAPSHOT.jar
         working-directory: TechBlogNotificationsScrapper
