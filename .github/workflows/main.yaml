@@ -27,6 +27,10 @@ jobs:
         run: |
           echo $PATH
           ./gradlew build
+        env:
+          SPRING_DATASOURCE_URL: ${{ secrets.AWS_URL }}
+          SPRING_DATASOURCE_USERNAME: ${{ secrets.AWS_DB_USERNAME }}
+          SPRING_DATASOURCE_PASSWORD: ${{ secrets.AWS_DB_PASSWORD }}
         working-directory: TechBlogNotificationsScrapper
 
       - name: Run JAR for Scrap posts

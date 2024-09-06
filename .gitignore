@@ -8,8 +8,8 @@ tempCodeRunnerFile.js
 
 
 ### Secret config files ###
-application-aws.*
 application-local.*
+application-aws.*
 
 Config.swift
 
