@@ -32,7 +32,11 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
 
     // Test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // local 테스트용 h2
+    runtimeOnly 'com.h2database:h2'
 }
 
 tasks.named('test') {
