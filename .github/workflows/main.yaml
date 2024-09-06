@@ -34,4 +34,8 @@ jobs:
 
       - name: Run JAR for Scrap posts
         run: java -jar ./build/libs/TechBlogNotificationsScrapper-0.0.1-SNAPSHOT.jar
+        env:
+          SPRING_DATASOURCE_URL: ${{ secrets.AWS_URL }}
+          SPRING_DATASOURCE_USERNAME: ${{ secrets.AWS_DB_USERNAME }}
+          SPRING_DATASOURCE_PASSWORD: ${{ secrets.AWS_DB_PASSWORD }}
         working-directory: TechBlogNotificationsScrapper
