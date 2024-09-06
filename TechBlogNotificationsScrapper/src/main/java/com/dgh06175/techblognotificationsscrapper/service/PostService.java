@@ -6,15 +6,13 @@ import com.dgh06175.techblognotificationsscrapper.config.html.Toss;
 import com.dgh06175.techblognotificationsscrapper.config.rss.Kakao;
 import com.dgh06175.techblognotificationsscrapper.config.rss.Woowahan;
 import com.dgh06175.techblognotificationsscrapper.domain.Post;
-import com.dgh06175.techblognotificationsscrapper.exception.ScrapException;
-import com.dgh06175.techblognotificationsscrapper.exception.ScrapHttpException;
-import com.dgh06175.techblognotificationsscrapper.exception.ScrapParsingException;
+import com.dgh06175.techblognotificationsscrapper.exception.*;
 import com.dgh06175.techblognotificationsscrapper.repository.PostRepository;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -41,22 +39,41 @@ public class PostService {
     }
 
     public List<Post> scrapPosts(List<BlogConfig> blogConfigs) throws ScrapException {
-        try {
-            return parse(blogConfigs);
-        } catch (ScrapException e) {
-            logger.warn(e.getMessage());
-            return Collections.emptyList();
+        int MAX_RETRIES = 3;
+        long INITIAL_RETRY_DELAY_SEC = 2;
+        long MAX_RETRY_DELAY_SEC = 3;
+
+        for (int attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+            try {
+                return parse(blogConfigs);
+            } catch (ScrapException e) {
+                logger.warn("시도 횟수 {} 실패: {}", attempt, e.getMessage());
+
+                if (attempt >= MAX_RETRIES) {
+                    logger.error("재시도 실패");
+                    throw e;
+                }
+
+                // 지수 백오프: 재시도 간격을 두 배로 증가시킨다.
+                long delay = Math.min(INITIAL_RETRY_DELAY_SEC * (long) Math.pow(2, attempt - 1), MAX_RETRY_DELAY_SEC);
+
+                try {
+                    TimeUnit.SECONDS.sleep(delay);
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
+                    throw new ScrapException(ie.toString(), ErrorMessage.THREAD_INTERRUPT_EXCEPTION);
+                }
+            }
         }
+
+        throw new ScrapException("", ErrorMessage.UNEXPECTED_CONDITION_EXCEPTION);
     }
 
     private List<Post> parse(List<BlogConfig> blogConfigs) throws ScrapException {
         List<Post> scrapedPosts = new ArrayList<>();
         for (BlogConfig blogConfig : blogConfigs) {
             try {
-                Document document = Jsoup.connect(blogConfig.getBlogUrl())
-                        .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
-                        .header("Referer", "https://techblog.woowahan.com/")
-                        .get();
+                Document document = Jsoup.connect(blogConfig.getBlogUrl()).get();
                 Elements items = document.select(blogConfig.getListTagName());
                 if (items.isEmpty()) {
                     throw new ScrapParsingException(blogConfig.getBlogUrl());
