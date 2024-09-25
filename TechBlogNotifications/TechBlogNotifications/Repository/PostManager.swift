@@ -17,8 +17,11 @@ class PostManager {
     private var currentPage: Int = 0
     
     private(set) var posts: [Post] = []
+    
+    private let bookmarkManager = BookmarkManager()
 
     var isLoading: Bool = true
+    
     
     // 데이터가 앱 시작시 한번만 불러와져도 되므로 init 에서 작성하고 App 시작시 초기화되도록 함
     init() {
@@ -43,7 +46,8 @@ class PostManager {
             let decoder = JSONDecoder()
             decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
             let fetchedPosts = try decoder.decode([PostDTO].self, from: data)
-            let newPosts = fetchedPosts.map { Post(from: $0) }
+//            let newPosts = fetchedPosts.map { Post(from: $0) }
+            let newPosts = fetchedPosts.map { Post(from: $0, isWatched: false, isBookmarked: bookmarkManager.isBookmarked(id: $0.id)) }
             self.posts.append(contentsOf: newPosts)
             self.isLoading = false
         } catch {
@@ -60,5 +64,18 @@ class PostManager {
         } catch {
             print("페이지를 로드하는 중 오류 발생: \(error)")
         }
+    }
+    
+    func toggleBookmark(for post: Post) {
+        post.isBookmarked.toggle()
+        if post.isBookmarked {
+            bookmarkManager.saveBookmark(post: post)
+        } else {
+            bookmarkManager.removeBookmark(post: post)
+        }
+    }
+    
+    func getBookmarkedPosts() -> [Post] {
+        bookmarkManager.fetchBookmarkedPosts(from: posts)
     }
 }

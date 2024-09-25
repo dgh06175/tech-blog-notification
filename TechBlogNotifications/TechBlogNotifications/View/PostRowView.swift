@@ -9,6 +9,8 @@ import SwiftUI
 import SafariServices
 
 struct PostRowView: View {
+    @Environment(PostManager.self) private var postManager
+    
     var post: Post
     
     var body: some View {
@@ -31,20 +33,20 @@ struct PostRowView: View {
 }
 
 struct PostDetailView: View {
-    var post: Post
-    @State private var isShareSheetPresented = false
     @Environment(PostManager.self) private var postManager
-
+    @State private var isShareSheetPresented = false
+    var post: Post
+    
     var body: some View {
         WebView(url: URL(string: post.link)!)
             .toolbar {
-//                ToolbarItem(placement: .navigationBarTrailing) {
-//                    Button(action: {
-//                        postManager.toggleBookmark(for: post) // 북마크 상태 토글
-//                    }) {
-//                        Image(systemName: post.isBookmarked ? "bookmark.fill" : "bookmark")
-//                    }
-//                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        postManager.toggleBookmark(for: post) // 북마크 상태 토글
+                    }) {
+                        Image(systemName: post.isBookmarked ? "bookmark.fill" : "bookmark")
+                    }
+                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     ShareLink(item: URL(string: post.link)!)
                 }

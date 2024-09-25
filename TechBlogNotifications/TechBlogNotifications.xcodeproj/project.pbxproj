@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		558E012D2CA4291A000CC839 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558E012C2CA42917000CC839 /* Post.swift */; };
+		558E01312CA43FC7000CC839 /* BookmarkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558E01302CA43FC0000CC839 /* BookmarkManager.swift */; };
 		55AB4CC42C1697B100BCD34A /* TechBlogNotificationsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AB4CC32C1697B100BCD34A /* TechBlogNotificationsApp.swift */; };
 		55AB4CE42C16980300BCD34A /* PostManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AB4CD22C16980200BCD34A /* PostManager.swift */; };
 		55AB4CE52C16980300BCD34A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AB4CD42C16980200BCD34A /* Constants.swift */; };
@@ -27,6 +28,7 @@
 /* Begin PBXFileReference section */
 		551234992C89844100B7199C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		558E012C2CA42917000CC839 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		558E01302CA43FC0000CC839 /* BookmarkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkManager.swift; sourceTree = "<group>"; };
 		55AB4CC02C1697B100BCD34A /* TechBlogNotifications.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TechBlogNotifications.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		55AB4CC32C1697B100BCD34A /* TechBlogNotificationsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechBlogNotificationsApp.swift; sourceTree = "<group>"; };
 		55AB4CC72C1697B200BCD34A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 		55AB4CD32C16980200BCD34A /* Repository */ = {
 			isa = PBXGroup;
 			children = (
+				558E01302CA43FC0000CC839 /* BookmarkManager.swift */,
 				55AB4CD22C16980200BCD34A /* PostManager.swift */,
 			);
 			name = Repository;
@@ -266,6 +269,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				55AB4CE72C16980300BCD34A /* BookmarkView.swift in Sources */,
+				558E01312CA43FC7000CC839 /* BookmarkManager.swift in Sources */,
 				55AB4CEC2C16980300BCD34A /* PostDTO.swift in Sources */,
 				55AB4CEB2C16980300BCD34A /* WebView.swift in Sources */,
 				55AB4CEE2C16980300BCD34A /* Date+.swift in Sources */,

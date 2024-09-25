@@ -24,15 +24,6 @@ struct MainView: View {
                         if let posts = groupedPosts[key] {
                             ForEach(posts) { post in
                                 PostRowView(post: post)
-                                // TODO: 북마크
-//                                    .swipeActions(edge: .leading) {
-//                                        Button(action: {
-//                                            postManager.toggleBookmark(for: post)
-//                                        }) {
-//                                            Image(systemName: post.isBookmarked ? "bookmark.fill" : "bookmark")
-//                                        }
-//                                    }
-//                                    .tint(.orange)
                             }
                         } else {
                             Text("게시글 없음")
@@ -88,14 +79,13 @@ struct MainView: View {
             //                .padding()
             //                .presentationDetents([.height(240)])
             //            }
-            // TODO: 북마크
-//            .toolbar {
-//                ToolbarItem(placement: .topBarTrailing) {
-//                    NavigationLink(destination: BookmarkView()) {
-//                        Image(systemName: "bookmark")
-//                    }
-//                }
-//            }
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink(destination: BookmarkView()) {
+                        Image(systemName: "book")
+                    }
+                }
+            }
         }
     }
 }
