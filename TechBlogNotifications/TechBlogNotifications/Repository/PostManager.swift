@@ -17,7 +17,7 @@ class PostManager {
     private var currentPage: Int = 0
     
     private(set) var posts: [Post] = []
-    //    private(set) var posts: [Post] = MockData.placeHolderPosts
+
     var isLoading: Bool = true
     
     // 데이터가 앱 시작시 한번만 불러와져도 되므로 init 에서 작성하고 App 시작시 초기화되도록 함
@@ -28,14 +28,6 @@ class PostManager {
             } catch {
                 print("\(error) 예외 발생")
             }
-        }
-    }
-    
-    // 임시 받아오기
-    private func fetchMockPosts() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            self.posts = MockData.placeHolderPosts
-            self.isLoading = false
         }
     }
     
@@ -50,10 +42,9 @@ class PostManager {
             let (data, _) = try await URLSession.shared.data(from: url)
             let decoder = JSONDecoder()
             decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
-            let fetchedPosts = try decoder.decode([Post].self, from: data)
-            
-            //            self.posts = fetchedPosts
-            self.posts.append(contentsOf: fetchedPosts)
+            let fetchedPosts = try decoder.decode([PostDTO].self, from: data)
+            let newPosts = fetchedPosts.map { Post(from: $0) }
+            self.posts.append(contentsOf: newPosts)
             self.isLoading = false
         } catch {
             print("디코딩 오류: \(error)")

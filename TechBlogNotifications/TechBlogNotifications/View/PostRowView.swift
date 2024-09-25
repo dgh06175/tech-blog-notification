@@ -6,30 +6,55 @@
 //
 
 import SwiftUI
+import SafariServices
 
 struct PostRowView: View {
     var post: Post
     
     var body: some View {
-        NavigationLink {
-            WebView(url: URL(string: post.link)!)
-        } label: {
-            VStack(alignment: .leading, spacing: 10) {
-                HStack {
-                    Text("\(post.blogName)")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                    Spacer()
-                    Text(post.pubDate, format: Date.FormatStyle(date: .numeric, time: .omitted))
-                        .font(.caption)
-                        .foregroundColor(.gray)
-                }
+        NavigationLink(destination: PostDetailView(post: post)) {
+            VStack(alignment: .leading, spacing: 12) {
                 Text(post.title)
                     .font(.headline)
                     .fontWeight(.bold)
+                HStack {
+                    Image("\(post.blogName)_favicon")
+                    Text("\(post.blogName)")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                }
             }
+            .padding(.vertical, 4)
+            .padding(.trailing, 12)
         }
-        
+    }
+}
+
+struct PostDetailView: View {
+    var post: Post
+    @State private var isShareSheetPresented = false
+    @Environment(PostManager.self) private var postManager
+
+    var body: some View {
+        WebView(url: URL(string: post.link)!)
+            .toolbar {
+//                ToolbarItem(placement: .navigationBarTrailing) {
+//                    Button(action: {
+//                        postManager.toggleBookmark(for: post) // 북마크 상태 토글
+//                    }) {
+//                        Image(systemName: post.isBookmarked ? "bookmark.fill" : "bookmark")
+//                    }
+//                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        if let url = URL(string: post.link) {
+                            UIApplication.shared.open(url)
+                        }
+                    }) {
+                        Image(systemName: "safari")
+                    }
+                }
+            }
     }
 }
 

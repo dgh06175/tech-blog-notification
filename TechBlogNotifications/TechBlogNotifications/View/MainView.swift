@@ -9,8 +9,8 @@ import SwiftUI
 
 struct MainView: View {
     @Environment(PostManager.self) private var postManager
-    @State var selectedHour: Int = 9
-    @State private var isPickerPresented = false
+    //    @State var selectedHour: Int = 9
+    //    @State private var isPickerPresented = false
     
     var groupedPosts: [String: [Post]] {
         groupPostsByDate(posts: postManager.posts)
@@ -24,19 +24,19 @@ struct MainView: View {
                         if let posts = groupedPosts[key] {
                             ForEach(posts) { post in
                                 PostRowView(post: post)
+                                // TODO: 북마크
+//                                    .swipeActions(edge: .leading) {
+//                                        Button(action: {
+//                                            postManager.toggleBookmark(for: post)
+//                                        }) {
+//                                            Image(systemName: post.isBookmarked ? "bookmark.fill" : "bookmark")
+//                                        }
+//                                    }
+//                                    .tint(.orange)
                             }
                         } else {
                             Text("게시글 없음")
                         }
-                        //                        .swipeActions(edge: .leading) {
-                        //                            Button(action: {
-                        //                                // TODO: 북마크
-                        //                                print("Bookmark!")
-                        //                            }) {
-                        //                                Label("Star", systemImage: "star")
-                        //                            }
-                        //                        }
-                        //                        .tint(.orange)
                     } header: {
                         Text(key)
                     }
@@ -50,7 +50,6 @@ struct MainView: View {
                         }
                 }
             }
-            .listStyle(.plain)
             .disabled(postManager.isLoading)
             .redacted(reason: postManager.isLoading ? .placeholder : [])
             .navigationTitle(Constants.Messages.HOME_TITLE)
@@ -90,13 +89,13 @@ struct MainView: View {
             //                .presentationDetents([.height(240)])
             //            }
             // TODO: 북마크
-            //            .toolbar {
-            //                ToolbarItem(placement: .topBarTrailing) {
-            //                    NavigationLink(destination: BookmarkView()) {
-            //                        Image(systemName: "bookmark")
-            //                    }
-            //                }
-            //            }
+//            .toolbar {
+//                ToolbarItem(placement: .topBarTrailing) {
+//                    NavigationLink(destination: BookmarkView()) {
+//                        Image(systemName: "bookmark")
+//                    }
+//                }
+//            }
         }
     }
 }

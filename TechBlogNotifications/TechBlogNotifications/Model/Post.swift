@@ -1,13 +1,13 @@
 //
-//  Item.swift
+//  Post.swift
 //  TechBlogNotifications
 //
-//  Created by 이상현 on 5/29/24.
+//  Created by 이상현 on 9/25/24.
 //
 
 import Foundation
 
-struct Post: Identifiable, Decodable {
+class Post: Identifiable {
     var id: Int64
     var link: String
     var blogName: String
@@ -15,17 +15,26 @@ struct Post: Identifiable, Decodable {
     var pubDate: Date
     var scrapedDate: Date
     
-    enum CodingKeys: String, CodingKey {
-        case id
-        case link
-        case blogName
-        case title
-        case pubDate
-        case scrapedDate
+    var isWatched: Bool = false
+    var isBookmarked: Bool = false
+    
+    init(from dto: PostDTO) {
+        self.id = dto.id
+        self.link = dto.link
+        self.blogName = dto.blogName
+        self.title = dto.title
+        self.pubDate = dto.pubDate
+        self.scrapedDate = dto.scrapedDate
+    }
+    
+    init(id: Int64, link: String, blogName: String, title: String, pubDate: Date, scrapedDate: Date, isWatched: Bool, isBookmarked: Bool) {
+        self.id = id
+        self.link = link
+        self.blogName = blogName
+        self.title = title
+        self.pubDate = pubDate
+        self.scrapedDate = scrapedDate
+        self.isWatched = isWatched
+        self.isBookmarked = isBookmarked
     }
 }
-
-//var isBookMark: Bool
-//var bookMarkCount: Int
-//var isSeen: Bool
-//var tags: [String]
