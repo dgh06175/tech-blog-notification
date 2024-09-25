@@ -7,6 +7,7 @@
 
 import Foundation
 
+@Observable
 class Post: Identifiable {
     var id: Int64
     var link: String

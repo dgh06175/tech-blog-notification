@@ -46,13 +46,7 @@ struct PostDetailView: View {
 //                    }
 //                }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        if let url = URL(string: post.link) {
-                            UIApplication.shared.open(url)
-                        }
-                    }) {
-                        Image(systemName: "safari")
-                    }
+                    ShareLink(item: URL(string: post.link)!)
                 }
             }
     }
