@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-// MARK: PostRowView
 struct PostRowView: View {
     var post: Post
     

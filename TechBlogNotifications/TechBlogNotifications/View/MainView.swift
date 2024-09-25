@@ -50,43 +50,45 @@ struct MainView: View {
                         }
                 }
             }
+            .listStyle(.plain)
             .disabled(postManager.isLoading)
             .redacted(reason: postManager.isLoading ? .placeholder : [])
             .navigationTitle(Constants.Messages.HOME_TITLE)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button(action: { isPickerPresented.toggle() }, label: {
-                        HStack {
-                            Image(systemName: "bell")
-                            if selectedHour <= 12 {
-                                Text("\(selectedHour) AM")
-                            } else {
-                                Text("\(selectedHour - 12) PM")
-                            }
-                        }
-                    })
-                }
-            }
-            .sheet(isPresented: $isPickerPresented) {
-                VStack {
-                    Text("알림 시간을 선택하세요")
-                        .font(.headline)
-                    Picker("알림 시간", selection: $selectedHour) {
-                        ForEach(0..<24) { hour in
-                            Text("\(hour)시").tag(hour)
-                        }
-                    }
-                    .pickerStyle(WheelPickerStyle())
-                    .labelsHidden()
-                    .frame(height: 150)
-                    .clipped()
-                    Button("확인") {
-                        isPickerPresented = false
-                    }
-                }
-                .padding()
-                .presentationDetents([.height(240)])
-            }
+            // TODO: 알림 툴바
+            //            .toolbar {
+            //                ToolbarItem(placement: .topBarTrailing) {
+            //                    Button(action: { isPickerPresented.toggle() }, label: {
+            //                        HStack {
+            //                            Image(systemName: "bell")
+            //                            if selectedHour <= 12 {
+            //                                Text("\(selectedHour) AM")
+            //                            } else {
+            //                                Text("\(selectedHour - 12) PM")
+            //                            }
+            //                        }
+            //                    })
+            //                }
+            //            }
+            //            .sheet(isPresented: $isPickerPresented) {
+            //                VStack {
+            //                    Text("알림 시간을 선택하세요")
+            //                        .font(.headline)
+            //                    Picker("알림 시간", selection: $selectedHour) {
+            //                        ForEach(0..<24) { hour in
+            //                            Text("\(hour)시").tag(hour)
+            //                        }
+            //                    }
+            //                    .pickerStyle(WheelPickerStyle())
+            //                    .labelsHidden()
+            //                    .frame(height: 150)
+            //                    .clipped()
+            //                    Button("확인") {
+            //                        isPickerPresented = false
+            //                    }
+            //                }
+            //                .padding()
+            //                .presentationDetents([.height(240)])
+            //            }
             // TODO: 북마크
             //            .toolbar {
             //                ToolbarItem(placement: .topBarTrailing) {
