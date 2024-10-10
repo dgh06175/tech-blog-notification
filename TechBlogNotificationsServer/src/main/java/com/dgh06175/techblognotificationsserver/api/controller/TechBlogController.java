@@ -1,14 +1,12 @@
-package com.dgh06175.techblognotificationsserver.controller;
+package com.dgh06175.techblognotificationsserver.api.controller;
 
-import com.dgh06175.techblognotificationsserver.domain.Post;
-import com.dgh06175.techblognotificationsserver.repository.AllPostRepository;
-import com.dgh06175.techblognotificationsserver.repository.PostRepository;
+import com.dgh06175.techblognotificationsserver.api.domain.Post;
+import com.dgh06175.techblognotificationsserver.api.repository.AllPostRepository;
+import com.dgh06175.techblognotificationsserver.api.repository.PostRepository;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

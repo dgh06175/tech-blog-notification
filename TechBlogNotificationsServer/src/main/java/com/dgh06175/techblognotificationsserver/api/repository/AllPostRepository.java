@@ -1,6 +1,6 @@
-package com.dgh06175.techblognotificationsserver.repository;
+package com.dgh06175.techblognotificationsserver.api.repository;
 
-import com.dgh06175.techblognotificationsserver.domain.Post;
+import com.dgh06175.techblognotificationsserver.api.domain.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AllPostRepository extends JpaRepository<Post, Long> {

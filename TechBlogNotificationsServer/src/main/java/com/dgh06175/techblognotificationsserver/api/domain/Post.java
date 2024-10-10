@@ -1,4 +1,4 @@
-package com.dgh06175.techblognotificationsserver.domain;
+package com.dgh06175.techblognotificationsserver.api.domain;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
