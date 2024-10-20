@@ -12,7 +12,7 @@ final public class Woowahan implements BlogConfig {
 
     @Override
     public String getBlogUrl() {
-        return "https://techblog.woowahan.com/feed/";
+        return "https://techblog.woowahan.com/rss/";
     }
 
     @Override
