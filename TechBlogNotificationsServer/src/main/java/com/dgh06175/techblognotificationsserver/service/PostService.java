@@ -6,7 +6,9 @@ import com.dgh06175.techblognotificationsserver.config.html.Toss;
 import com.dgh06175.techblognotificationsserver.config.rss.Kakao;
 import com.dgh06175.techblognotificationsserver.config.rss.Woowahan;
 import com.dgh06175.techblognotificationsserver.domain.Post;
-import com.dgh06175.techblognotificationsserver.exception.*;
+import com.dgh06175.techblognotificationsserver.exception.ErrorMessage;
+import com.dgh06175.techblognotificationsserver.exception.ScrapException;
+import com.dgh06175.techblognotificationsserver.exception.ScrapParsingException;
 import com.dgh06175.techblognotificationsserver.repository.PostRepository;
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -78,6 +80,7 @@ public class PostService {
 
     private List<Post> parse(List<BlogConfig> blogConfigs) throws ScrapException {
         List<Post> scrapedPosts = new ArrayList<>();
+
         for (BlogConfig blogConfig : blogConfigs) {
             try {
                 Document document = Jsoup.connect(blogConfig.getBlogUrl()).get();
@@ -95,14 +98,18 @@ public class PostService {
                     }
                 }
             } catch (UnknownHostException e2) {
-                throw new ScrapHttpException(blogConfig.getBlogUrl());
+                log.warn("블로그 {}에 연결할 수 없음: {}", blogConfig.getBlogUrl(), e2.getMessage());
+//                throw new ScrapHttpException(blogConfig.getBlogUrl());
             } catch (IOException e) {
-                throw new ScrapException(e.getLocalizedMessage());
+                log.warn("블로그 {}에서 IO 예외 발생: {}", blogConfig.getBlogUrl(), e.getMessage());
+//                throw new ScrapException(e.getLocalizedMessage());
+            } catch (ScrapParsingException e) {
+                log.warn("블로그 {}에서 파싱 예외 발생: {}", blogConfig.getBlogUrl(), e.getMessage());
             }
         }
-
         return scrapedPosts;
     }
+
 
     public void savePosts(List<Post> scrapedPosts) {
         System.out.printf("스크랩한 게시글 개수: %d\n", scrapedPosts.size());
@@ -161,7 +168,7 @@ public class PostService {
                 .toList();
 
         // 결과 출력
-        for (var missingLink: missingLinks) {
+        for (var missingLink : missingLinks) {
             System.out.println(missingLink);
         }
         System.out.printf("스크랩 결과에 없는 게시글 개수: %d\n", missingLinks.size());
