@@ -2,6 +2,7 @@ package com.dgh06175.techblognotificationsserver.service;
 
 
 import com.dgh06175.techblognotificationsserver.config.BlogConfig;
+import com.dgh06175.techblognotificationsserver.config.html.Inflab;
 import com.dgh06175.techblognotificationsserver.config.html.Toss;
 import com.dgh06175.techblognotificationsserver.config.rss.Kakao;
 import com.dgh06175.techblognotificationsserver.config.rss.Woowahan;
@@ -43,18 +44,19 @@ public class PostService {
         tmpConfigs.add(new Toss());
         tmpConfigs.add(new Woowahan());
         tmpConfigs.add(new Kakao());
+        tmpConfigs.add(new Inflab());
 
         return tmpConfigs;
     }
 
-    public List<Post> scrapPosts(List<BlogConfig> blogConfigs) throws ScrapException {
+    public List<Post> scrapPosts(BlogConfig blogConfig) throws ScrapException {
         int MAX_RETRIES = 3;
         long INITIAL_RETRY_DELAY_SEC = 2;
         long MAX_RETRY_DELAY_SEC = 3;
 
         for (int attempt = 1; attempt <= MAX_RETRIES; attempt++) {
             try {
-                return parse(blogConfigs);
+                return parse(blogConfig);
             } catch (ScrapException e) {
                 log.warn("시도 횟수 {} 실패: {}", attempt, e.getMessage());
 
@@ -78,34 +80,29 @@ public class PostService {
         throw new ScrapException("", ErrorMessage.UNEXPECTED_CONDITION_EXCEPTION);
     }
 
-    private List<Post> parse(List<BlogConfig> blogConfigs) throws ScrapException {
+    private List<Post> parse(BlogConfig blogConfig) throws ScrapException {
         List<Post> scrapedPosts = new ArrayList<>();
-
-        for (BlogConfig blogConfig : blogConfigs) {
-            try {
-                Document document = Jsoup.connect(blogConfig.getBlogUrl()).get();
-                Elements items = document.select(blogConfig.getListTagName());
-                if (items.isEmpty()) {
-                    throw new ScrapParsingException(blogConfig.getBlogUrl());
-                } else {
-                    for (Element item : items) {
-                        Post post = blogConfig.parseElement(item);
-                        if (post.getTitle().isEmpty() || post.getLink().equals(blogConfig.getBlogUrl())) {
-                            post.printPost();
-                            throw new ScrapParsingException(blogConfig.getBlogUrl());
-                        }
-                        scrapedPosts.add(post);
+        try {
+            Document document = Jsoup.connect(blogConfig.getBlogUrl()).get();
+            Elements items = document.select(blogConfig.getListTagName());
+            if (items.isEmpty()) {
+                throw new ScrapParsingException(blogConfig.getBlogUrl());
+            } else {
+                for (Element item : items) {
+                    Post post = blogConfig.parseElement(item);
+                    if (post.getTitle().isEmpty() || post.getLink().equals(blogConfig.getBlogUrl())) {
+                        post.print();
+                        throw new ScrapParsingException(blogConfig.getBlogUrl());
                     }
+                    scrapedPosts.add(post);
                 }
-            } catch (UnknownHostException e2) {
-                log.warn("블로그 {}에 연결할 수 없음: {}", blogConfig.getBlogUrl(), e2.getMessage());
-//                throw new ScrapHttpException(blogConfig.getBlogUrl());
-            } catch (IOException e) {
-                log.warn("블로그 {}에서 IO 예외 발생: {}", blogConfig.getBlogUrl(), e.getMessage());
-//                throw new ScrapException(e.getLocalizedMessage());
-            } catch (ScrapParsingException e) {
-                log.warn("블로그 {}에서 파싱 예외 발생: {}", blogConfig.getBlogUrl(), e.getMessage());
             }
+        } catch (UnknownHostException e2) {
+            log.warn("블로그 {}에 연결할 수 없음: {}", blogConfig.getBlogUrl(), e2.getMessage());
+        } catch (IOException e) {
+            log.warn("블로그 {}에서 IO 예외 발생: {}", blogConfig.getBlogUrl(), e.getMessage());
+        } catch (ScrapParsingException e) {
+            log.warn("블로그 {}에서 파싱 예외 발생: {}", blogConfig.getBlogUrl(), e.getMessage());
         }
         return scrapedPosts;
     }
@@ -141,7 +138,7 @@ public class PostService {
     private void printPosts(List<Post> posts) {
         for (Post post : posts) {
             System.out.println("\n포스트 저장됨: " + post.getLink());
-            post.printPost();
+            post.print();
         }
     }
 

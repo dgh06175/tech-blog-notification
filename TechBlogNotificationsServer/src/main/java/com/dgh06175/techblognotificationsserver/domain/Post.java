@@ -1,10 +1,16 @@
 package com.dgh06175.techblognotificationsserver.domain;
 
 import com.dgh06175.techblognotificationsserver.utils.DateParser;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import java.time.LocalDate;
 import java.util.Objects;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -36,7 +42,7 @@ public class Post {
         this.pubDate = DateParser.parseDate(dateString);
     }
 
-    public void printPost() {
+    public void print() {
         System.out.printf("blogName: %s%n", blogName);
         System.out.printf("title: %s%n", title);
         System.out.printf("link: %s%n", link);
