@@ -22,7 +22,7 @@ struct MainView: View {
                 ForEach(groupedPosts.keys.sorted().reversed(), id: \.self) { key in
                     Section {
                         if let posts = groupedPosts[key] {
-                            ForEach(posts) { post in
+                            ForEach(Array(posts.enumerated()), id: \.offset) { index, post in
                                 PostRowView(post: post)
                             }
                         } else {
