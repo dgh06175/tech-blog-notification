@@ -20,7 +20,7 @@ struct PostRowView: View {
                     .font(.headline)
                     .fontWeight(.bold)
                 HStack {
-                    CachedAsyncImage(url: URL(string: FavIcon(post.baseUrl)[.s]))
+                    CachedAsyncImage(url: URL(string: FavIcon(post.baseUrl)[.l]))
                         .frame(width: 16, height: 16)
                     Text("\(post.blogName)")
                         .font(.subheadline)
