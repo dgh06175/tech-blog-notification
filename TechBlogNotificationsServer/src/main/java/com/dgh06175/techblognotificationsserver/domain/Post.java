@@ -47,6 +47,7 @@ public class Post {
         System.out.printf("title: %s%n", title);
         System.out.printf("link: %s%n", link);
         System.out.printf("pubDate: %s%n", pubDate != null ? pubDate.toString() : "N/A");
+        System.out.println();
     }
 
     // MARK: - 링크가 동일한 게시물을 같은 게시물로 취급함.

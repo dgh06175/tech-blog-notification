@@ -3,6 +3,7 @@ package com.dgh06175.techblognotificationsserver.service;
 
 import com.dgh06175.techblognotificationsserver.config.BlogConfig;
 import com.dgh06175.techblognotificationsserver.config.html.Inflab;
+import com.dgh06175.techblognotificationsserver.config.html.KakaoBank;
 import com.dgh06175.techblognotificationsserver.config.html.Toss;
 import com.dgh06175.techblognotificationsserver.config.rss.Kakao;
 import com.dgh06175.techblognotificationsserver.config.rss.Woowahan;
@@ -45,6 +46,7 @@ public class PostService {
         tmpConfigs.add(new Woowahan());
         tmpConfigs.add(new Kakao());
         tmpConfigs.add(new Inflab());
+        tmpConfigs.add(new KakaoBank());
 
         return tmpConfigs;
     }
@@ -77,7 +79,7 @@ public class PostService {
             }
         }
 
-        throw new ScrapException("", ErrorMessage.UNEXPECTED_CONDITION_EXCEPTION);
+        throw new ScrapException("", ErrorMessage.UNEXPECTED_RETRY_CONDITION_EXCEPTION);
     }
 
     private List<Post> parse(BlogConfig blogConfig) throws ScrapException {
