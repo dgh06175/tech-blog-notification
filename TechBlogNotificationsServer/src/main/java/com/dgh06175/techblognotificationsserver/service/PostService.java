@@ -99,19 +99,19 @@ public class PostService {
                     scrapedPosts.add(post);
                 }
             }
-        } catch (UnknownHostException e2) {
-            log.warn("블로그 {}에 연결할 수 없음: {}", blogConfig.getBlogUrl(), e2.getMessage());
+        } catch (UnknownHostException e) {
+            log.warn("블로그 {}에 연결할 수 없음: {}", blogConfig.getBlogName(), e.getMessage());
         } catch (IOException e) {
-            log.warn("블로그 {}에서 IO 예외 발생: {}", blogConfig.getBlogUrl(), e.getMessage());
+            log.warn("블로그 {}에서 IO 예외 발생: {}", blogConfig.getBlogName(), e.getMessage());
         } catch (ScrapParsingException e) {
-            log.warn("블로그 {}에서 파싱 예외 발생: {}", blogConfig.getBlogUrl(), e.getMessage());
+            log.warn("블로그 {}에서 파싱 예외 발생: {}", blogConfig.getBlogName(), e.getMessage());
         }
         return scrapedPosts;
     }
 
 
     public void savePosts(List<Post> scrapedPosts) {
-        System.out.printf("스크랩한 게시글 개수: %d\n", scrapedPosts.size());
+        log.info("스크랩한 게시글 개수: {}\n", scrapedPosts.size());
         List<String> scrapedLinks = scrapedPosts.stream()
                 .map(Post::getLink)
                 .toList();
@@ -121,16 +121,17 @@ public class PostService {
                 .map(Post::getLink)
                 .toList();
 
-        System.out.printf("겹치는 게시글 개수: %d\n", duplicateLinks.size());
+        
+        log.info("겹치는 게시글 개수: {}\n", duplicateLinks.size());
 
         List<Post> newPosts = scrapedPosts.stream()
                 .filter(post -> !duplicateLinks.contains(post.getLink()))
                 .toList();
 
-        System.out.printf("새로운 게시글 개수: %d\n", newPosts.size());
+        log.info("새로운 게시글 개수: {}\n", newPosts.size());
 
         if (newPosts.isEmpty()) {
-            System.out.println("저장할 새로운 포스트가 없습니다.");
+            log.info("저장할 새로운 포스트가 없습니다.");
             return;
         }
         printPosts(newPosts);
@@ -139,14 +140,14 @@ public class PostService {
 
     private void printPosts(List<Post> posts) {
         for (Post post : posts) {
-            System.out.println("\n포스트 저장됨: " + post.getLink());
+            log.info("\n포스트 저장됨: {}", post.getLink());
             post.print();
         }
     }
 
     private void saveNewPosts(List<Post> newPosts) {
         postRepository.saveAll(newPosts);
-        System.out.printf("%d 개의 포스트 저장됨\n", newPosts.size());
+        log.info("{} 개의 포스트 저장됨\n", newPosts.size());
     }
 
     public void printMissingPostsCount(List<Post> scrapedPosts) {
@@ -168,8 +169,8 @@ public class PostService {
 
         // 결과 출력
         for (var missingLink : missingLinks) {
-            System.out.println(missingLink);
+            log.info(missingLink);
         }
-        System.out.printf("스크랩 결과에 없는 게시글 개수: %d\n", missingLinks.size());
+        log.info("스크랩 결과에 없는 게시글 개수: {}\n", missingLinks.size());
     }
 }
