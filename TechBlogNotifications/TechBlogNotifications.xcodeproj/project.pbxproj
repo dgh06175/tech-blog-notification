@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		55445BC82CF014FA005B6CBD /* FavIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55445BC72CF014FA005B6CBD /* FavIcon.swift */; };
+		558E012D2CA4291A000CC839 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558E012C2CA42917000CC839 /* Post.swift */; };
+		558E01312CA43FC7000CC839 /* BookmarkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558E01302CA43FC0000CC839 /* BookmarkManager.swift */; };
 		55AB4CC42C1697B100BCD34A /* TechBlogNotificationsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AB4CC32C1697B100BCD34A /* TechBlogNotificationsApp.swift */; };
-		55AB4CC82C1697B200BCD34A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55AB4CC72C1697B200BCD34A /* Assets.xcassets */; };
-		55AB4CCC2C1697B200BCD34A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55AB4CCB2C1697B200BCD34A /* Preview Assets.xcassets */; };
 		55AB4CE42C16980300BCD34A /* PostManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AB4CD22C16980200BCD34A /* PostManager.swift */; };
 		55AB4CE52C16980300BCD34A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AB4CD42C16980200BCD34A /* Constants.swift */; };
 		55AB4CE62C16980300BCD34A /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AB4CD52C16980200BCD34A /* MockData.swift */; };
@@ -18,7 +19,7 @@
 		55AB4CE92C16980300BCD34A /* PostRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AB4CD92C16980300BCD34A /* PostRowView.swift */; };
 		55AB4CEA2C16980300BCD34A /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AB4CDA2C16980300BCD34A /* SettingView.swift */; };
 		55AB4CEB2C16980300BCD34A /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AB4CDB2C16980300BCD34A /* WebView.swift */; };
-		55AB4CEC2C16980300BCD34A /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AB4CDD2C16980300BCD34A /* Post.swift */; };
+		55AB4CEC2C16980300BCD34A /* PostDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AB4CDD2C16980300BCD34A /* PostDTO.swift */; };
 		55AB4CED2C16980300BCD34A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55AB4CDF2C16980300BCD34A /* Assets.xcassets */; };
 		55AB4CEE2C16980300BCD34A /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AB4CE02C16980300BCD34A /* Date+.swift */; };
 		55AB4CEF2C16980300BCD34A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55AB4CE22C16980300BCD34A /* Preview Assets.xcassets */; };
@@ -27,6 +28,9 @@
 
 /* Begin PBXFileReference section */
 		551234992C89844100B7199C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		55445BC72CF014FA005B6CBD /* FavIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavIcon.swift; sourceTree = "<group>"; };
+		558E012C2CA42917000CC839 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		558E01302CA43FC0000CC839 /* BookmarkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkManager.swift; sourceTree = "<group>"; };
 		55AB4CC02C1697B100BCD34A /* TechBlogNotifications.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TechBlogNotifications.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		55AB4CC32C1697B100BCD34A /* TechBlogNotificationsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechBlogNotificationsApp.swift; sourceTree = "<group>"; };
 		55AB4CC72C1697B200BCD34A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -40,7 +44,7 @@
 		55AB4CD92C16980300BCD34A /* PostRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostRowView.swift; sourceTree = "<group>"; };
 		55AB4CDA2C16980300BCD34A /* SettingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		55AB4CDB2C16980300BCD34A /* WebView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
-		55AB4CDD2C16980300BCD34A /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		55AB4CDD2C16980300BCD34A /* PostDTO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostDTO.swift; sourceTree = "<group>"; };
 		55AB4CDF2C16980300BCD34A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = TechBlogNotifications/Assets.xcassets; sourceTree = "<group>"; };
 		55AB4CE02C16980300BCD34A /* Date+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		55AB4CE22C16980300BCD34A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -105,6 +109,7 @@
 		55AB4CD32C16980200BCD34A /* Repository */ = {
 			isa = PBXGroup;
 			children = (
+				558E01302CA43FC0000CC839 /* BookmarkManager.swift */,
 				55AB4CD22C16980200BCD34A /* PostManager.swift */,
 			);
 			name = Repository;
@@ -129,6 +134,7 @@
 				55AB4CD92C16980300BCD34A /* PostRowView.swift */,
 				55AB4CDA2C16980300BCD34A /* SettingView.swift */,
 				55AB4CDB2C16980300BCD34A /* WebView.swift */,
+				55445BC72CF014FA005B6CBD /* FavIcon.swift */,
 			);
 			name = View;
 			path = TechBlogNotifications/View;
@@ -137,7 +143,8 @@
 		55AB4CDE2C16980300BCD34A /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				55AB4CDD2C16980300BCD34A /* Post.swift */,
+				558E012C2CA42917000CC839 /* Post.swift */,
+				55AB4CDD2C16980300BCD34A /* PostDTO.swift */,
 			);
 			name = Model;
 			path = TechBlogNotifications/Model;
@@ -199,7 +206,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1540;
-				LastUpgradeCheck = 1540;
+				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					55AB4CBF2C1697B100BCD34A = {
 						CreatedOnToolsVersion = 15.4;
@@ -232,9 +239,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				55AB4CEF2C16980300BCD34A /* Preview Assets.xcassets in Resources */,
-				55AB4CCC2C1697B200BCD34A /* Preview Assets.xcassets in Resources */,
 				55AB4CED2C16980300BCD34A /* Assets.xcassets in Resources */,
-				55AB4CC82C1697B200BCD34A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,9 +272,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				55AB4CE72C16980300BCD34A /* BookmarkView.swift in Sources */,
-				55AB4CEC2C16980300BCD34A /* Post.swift in Sources */,
+				558E01312CA43FC7000CC839 /* BookmarkManager.swift in Sources */,
+				55AB4CEC2C16980300BCD34A /* PostDTO.swift in Sources */,
+				55445BC82CF014FA005B6CBD /* FavIcon.swift in Sources */,
 				55AB4CEB2C16980300BCD34A /* WebView.swift in Sources */,
 				55AB4CEE2C16980300BCD34A /* Date+.swift in Sources */,
+				558E012D2CA4291A000CC839 /* Post.swift in Sources */,
 				55AB4CE82C16980300BCD34A /* MainView.swift in Sources */,
 				55AB4CEA2C16980300BCD34A /* SettingView.swift in Sources */,
 				55AB4CC42C1697B100BCD34A /* TechBlogNotificationsApp.swift in Sources */,
@@ -325,6 +333,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -388,6 +397,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -417,14 +427,16 @@
 				CODE_SIGN_ENTITLEMENTS = TechBlogNotifications/TechBlogNotifications.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"TechBlogNotifications/Preview Content\"";
 				DEVELOPMENT_TEAM = 7V4779Q2XR;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TechBlogNotifications/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "기술 블로그 알림";
+				INFOPLIST_KEY_CFBundleDisplayName = "기술 블로그 모음";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.magazines-and-newspapers";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "이미지를 저장하려면 사진 앨범 접근이 필요합니다.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -435,7 +447,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.5;
@@ -459,14 +471,16 @@
 				CODE_SIGN_ENTITLEMENTS = TechBlogNotifications/TechBlogNotifications.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"TechBlogNotifications/Preview Content\"";
 				DEVELOPMENT_TEAM = 7V4779Q2XR;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TechBlogNotifications/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "기술 블로그 알림";
+				INFOPLIST_KEY_CFBundleDisplayName = "기술 블로그 모음";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.magazines-and-newspapers";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "이미지를 저장하려면 사진 앨범 접근이 필요합니다.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -477,7 +491,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.5;
