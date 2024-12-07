@@ -13,7 +13,7 @@ public class Inflab implements BlogConfig {
 
     @Override
     public String getBlogUrl() {
-        return "https://tech.inflab.com/posts";
+        return "https://tech.inflab.com";
     }
 
     @Override
