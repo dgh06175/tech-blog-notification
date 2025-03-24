@@ -100,6 +100,9 @@ extension MainView {
         let now = Date()
         
         for post in posts {
+            if (post.blogName == "Aws") {
+                continue
+            }
             let dateComponentsToNow = calendar.dateComponents([.year, .month, .day], from: post.pubDate, to: now)
             
             let groupKey: String
