@@ -124,7 +124,7 @@ extension MainView {
 
 struct LastListLoadingView: View {
     var body: some View {
-        Text("게시글 로딩중..")
+        Text(Constants.Messages.LOADING)
     }
 }
 

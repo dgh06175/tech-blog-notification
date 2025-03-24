@@ -16,8 +16,9 @@ struct Constants {
     }
     
     struct Messages {
-        static let HOME_TITLE = "기술 블로그 게시글"
+        static let HOME_TITLE = "기술 블로그 모음"
         static let RECENT = "최신"
+        static let LOADING = "게시글 로딩중.."
     }
     
     struct ErrorMessages {
