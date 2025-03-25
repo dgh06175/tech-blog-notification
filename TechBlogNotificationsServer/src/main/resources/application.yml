@@ -3,7 +3,7 @@ spring:
     name: TechBlogNotificationsServer
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
   profiles:
     include: aws
 server:

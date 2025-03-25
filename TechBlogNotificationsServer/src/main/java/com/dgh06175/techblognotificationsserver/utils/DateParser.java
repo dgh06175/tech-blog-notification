@@ -23,7 +23,11 @@ public class DateParser {
             DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss z", Locale.ENGLISH),
             DateTimeFormatter.ofPattern("d MMM yyyy", Locale.ENGLISH),
             DateTimeFormatter.ofPattern("MM/dd/yyyy"),
-            DateTimeFormatter.ofPattern("dd-MM-yyyy")
+            DateTimeFormatter.ofPattern("dd-MM-yyyy"),
+            DateTimeFormatter.ISO_DATE,
+            DateTimeFormatter.ISO_DATE_TIME,
+            DateTimeFormatter.ISO_OFFSET_DATE,
+            DateTimeFormatter.ISO_OFFSET_DATE_TIME
     );
 
     public static LocalDate parseDate(String dateString) {

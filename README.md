@@ -1,8 +1,20 @@
-# Tech Blog Notification
+# 기술 블로그 모음
 
-기술 블로그 새로운 글 알림
+개발 관련 기술 블로그들의 글을 한곳에서 확인하세요.
 
-매일 아침 8시~8시30분 사이에 아래 블로그중 새로운 게시글을 스크랩하여 앱으로 확인할 수 있게 한다.
+<img width="220" src="https://github.com/user-attachments/assets/73d25fa6-989e-40fc-851f-4a5a07135c53">
+
+[<img width="220" src="https://github.com/user-attachments/assets/1e5a21a3-8bc8-40d2-b2d1-e0e75b3b2c0e">](https://apps.apple.com/kr/app/%EA%B8%B0%EC%88%A0-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%AA%A8%EC%9D%8C/id6670539014)
+
+- 여러 기술 블로그의 최신 피드를 매일 업데이트
+- 관심 있는 게시글을 북마크하여 나중에 다시 보기
+- 간편한 인터페이스
+
+`iOS 17.0+` 
+
+`SwiftUI` / `AWS` / `Java Spring`
+
+# 블로그 정보
 
 [Toss](https://toss.tech)
 
@@ -10,9 +22,11 @@
 
 [Kakao](https://tech.kakao.com/blog)
 
-`iOS 17.0+`
+[Inflab](https://tech.inflab.com)
 
-`SwiftUI` / `AWS` / `Java Spring`
+
+---
+
 
 ## 비즈니스 요구사항
 
