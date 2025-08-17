@@ -6,10 +6,16 @@
 //
 
 import SwiftUI
+import FirebaseCore
 
 @main
 struct TeckBlogNotificationsApp: App {
-    @State var postManager: PostManager = PostManager()
+    @State var postManager: PostManager
+    
+    init() {
+        FirebaseApp.configure()
+        self._postManager = State(initialValue: PostManager())
+    }
     
     var body: some Scene {
         WindowGroup {

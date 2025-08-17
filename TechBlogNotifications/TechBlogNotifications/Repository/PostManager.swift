@@ -6,19 +6,22 @@
 //
 
 import Foundation
+import FirebaseFirestore
 
 @Observable
 class PostManager {
     enum PostError: Error {
-        case urlError
+        case firestoreError
         case parseError
     }
     
-    private var currentPage: Int = 0
+    private var lastDocument: DocumentSnapshot?
+    private let pageSize: Int = 10
     
     private(set) var posts: [Post] = []
     
     private let bookmarkManager = BookmarkManager()
+    private let db = Firestore.firestore()
 
     var isLoading: Bool = true
     
@@ -27,40 +30,57 @@ class PostManager {
     init() {
         Task {
             do {
-                try await fetchPosts(page: currentPage)
+                try await fetchPosts()
             } catch {
                 print("\(error) 예외 발생")
+                // 네트워크 오류 시 MockData 사용
+                await loadMockData()
             }
         }
     }
     
+    @MainActor
+    private func loadMockData() {
+        self.posts = MockData.placeHolderPosts
+        self.isLoading = false
+    }
+    
     // 실제 데이터 받아오기
-    private func fetchPosts(page: Int) async throws {
-        let urlString = Config.API_URL
-        guard let url = URL(string: "\(urlString)posts?page=\(page)") else {
-            throw PostError.urlError
-        }
-        
+    private func fetchPosts() async throws {
         do {
-            let (data, _) = try await URLSession.shared.data(from: url)
-            let decoder = JSONDecoder()
-            decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
-            let fetchedPosts = try decoder.decode([PostDTO].self, from: data)
-//            let newPosts = fetchedPosts.map { Post(from: $0) }
-            let newPosts = fetchedPosts.map { Post(from: $0, isWatched: false, isBookmarked: bookmarkManager.isBookmarked(id: $0.id)) }
+            var query: Query = db.collection("posts")
+                .order(by: "created_at", descending: true)
+                .limit(to: pageSize)
+            
+            if let lastDocument = lastDocument {
+                query = query.start(afterDocument: lastDocument)
+            }
+            
+            let snapshot = try await query.getDocuments()
+            
+            let fetchedPosts = try snapshot.documents.compactMap { document -> PostDTO? in
+                return try PostDTO(documentID: document.documentID, data: document.data())
+            }
+            
+            let newPosts = fetchedPosts.map { 
+                Post(from: $0, isWatched: false, isBookmarked: bookmarkManager.isBookmarked(id: $0.id)) 
+            }
+            
             self.posts.append(contentsOf: newPosts)
+            self.lastDocument = snapshot.documents.last
             self.isLoading = false
         } catch {
-            print("디코딩 오류: \(error)")
-            throw PostError.parseError
+            print("Firestore 오류: \(error)")
+            throw PostError.firestoreError
         }
     }
     
-    // 페이지를 증가시키고 새로운 데이터를 요청하는 메서드
+    // 다음 페이지 데이터를 요청하는 메서드
     func loadNextPage() async {
-        currentPage += 1
+        guard !isLoading else { return }
+        
         do {
-            try await fetchPosts(page: currentPage)
+            try await fetchPosts()
         } catch {
             print("페이지를 로드하는 중 오류 발생: \(error)")
         }

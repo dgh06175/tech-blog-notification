@@ -9,7 +9,7 @@ import Foundation
 
 @Observable
 class Post: Identifiable {
-    var id: Int64
+    var id: String
     var link: String
     var baseUrl: String
     var blogName: String
@@ -42,7 +42,7 @@ class Post: Identifiable {
         self.isBookmarked = isBookmarked
     }
     
-    init(id: Int64, link: String, blogName: String, title: String, pubDate: Date, scrapedDate: Date, isWatched: Bool, isBookmarked: Bool) {
+    init(id: String, link: String, blogName: String, title: String, pubDate: Date, scrapedDate: Date, isWatched: Bool, isBookmarked: Bool) {
         self.id = id
         self.link = link
         self.baseUrl = Post.extractDomain(from: link) ?? link
