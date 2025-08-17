@@ -24,7 +24,7 @@ class TossScraper(BaseScraper):
                     post = Post(
                         blog_name=self.get_blog_name(),
                         title=item.get('title', ''),
-                        link=f"https://toss.tech/{item.get('key', '')}",
+                        link=f"https://toss.tech/article/{item.get('key', '')}",
                         date=self.parse_date(item.get('publishedTime', ''))
                     )
                     posts.append(post.to_dict())

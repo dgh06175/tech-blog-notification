@@ -33,8 +33,6 @@ class PostManager {
                 try await fetchPosts()
             } catch {
                 print("\(error) 예외 발생")
-                // 네트워크 오류 시 MockData 사용
-                await loadMockData()
             }
         }
     }
@@ -59,11 +57,11 @@ class PostManager {
             let snapshot = try await query.getDocuments()
             
             let fetchedPosts = try snapshot.documents.compactMap { document -> PostDTO? in
-                return try PostDTO(documentID: document.documentID, data: document.data())
+                try document.data(as: PostDTO.self)
             }
             
-            let newPosts = fetchedPosts.map { 
-                Post(from: $0, isWatched: false, isBookmarked: bookmarkManager.isBookmarked(id: $0.id)) 
+            let newPosts = fetchedPosts.map { dto in
+                Post(from: dto, isWatched: false, isBookmarked: bookmarkManager.isBookmarked(id: dto.id ?? ""))
             }
             
             self.posts.append(contentsOf: newPosts)

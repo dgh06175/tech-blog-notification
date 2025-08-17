@@ -26,7 +26,7 @@ class FirestoreUploader:
         
         self.db = firestore.client()
         
-    def upload_posts(self, posts: List[Dict[str, Any]], collection_name: str = "tech_blog_posts") -> Dict[str, int]:
+    def upload_posts(self, posts: List[Dict[str, Any]], collection_name: str = "posts") -> Dict[str, int]:
         """
         포스트 데이터를 FireStore에 업로드
         
@@ -91,7 +91,7 @@ class FirestoreUploader:
         
         return formatted_data
     
-    def get_collection_stats(self, collection_name: str = "tech_blog_posts") -> Dict[str, Any]:
+    def get_collection_stats(self, collection_name: str = "posts") -> Dict[str, Any]:
         """컬렉션 통계 조회"""
         try:
             docs = self.db.collection(collection_name).get()

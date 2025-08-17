@@ -21,7 +21,7 @@ class Post: Identifiable {
     var isBookmarked: Bool = false
     
     init(from dto: PostDTO) {
-        self.id = dto.id
+        self.id = dto.id ?? UUID().uuidString
         self.link = dto.link
         self.baseUrl = Post.extractDomain(from: dto.link) ?? dto.link
         self.blogName = dto.blogName
@@ -31,7 +31,7 @@ class Post: Identifiable {
     }
     
     init(from dto: PostDTO, isWatched: Bool, isBookmarked: Bool) {
-        self.id = dto.id
+        self.id = dto.id ?? UUID().uuidString
         self.link = dto.link
         self.baseUrl = Post.extractDomain(from: dto.link) ?? dto.link
         self.blogName = dto.blogName
