@@ -30,7 +30,7 @@ https://tech.kakao.com/blog
 https://tech.inflab.com
 
 - [ ] RSS
-- [ ] [API](https://tech.inflab.com/page-data/index/page-data.json)
+- [x] [API](https://tech.inflab.com/page-data/index/page-data.json)
 - [ ] 웹 스크래핑
 
 ## 토스
