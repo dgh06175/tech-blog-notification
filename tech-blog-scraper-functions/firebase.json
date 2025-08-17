@@ -1,0 +1,18 @@
+{
+  "functions": [
+    {
+      "source": ".",
+      "codebase": "default",
+      "ignore": [
+        "venv",
+        ".venv",
+        "__pycache__",
+        "*.pyc",
+        "test_*",
+        ".git",
+        ".gitignore",
+        "*.md"
+      ]
+    }
+  ]
+}

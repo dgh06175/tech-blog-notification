@@ -157,6 +157,54 @@ def scrape_single_blog(req: https_fn.Request) -> https_fn.Response:
         )
 
 
+@scheduler_fn.on_schedule(schedule="0 4 * * *", timezone="Asia/Seoul")
+def scheduled_scrape_and_upload(event: scheduler_fn.ScheduledEvent) -> None:
+    """
+    매일 새벽 4시(한국시간)에 자동 실행되는 스크래핑 및 업로드 함수
+    """
+    print(f"Scheduled scraping started at: {event.schedule_time}")
+    
+    scrapers = [
+        SamsungScraper(),
+        KakaoScraper(),
+        WoowahanScraper(),
+        InflabScraper(),
+        TossScraper(),
+        NaverD2Scraper(),
+        BanksaladScraper()
+    ]
+    
+    all_posts = []
+    scraping_results = {}
+    
+    for scraper in scrapers:
+        try:
+            posts = scraper.scrape()
+            all_posts.extend(posts)
+            scraping_results[scraper.get_blog_name()] = len(posts)
+            print(f"Scraped {len(posts)} posts from {scraper.get_blog_name()}")
+        except Exception as e:
+            scraping_results[scraper.get_blog_name()] = f"Error: {str(e)}"
+            print(f"Error scraping {scraper.__class__.__name__}: {str(e)}")
+    
+    # FireStore에 업로드
+    try:
+        uploader = FirestoreUploader()
+        upload_results = uploader.upload_posts(all_posts)
+        
+        print(f"Upload completed: {upload_results}")
+        print(f"Total posts processed: {len(all_posts)}")
+        
+        # 통계 정보 조회
+        stats = uploader.get_collection_stats()
+        print(f"Collection stats: {stats}")
+        
+    except Exception as e:
+        print(f"Upload error: {str(e)}")
+    
+    print("Scheduled scraping completed.")
+
+
 @https_fn.on_request()
 def get_collection_stats(req: https_fn.Request) -> https_fn.Response:
     """
@@ -176,3 +224,51 @@ def get_collection_stats(req: https_fn.Request) -> https_fn.Response:
             status=500,
             content_type="application/json"
         )
+
+
+@scheduler_fn.on_schedule(schedule="0 4 * * *", timezone="Asia/Seoul")
+def scheduled_scrape_and_upload(event: scheduler_fn.ScheduledEvent) -> None:
+    """
+    매일 새벽 4시(한국시간)에 자동 실행되는 스크래핑 및 업로드 함수
+    """
+    print(f"Scheduled scraping started at: {event.schedule_time}")
+    
+    scrapers = [
+        SamsungScraper(),
+        KakaoScraper(),
+        WoowahanScraper(),
+        InflabScraper(),
+        TossScraper(),
+        NaverD2Scraper(),
+        BanksaladScraper()
+    ]
+    
+    all_posts = []
+    scraping_results = {}
+    
+    for scraper in scrapers:
+        try:
+            posts = scraper.scrape()
+            all_posts.extend(posts)
+            scraping_results[scraper.get_blog_name()] = len(posts)
+            print(f"Scraped {len(posts)} posts from {scraper.get_blog_name()}")
+        except Exception as e:
+            scraping_results[scraper.get_blog_name()] = f"Error: {str(e)}"
+            print(f"Error scraping {scraper.__class__.__name__}: {str(e)}")
+    
+    # FireStore에 업로드
+    try:
+        uploader = FirestoreUploader()
+        upload_results = uploader.upload_posts(all_posts)
+        
+        print(f"Upload completed: {upload_results}")
+        print(f"Total posts processed: {len(all_posts)}")
+        
+        # 통계 정보 조회
+        stats = uploader.get_collection_stats()
+        print(f"Collection stats: {stats}")
+        
+    except Exception as e:
+        print(f"Upload error: {str(e)}")
+    
+    print("Scheduled scraping completed.")
