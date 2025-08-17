@@ -1,4 +1,5 @@
 node_modules
+**.pyc
 테스트코드.txt
 .DS_STORE
 target
