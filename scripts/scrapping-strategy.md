@@ -33,14 +33,6 @@ https://tech.inflab.com
 - [ ] [API](https://tech.inflab.com/page-data/index/page-data.json)
 - [ ] 웹 스크래핑
 
-## 카카오뱅크
-
-https://tech.kakaobank.com/
-
-- [ ] RSS
-- [ ] API
-- [x] 웹 스크래핑
-
 ## 토스
 
 https://toss.tech/tech
@@ -67,33 +59,6 @@ https:
   2. https://blog.banksalad.com/page-data/sq/d/{위 응답의 staticQueryHashes 의 첫번째 값}.json
 - [ ] 웹 스크래핑
 
-
-
-## ?
-
-https:
-
-- [ ] RSS
-- [ ] API
-- [ ] 웹 스크래핑
-
-
-## ?
-
-https:
-
-- [ ] RSS
-- [ ] API
-- [ ] 웹 스크래핑
-
-
-## ?
-
-https:
-
-- [ ] RSS
-- [ ] API
-- [ ] 웹 스크래핑
 
 
 ## ?
