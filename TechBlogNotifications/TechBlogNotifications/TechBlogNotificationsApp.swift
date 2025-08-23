@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FirebaseCore
+import FirebaseFirestore
 
 @main
 struct TeckBlogNotificationsApp: App {
@@ -14,6 +15,12 @@ struct TeckBlogNotificationsApp: App {
     
     init() {
         FirebaseApp.configure()
+        
+        let settings = FirestoreSettings()
+        settings.isPersistenceEnabled = true
+        settings.cacheSizeBytes = FirestoreCacheSizeUnlimited
+        Firestore.firestore().settings = settings
+        
         self._postManager = State(initialValue: PostManager())
     }
     
