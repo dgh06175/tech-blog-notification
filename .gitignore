@@ -1,4 +1,5 @@
 node_modules
+**.pyc
 테스트코드.txt
 .DS_STORE
 target
@@ -475,3 +476,24 @@ out/
 .vscode/
 
 # End of Spring .gitignore
+
+# --- Custom for this project ---
+# Firebase config (do not commit secrets)
+TechBlogNotifications/GoogleService-Info.plist
+GoogleService-Info.plist
+
+# Xcode user-specific files
+*.xcuserstate
+*.xcuserdatad/
+*.xcdebugger/
+
+# SwiftUI Preview Content (optional, ignore if not needed in repo)
+TechBlogNotifications/Preview Content/
+
+# Swift Package Manager workspace data
+*.xcodeproj/
+
+# Xcode scheme files (if they contain sensitive info)
+
+# Merge conflict backup files
+*.orig

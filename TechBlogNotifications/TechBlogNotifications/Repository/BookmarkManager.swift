@@ -10,7 +10,7 @@ import Foundation
 @Observable
 class BookmarkManager {
     private let bookmarksKey = "bookmarks"
-    private var cachedBookmarks: [Int64] = []
+    private var cachedBookmarks: [String] = []
 
     init() {
         self.cachedBookmarks = fetchBookmarks()
@@ -30,15 +30,15 @@ class BookmarkManager {
         }
     }
 
-    func fetchBookmarks() -> [Int64] {
-        return UserDefaults.standard.array(forKey: bookmarksKey) as? [Int64] ?? []
+    func fetchBookmarks() -> [String] {
+        return UserDefaults.standard.array(forKey: bookmarksKey) as? [String] ?? []
     }
 
     func fetchBookmarkedPosts(from posts: [Post]) -> [Post] {
         return posts.filter { cachedBookmarks.contains($0.id) }
     }
     
-    func isBookmarked(id: Int64) -> Bool {
+    func isBookmarked(id: String) -> Bool {
         return cachedBookmarks.contains(id)
     }
 }

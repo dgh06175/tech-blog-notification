@@ -1,0 +1,7 @@
+firebase-functions
+firebase-admin
+requests
+beautifulsoup4
+feedparser
+python-dateutil
+lxml
