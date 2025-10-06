@@ -11,11 +11,6 @@ import Network
 
 @Observable
 class PostManager {
-    enum PostError: Error {
-        case firestoreError
-        case parseError
-    }
-    
     private var lastDocument: DocumentSnapshot?
     private let pageSize: Int = 10
     private let networkMonitor = NWPathMonitor()
@@ -27,7 +22,8 @@ class PostManager {
     private let bookmarkManager = BookmarkManager()
     private let db = Firestore.firestore()
 
-    var isLoading: Bool = true
+    private var hasMorePosts: Bool = true
+    var isLoading: Bool = false
     
     
     // 데이터가 앱 시작시 한번만 불러와져도 되므로 init 에서 작성하고 App 시작시 초기화되도록 함
@@ -35,11 +31,7 @@ class PostManager {
         startNetworkMonitoring()
         
         Task {
-            do {
-                try await fetchPosts()
-            } catch {
-                print("\(error) 예외 발생")
-            }
+            await loadInitialPosts()
         }
     }
     
@@ -54,7 +46,7 @@ class PostManager {
                 if path.status == .satisfied {
                     print("네트워크 연결됨 - 데이터 새로고침 시도")
                     Task {
-                        try? await self?.refreshPosts()
+                        await self?.refreshPosts()
                     }
                 } else {
                     print("네트워크 연결 끊어짐 - 오프라인 모드")
@@ -64,16 +56,9 @@ class PostManager {
         networkMonitor.start(queue: networkQueue)
     }
     
-    private func refreshPosts() async throws {
+    private func refreshPosts() async {
         guard isConnected else { return }
-        
-        lastDocument = nil
-        await MainActor.run {
-            posts.removeAll()
-            isLoading = true
-        }
-        
-        try await fetchPosts()
+        await loadInitialPosts()
     }
     
     @MainActor
@@ -83,57 +68,85 @@ class PostManager {
     }
     
     // 실제 데이터 받아오기
-    private func fetchPosts() async throws {
+    private func fetchPosts(reset: Bool) async {
+        guard await beginLoading(reset: reset) else { return }
+
         do {
-            var query: Query = db.collection("posts")
-                .order(by: "date", descending: true)
-                .limit(to: pageSize)
-            
-            if let lastDocument = lastDocument {
-                query = query.start(afterDocument: lastDocument)
-            }
-            
+            let query = await makeQuery()
             let snapshot = try await query.getDocuments(source: .default)
-            
-            let fetchedPosts = try snapshot.documents.compactMap { document -> PostDTO? in
-                try document.data(as: PostDTO.self)
-            }
-            
-            let newPosts = fetchedPosts.map { dto in
-                Post(from: dto, isWatched: false, isBookmarked: bookmarkManager.isBookmarked(id: dto.id ?? ""))
-            }
-            
-            await MainActor.run {
-                self.posts.append(contentsOf: newPosts)
-                self.lastDocument = snapshot.documents.last
-                self.isLoading = false
-            }
-            
+            try await handleSnapshot(snapshot, reset: reset)
         } catch {
             print("Firestore 오류: \(error)")
-            await MainActor.run {
-                self.isLoading = false
-            }
-            throw PostError.firestoreError
+            await finishLoading()
         }
+    }
+    
+    private func makeQuery() async -> Query {
+        let startingDocument = await MainActor.run { lastDocument }
+        var query: Query = db.collection("posts")
+            .order(by: "date", descending: true)
+            .limit(to: pageSize)
+        
+        if let startingDocument {
+            query = query.start(afterDocument: startingDocument)
+        }
+        return query
+    }
+    
+    private func handleSnapshot(_ snapshot: QuerySnapshot, reset: Bool) async throws {
+        let fetchedPosts = try snapshot.documents.compactMap { document -> PostDTO? in
+            try document.data(as: PostDTO.self)
+        }
+        
+        let newPosts = fetchedPosts.map { dto in
+            Post(from: dto,
+                 isWatched: false,
+                 isBookmarked: bookmarkManager.isBookmarked(id: dto.id ?? ""))
+        }
+        
+        await MainActor.run {
+            if reset {
+                posts = newPosts
+            } else {
+                let existingIds = Set(posts.map { $0.id })
+                let filtered = newPosts.filter { !existingIds.contains($0.id) }
+                posts.append(contentsOf: filtered)
+            }
+            lastDocument = snapshot.documents.last
+            hasMorePosts = snapshot.documents.count == pageSize
+        }
+        await finishLoading()
+    }
+    
+    private func beginLoading(reset: Bool) async -> Bool {
+        return await MainActor.run {
+            if isLoading {
+                return false
+            }
+            if reset {
+                posts.removeAll()
+                lastDocument = nil
+                hasMorePosts = true
+            }
+            isLoading = true
+            return true
+        }
+    }
+    
+    private func finishLoading() async {
+        await MainActor.run {
+            isLoading = false
+        }
+    }
+    
+    private func loadInitialPosts() async {
+        await fetchPosts(reset: true)
     }
     
     // 다음 페이지 데이터를 요청하는 메서드
     func loadNextPage() async {
-        guard !isLoading else { return }
-        
-        await MainActor.run {
-            self.isLoading = true
-        }
-        
-        do {
-            try await fetchPosts()
-        } catch {
-            print("페이지를 로드하는 중 오류 발생: \(error)")
-            await MainActor.run {
-                self.isLoading = false
-            }
-        }
+        guard hasMorePosts else { return }
+        await fetchPosts(reset: false)
     }
     
     func toggleBookmark(for post: Post) {
