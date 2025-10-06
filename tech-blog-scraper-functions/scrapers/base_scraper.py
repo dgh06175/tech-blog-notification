@@ -22,8 +22,8 @@ class Post:
             'blog_name': self.blog_name,
             'title': self.title,
             'link': self.link,
-            'date': self.date,
-            'scraped_at': datetime.now()
+            'date': self.date.strftime('%Y-%m-%d %H:%M:%S') if self.date else None,
+            'scraped_at': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         }
 
 

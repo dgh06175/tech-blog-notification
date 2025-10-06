@@ -86,7 +86,7 @@ class PostManager {
     private func fetchPosts() async throws {
         do {
             var query: Query = db.collection("posts")
-                .order(by: "created_at", descending: true)
+                .order(by: "date", descending: true)
                 .limit(to: pageSize)
             
             if let lastDocument = lastDocument {
@@ -109,54 +109,12 @@ class PostManager {
                 self.isLoading = false
             }
             
-            if snapshot.metadata.isFromCache {
-                print("데이터를 캐시에서 로드했습니다 (오프라인 모드)")
-            } else {
-                print("데이터를 서버에서 로드했습니다")
-            }
-            
         } catch {
             print("Firestore 오류: \(error)")
-            if let firestoreError = error as NSError?, firestoreError.code == 14 {
-                print("네트워크 연결 문제로 인한 오류 - 오프라인 모드로 전환")
-                await MainActor.run {
-                    self.isLoading = false
-                }
-                try await loadFromCache()
-            } else {
-                throw PostError.firestoreError
-            }
-        }
-    }
-    
-    private func loadFromCache() async throws {
-        do {
-            var query: Query = db.collection("posts")
-                .order(by: "created_at", descending: true)
-                .limit(to: pageSize)
-            
-            if let lastDocument = lastDocument {
-                query = query.start(afterDocument: lastDocument)
-            }
-            
-            let snapshot = try await query.getDocuments(source: .cache)
-            
-            let fetchedPosts = try snapshot.documents.compactMap { document -> PostDTO? in
-                try document.data(as: PostDTO.self)
-            }
-            
-            let newPosts = fetchedPosts.map { dto in
-                Post(from: dto, isWatched: false, isBookmarked: bookmarkManager.isBookmarked(id: dto.id ?? ""))
-            }
-            
             await MainActor.run {
-                self.posts.append(contentsOf: newPosts)
-                self.lastDocument = snapshot.documents.last
+                self.isLoading = false
             }
-            
-            print("캐시에서 \(newPosts.count)개의 게시물을 로드했습니다")
-        } catch {
-            print("캐시에서 데이터를 로드할 수 없습니다: \(error)")
+            throw PostError.firestoreError
         }
     }
     

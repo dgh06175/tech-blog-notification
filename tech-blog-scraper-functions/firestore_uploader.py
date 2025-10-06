@@ -4,6 +4,7 @@ FireStore 업로드 유틸리티
 import json
 from typing import List, Dict, Any
 from datetime import datetime
+from urllib.parse import urlparse
 import firebase_admin
 from firebase_admin import credentials, firestore
 
@@ -78,8 +79,19 @@ class FirestoreUploader:
     def _generate_post_id(self, post_data: Dict[str, Any]) -> str:
         """포스트 고유 ID 생성"""
         import hashlib
-        unique_string = f"{post_data['blog_name']}_{post_data['link']}"
+        normalized_link = self._normalize_link(post_data['link'])
+        unique_string = f"{post_data['blog_name']}_{normalized_link}"
         return hashlib.md5(unique_string.encode()).hexdigest()
+
+    def _normalize_link(self, link: str) -> str:
+        """링크에서 프로토콜을 제거해 중복 검사 내에서 http/https를 동일하게 취급."""
+        parsed = urlparse(link)
+        # netloc은 대소문자 구분이 없으므로 소문자로 맞춰 중복 가능성을 줄인다.
+        netloc = parsed.netloc.lower()
+        path = parsed.path or ""
+        query = f"?{parsed.query}" if parsed.query else ""
+        fragment = f"#{parsed.fragment}" if parsed.fragment else ""
+        return f"{netloc}{path}{query}{fragment}"
     
     def _format_for_firestore(self, post_data: Dict[str, Any]) -> Dict[str, Any]:
         """FireStore용 데이터 포맷팅"""
