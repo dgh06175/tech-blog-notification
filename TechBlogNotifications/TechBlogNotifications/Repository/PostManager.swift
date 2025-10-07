@@ -103,6 +103,9 @@ class PostManager {
                             isWatched: false,
                             isBookmarked: bookmarkManager.isBookmarked(id: document.documentID))
             post.id = document.documentID
+            if post.isBookmarked {
+                bookmarkManager.refreshBookmarkData(with: post)
+            }
             return post
         }
         
@@ -155,12 +158,21 @@ class PostManager {
         post.isBookmarked.toggle()
         if post.isBookmarked {
             bookmarkManager.saveBookmark(post: post)
+            if let index = posts.firstIndex(where: { $0.id == post.id }) {
+                posts[index].isBookmarked = true
+            }
         } else {
             bookmarkManager.removeBookmark(post: post)
+            if let index = posts.firstIndex(where: { $0.id == post.id }) {
+                posts[index].isBookmarked = false
+            }
         }
     }
     
     func getBookmarkedPosts() -> [Post] {
-        bookmarkManager.fetchBookmarkedPosts(from: posts)
+        let onlineBookmarkedPosts = bookmarkManager.fetchBookmarkedPosts(from: posts)
+        let onlineIds = Set(onlineBookmarkedPosts.map { $0.id })
+        let offlineOnlyPosts = bookmarkManager.fetchStoredBookmarkedPosts().filter { !onlineIds.contains($0.id) }
+        return onlineBookmarkedPosts + offlineOnlyPosts
     }
 }
