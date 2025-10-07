@@ -41,8 +41,8 @@ struct MainView: View {
                         }
                 }
             }
-            .disabled(postManager.isLoading)
-            .redacted(reason: postManager.isLoading ? .placeholder : [])
+            .disabled(postManager.isLoading && postManager.posts.isEmpty)
+            .redacted(reason: postManager.posts.isEmpty && postManager.isLoading ? .placeholder : [])
             .navigationTitle(Constants.Messages.HOME_TITLE)
             // TODO: 알림 툴바
             //            .toolbar {
@@ -124,7 +124,12 @@ extension MainView {
 
 struct LastListLoadingView: View {
     var body: some View {
-        Text(Constants.Messages.LOADING)
+        HStack {
+            Spacer()
+            ProgressView()
+                .padding(.vertical, 8)
+            Spacer()
+        }
     }
 }
 
