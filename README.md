@@ -4,7 +4,7 @@
 
 개발 관련 기술 블로그들의 글을 한곳에서 확인하세요.
 
-<img width="220" src="https://github.com/user-attachments/assets/73d25fa6-989e-40fc-851f-4a5a07135c53">
+<img width="220" src="https://github.com/user-attachments/assets/2bf1d2ef-b078-4179-bb6a-04b967d324fd">
 
 - 여러 기술 블로그의 최신 피드를 매일 업데이트
 - 관심 있는 게시글을 북마크하여 나중에 다시 보기
