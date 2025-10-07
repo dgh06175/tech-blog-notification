@@ -98,10 +98,12 @@ class PostManager {
             try document.data(as: PostDTO.self)
         }
         
-        let newPosts = fetchedPosts.map { dto in
-            Post(from: dto,
-                 isWatched: false,
-                 isBookmarked: bookmarkManager.isBookmarked(id: dto.id ?? ""))
+        let newPosts = zip(snapshot.documents, fetchedPosts).map { document, dto in
+            let post = Post(from: dto,
+                            isWatched: false,
+                            isBookmarked: bookmarkManager.isBookmarked(id: document.documentID))
+            post.id = document.documentID
+            return post
         }
         
         await MainActor.run {
