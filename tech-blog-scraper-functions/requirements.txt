@@ -5,3 +5,4 @@ beautifulsoup4
 feedparser
 python-dateutil
 lxml
+python-dotenv

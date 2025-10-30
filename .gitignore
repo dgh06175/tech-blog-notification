@@ -11,6 +11,7 @@ classifier/data/*
 ### Secret config files ###
 application-local.*
 application-aws.*
+.env
 
 Config.swift
 
