@@ -6,7 +6,7 @@ target
 package.json
 package-lock.json
 tempCodeRunnerFile.js
-
+classifier/data/*
 
 ### Secret config files ###
 application-local.*
