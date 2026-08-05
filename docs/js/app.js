@@ -163,11 +163,14 @@ function getOrCreateSection(key, sortValue) {
 function renderPost(post) {
   const domain = extractDomain(post.link);
 
-  const row = document.createElement("a");
+  const row = document.createElement("div");
   row.className = "post-row";
-  row.href = post.link;
-  row.target = "_blank";
-  row.rel = "noopener noreferrer";
+
+  const link = document.createElement("a");
+  link.className = "post-link";
+  link.href = post.link;
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
 
   const title = document.createElement("div");
   title.className = "post-title";
@@ -190,6 +193,8 @@ function renderPost(post) {
   meta.className = "post-meta";
   meta.append(favicon, blogName);
 
+  link.append(title, meta);
+
   const star = document.createElement("button");
   star.type = "button";
   star.className = "post-bookmark";
@@ -197,13 +202,11 @@ function renderPost(post) {
   const setStarVisual = (active) => {
     star.classList.toggle("is-active", active);
     star.textContent = active ? "★" : "☆";
+    star.setAttribute("aria-pressed", String(active));
   };
   setStarVisual(isBookmarked(post.id));
 
-  star.addEventListener("click", (event) => {
-    // .post-row(<a>) 안에 중첩돼 있으므로 기본 링크 이동을 막아야 한다.
-    event.preventDefault();
-    event.stopPropagation();
+  star.addEventListener("click", () => {
     toggleBookmark(post);
     if (viewMode === "bookmarks") {
       applyBookmarksView();
@@ -212,7 +215,7 @@ function renderPost(post) {
     }
   });
 
-  row.append(title, meta, star);
+  row.append(link, star);
 
   const key = groupKeyFor(post.pubDate);
   const section = getOrCreateSection(key, sortValueFor(key, post.pubDate));
@@ -246,8 +249,9 @@ async function fetchNextPage() {
 
         const pubDate = toDate(data.date) ?? toDate(data.scraped_at) ?? new Date();
         const post = { id: doc.id, link: data.link, blogName, title: data.title, pubDate };
-        renderPost(post);
         loadedPosts.push(post);
+        // 로딩 중 사용자가 북마크 뷰로 전환했을 수 있으므로, 현재 "전체" 뷰일 때만 DOM에 반영한다.
+        if (viewMode === "all") renderPost(post);
         renderedThisRound += 1;
         totalLoaded += 1;
       });
@@ -256,11 +260,11 @@ async function fetchNextPage() {
       hasMore = snapshot.size === PAGE_SIZE;
     } while (renderedThisRound === 0 && hasMore);
 
-    emptyStateEl.hidden = totalLoaded > 0;
+    if (viewMode === "all") emptyStateEl.hidden = totalLoaded > 0;
     if (!hasMore) scrollObserver.unobserve(sentinelEl);
   } catch (error) {
     console.error("게시글을 불러오지 못했습니다.", error);
-    errorStateEl.hidden = false;
+    if (viewMode === "all") errorStateEl.hidden = false;
   } finally {
     isFetching = false;
     setLoading(false);
@@ -307,6 +311,7 @@ const scrollObserver = new IntersectionObserver(
   (entries) => {
     if (viewMode !== "all") return;
     if (!entries[0].isIntersecting) return;
+    if (!errorStateEl.hidden) return;
     if (!hasMore || isFetching) return;
     fetchNextPage();
   },
