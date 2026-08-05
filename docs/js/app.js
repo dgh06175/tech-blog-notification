@@ -129,6 +129,22 @@ function faviconUrl(domain) {
   return `https://www.google.com/s2/favicons?sz=64&domain=${encodeURIComponent(domain)}`;
 }
 
+// techblog.samsung.com처럼 자체 파비콘 자체가 깨져 있어 도메인 기반으로는 도저히 찾을 수 없는
+// 블로그를 위한 수동 예외. blog_name 기준(회사 공식 사이트 아이콘 등으로 직접 지정).
+const FAVICON_OVERRIDES = {
+  Samsung: "https://www.samsung.com/sec/static/_images/favicon.ico",
+};
+
+// Google의 favicon 서비스는 못 찾은 도메인에도 (404 상태이지만) 유효한 기본 이미지를 돌려줘서
+// <img>의 error 이벤트가 뜨지 않는다(예: d2.naver.com은 자체 파비콘이 멀쩡한데도 이 문제로 안 보임).
+// 반면 사이트 자체 favicon.ico는 없거나 깨졌을 때 진짜 네트워크 오류/디코딩 실패로 이어져 error가
+// 정상적으로 뜨므로, 도메인 자체 favicon.ico를 먼저 시도하고 실패할 때만 Google로 폴백한다.
+function faviconCandidates(post, domain) {
+  const override = FAVICON_OVERRIDES[post.blogName];
+  if (override) return [override];
+  return [`${domain}/favicon.ico`, faviconUrl(domain)];
+}
+
 function insertSectionInOrder(section) {
   const nextSection = [...sections.values()]
     .filter((candidate) => candidate !== section)
@@ -181,12 +197,21 @@ function renderPost(post) {
 
   const favicon = document.createElement("img");
   favicon.className = "post-favicon";
-  favicon.src = faviconUrl(domain);
   favicon.alt = "";
   favicon.loading = "lazy";
-  // Google favicon 서비스가 도메인에 따라 간헐적으로 404를 반환하는데,
-  // iOS의 CachedAsyncImage가 실패 시 플레이스홀더로 대체하는 것과 동일하게 처리.
-  favicon.addEventListener("error", () => favicon.remove(), { once: true });
+  // 후보를 순서대로 시도하다가 전부 실패하면(예: Samsung 기술블로그처럼 파비콘 자체가 깨진 경우)
+  // iOS의 CachedAsyncImage가 실패 시 플레이스홀더로 대체하는 것과 동일하게 아이콘을 제거한다.
+  const candidates = faviconCandidates(post, domain);
+  let candidateIndex = 0;
+  const tryNextCandidate = () => {
+    if (candidateIndex >= candidates.length) {
+      favicon.remove();
+      return;
+    }
+    favicon.src = candidates[candidateIndex++];
+  };
+  favicon.addEventListener("error", tryNextCandidate);
+  tryNextCandidate();
 
   const blogName = document.createElement("span");
   blogName.className = "post-blog-name";
@@ -278,6 +303,14 @@ async function fetchNextPage() {
     isFetching = false;
     setLoading(false);
     refreshLoadMoreUI();
+  }
+
+  // IntersectionObserver는 교차 상태가 "변할 때"만 발화한다. 한 페이지 분량이 화면(+rootMargin)을
+  // 다 못 채우면 sentinel이 처음부터 계속 화면 안에 머물러 다시는 콜백이 오지 않으므로,
+  // 매 로드 후 직접 한 번 더 확인해서 필요하면 이어서 불러온다.
+  if (!desktopMql.matches && viewMode === "all" && hasMore && errorStateEl.hidden && !isFetching) {
+    const rect = sentinelEl.getBoundingClientRect();
+    if (rect.top < window.innerHeight + 200) fetchNextPage();
   }
 }
 
