@@ -87,8 +87,12 @@ struct CachedAsyncImage: View {
         guard candidateIndex < urls.count else { return }
         let url = urls[candidateIndex]
 
-        // URLCache를 통한 캐싱된 데이터 확인
+        // URLCache를 통한 캐싱된 데이터 확인. URLSession이 서버 캐시 헤더에 따라 404 응답도
+        // 자동으로 캐싱해둘 수 있으므로(Google favicon 서비스의 기본 이미지 응답 등), 캐시
+        // 히트 시에도 상태 코드를 검증해야 잘못된 기본 아이콘이 그대로 쓰이는 걸 막을 수 있다.
         if let cachedResponse = URLCache.shared.cachedResponse(for: URLRequest(url: url)),
+           let httpResponse = cachedResponse.response as? HTTPURLResponse,
+           (200...299).contains(httpResponse.statusCode),
            let cachedImage = UIImage(data: cachedResponse.data) {
             DispatchQueue.main.async {
                 self.uiImage = cachedImage

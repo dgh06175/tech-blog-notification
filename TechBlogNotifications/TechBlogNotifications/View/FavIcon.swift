@@ -27,11 +27,12 @@ struct FavIcon {
     // 실패를 감지할 수 없다(예: d2.naver.com은 자체 파비콘이 멀쩡한데도 이 문제로 안 보임). 반면
     // 사이트 자체 favicon.ico는 없거나 깨졌을 때 진짜 실패로 이어지므로, 도메인 자체 favicon.ico를
     // 먼저 시도하고 실패할 때만 Google로 폴백한다.
+    // override가 있어도 맨 앞 순위로만 두고 나머지 후보를 함께 반환한다 — override URL이 나중에
+    // 깨지거나 옮겨져도 완전히 빈 아이콘이 되지 않고 도메인/Google 순으로 계속 폴백하도록.
     func candidates(blogName: String, size: Size) -> [URL] {
-        if let override = FavIcon.overrides[blogName], let url = URL(string: override) {
-            return [url]
-        }
+        let overrideUrl = FavIcon.overrides[blogName].flatMap { URL(string: $0) }
         return [
+            overrideUrl,
             URL(string: "\(domain)/favicon.ico"),
             URL(string: googleUrl(size)),
         ].compactMap { $0 }
