@@ -15,6 +15,12 @@ const RECENT_LABEL = "최신";
 const RECENT_DAY_THRESHOLD = 1;
 const EXCLUDED_BLOG_NAMES = new Set(["Aws"]);
 const BOOKMARKS_KEY = "tbn-bookmarks";
+const BOOKMARK_ICON_PATH = "M6 3a2 2 0 0 0-2 2v16l8-5 8 5V5a2 2 0 0 0-2-2H6z";
+function bookmarkIconSvg(active) {
+  return `<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">` +
+    `<path d="${BOOKMARK_ICON_PATH}" fill="${active ? "currentColor" : "none"}" ` +
+    `stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>`;
+}
 // 스크롤 자동 로딩은 화면 크기와 무관하게 항상 켜져 있고, 화면이 넓은 PC에서는
 // "더 보기" 버튼도 함께 노출해 자동 로딩이 실패했을 때 수동으로 재시도할 수 있게 한다.
 const desktopMql = window.matchMedia("(min-width: 700px)");
@@ -230,7 +236,7 @@ function renderPost(post) {
   star.setAttribute("aria-label", "북마크");
   const setStarVisual = (active) => {
     star.classList.toggle("is-active", active);
-    star.textContent = active ? "★" : "☆";
+    star.innerHTML = bookmarkIconSvg(active);
     star.setAttribute("aria-pressed", String(active));
   };
   setStarVisual(isBookmarked(post.id));
@@ -344,7 +350,7 @@ function setViewMode(mode) {
   if (mode === viewMode) return;
   viewMode = mode;
   bookmarkFilterBtn.classList.toggle("active", mode === "bookmarks");
-  bookmarkFilterBtn.textContent = mode === "bookmarks" ? "★" : "☆";
+  bookmarkFilterBtn.innerHTML = bookmarkIconSvg(mode === "bookmarks");
   bookmarkFilterBtn.setAttribute("aria-pressed", String(mode === "bookmarks"));
   mode === "bookmarks" ? applyBookmarksView() : applyAllPostsView();
 }
