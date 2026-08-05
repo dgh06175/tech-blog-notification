@@ -14,6 +14,7 @@ const PAGE_SIZE = 10;
 const RECENT_LABEL = "최신";
 const RECENT_DAY_THRESHOLD = 1;
 const EXCLUDED_BLOG_NAMES = new Set(["Aws"]);
+const BOOKMARKS_KEY = "tbn-bookmarks";
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -21,16 +22,66 @@ const postsRef = collection(db, "posts");
 
 const sectionsEl = document.getElementById("sections");
 const loadingEl = document.getElementById("loading");
-const loadMoreBtn = document.getElementById("load-more");
+const sentinelEl = document.getElementById("scroll-sentinel");
 const emptyStateEl = document.getElementById("empty-state");
 const errorStateEl = document.getElementById("error-state");
+const bookmarkFilterBtn = document.getElementById("bookmark-filter");
 
 let lastDoc = null;
 let hasMore = true;
 let totalLoaded = 0;
+let isFetching = false;
+let viewMode = "all"; // "all" | "bookmarks"
+let loadedPosts = []; // 이번 세션에 이미 불러온 게시글 (전체보기로 돌아올 때 재사용)
 
 // 그룹 라벨(예: "최신", "2026. 08") -> { wrapper, list, sortValue }
 const sections = new Map();
+
+// 북마크는 Firestore 쓰기가 막혀 있어(allow write: if false) localStorage에만 저장.
+let bookmarks = loadBookmarks();
+
+function loadBookmarks() {
+  try {
+    const raw = localStorage.getItem(BOOKMARKS_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+function persistBookmarks() {
+  try {
+    localStorage.setItem(BOOKMARKS_KEY, JSON.stringify(bookmarks));
+  } catch (error) {
+    console.error("북마크를 저장하지 못했습니다.", error);
+  }
+}
+
+function isBookmarked(id) {
+  return bookmarks.some((b) => b.id === id);
+}
+
+function toggleBookmark(post) {
+  const idx = bookmarks.findIndex((b) => b.id === post.id);
+  if (idx >= 0) {
+    bookmarks.splice(idx, 1);
+  } else {
+    bookmarks.push({
+      id: post.id,
+      link: post.link,
+      blogName: post.blogName,
+      title: post.title,
+      pubDate: post.pubDate.toISOString(),
+    });
+  }
+  persistBookmarks();
+}
+
+function getBookmarks() {
+  return bookmarks
+    .map((b) => ({ ...b, pubDate: new Date(b.pubDate) }))
+    .sort((a, b) => b.pubDate - a.pubDate);
+}
 
 function toDate(value) {
   if (value && typeof value.toDate === "function") return value.toDate();
@@ -112,11 +163,14 @@ function getOrCreateSection(key, sortValue) {
 function renderPost(post) {
   const domain = extractDomain(post.link);
 
-  const row = document.createElement("a");
+  const row = document.createElement("div");
   row.className = "post-row";
-  row.href = post.link;
-  row.target = "_blank";
-  row.rel = "noopener noreferrer";
+
+  const link = document.createElement("a");
+  link.className = "post-link";
+  link.href = post.link;
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
 
   const title = document.createElement("div");
   title.className = "post-title";
@@ -139,7 +193,29 @@ function renderPost(post) {
   meta.className = "post-meta";
   meta.append(favicon, blogName);
 
-  row.append(title, meta);
+  link.append(title, meta);
+
+  const star = document.createElement("button");
+  star.type = "button";
+  star.className = "post-bookmark";
+  star.setAttribute("aria-label", "북마크");
+  const setStarVisual = (active) => {
+    star.classList.toggle("is-active", active);
+    star.textContent = active ? "★" : "☆";
+    star.setAttribute("aria-pressed", String(active));
+  };
+  setStarVisual(isBookmarked(post.id));
+
+  star.addEventListener("click", () => {
+    toggleBookmark(post);
+    if (viewMode === "bookmarks") {
+      applyBookmarksView();
+    } else {
+      setStarVisual(isBookmarked(post.id));
+    }
+  });
+
+  row.append(link, star);
 
   const key = groupKeyFor(post.pubDate);
   const section = getOrCreateSection(key, sortValueFor(key, post.pubDate));
@@ -148,10 +224,10 @@ function renderPost(post) {
 
 function setLoading(isLoading) {
   loadingEl.hidden = !isLoading;
-  if (isLoading) loadMoreBtn.hidden = true;
 }
 
 async function fetchNextPage() {
+  isFetching = true;
   setLoading(true);
   errorStateEl.hidden = true;
 
@@ -172,7 +248,10 @@ async function fetchNextPage() {
         if (EXCLUDED_BLOG_NAMES.has(blogName)) return;
 
         const pubDate = toDate(data.date) ?? toDate(data.scraped_at) ?? new Date();
-        renderPost({ link: data.link, blogName, title: data.title, pubDate });
+        const post = { id: doc.id, link: data.link, blogName, title: data.title, pubDate };
+        loadedPosts.push(post);
+        // 로딩 중 사용자가 북마크 뷰로 전환했을 수 있으므로, 현재 "전체" 뷰일 때만 DOM에 반영한다.
+        if (viewMode === "all") renderPost(post);
         renderedThisRound += 1;
         totalLoaded += 1;
       });
@@ -181,17 +260,63 @@ async function fetchNextPage() {
       hasMore = snapshot.size === PAGE_SIZE;
     } while (renderedThisRound === 0 && hasMore);
 
-    emptyStateEl.hidden = totalLoaded > 0;
-    loadMoreBtn.hidden = !hasMore;
+    if (viewMode === "all") emptyStateEl.hidden = totalLoaded > 0;
+    if (!hasMore) scrollObserver.unobserve(sentinelEl);
   } catch (error) {
     console.error("게시글을 불러오지 못했습니다.", error);
-    errorStateEl.hidden = false;
-    loadMoreBtn.hidden = true;
+    if (viewMode === "all") errorStateEl.hidden = false;
   } finally {
+    isFetching = false;
     setLoading(false);
   }
 }
 
-loadMoreBtn.addEventListener("click", fetchNextPage);
+function clearSections() {
+  sections.clear();
+  sectionsEl.replaceChildren();
+}
+
+function applyAllPostsView() {
+  errorStateEl.hidden = true;
+  emptyStateEl.textContent = "게시글이 없습니다.";
+  clearSections();
+  loadedPosts.forEach(renderPost);
+  emptyStateEl.hidden = loadedPosts.length > 0;
+}
+
+function applyBookmarksView() {
+  loadingEl.hidden = true;
+  errorStateEl.hidden = true;
+  emptyStateEl.textContent = "북마크된 게시글이 없습니다.";
+  clearSections();
+  const list = getBookmarks();
+  list.forEach(renderPost);
+  emptyStateEl.hidden = list.length > 0;
+}
+
+function setViewMode(mode) {
+  if (mode === viewMode) return;
+  viewMode = mode;
+  bookmarkFilterBtn.classList.toggle("active", mode === "bookmarks");
+  bookmarkFilterBtn.textContent = mode === "bookmarks" ? "★" : "☆";
+  bookmarkFilterBtn.setAttribute("aria-pressed", String(mode === "bookmarks"));
+  mode === "bookmarks" ? applyBookmarksView() : applyAllPostsView();
+}
+
+bookmarkFilterBtn.addEventListener("click", () => {
+  setViewMode(viewMode === "all" ? "bookmarks" : "all");
+});
+
+const scrollObserver = new IntersectionObserver(
+  (entries) => {
+    if (viewMode !== "all") return;
+    if (!entries[0].isIntersecting) return;
+    if (!errorStateEl.hidden) return;
+    if (!hasMore || isFetching) return;
+    fetchNextPage();
+  },
+  { rootMargin: "200px" }
+);
+scrollObserver.observe(sentinelEl);
 
 fetchNextPage();

@@ -42,6 +42,9 @@ html, body {
   position: sticky;
   top: 0;
   z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   background: var(--nav-bg);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
@@ -54,6 +57,20 @@ html, body {
   font-size: 22px;
   font-weight: 700;
   letter-spacing: -0.02em;
+}
+
+.bookmark-filter {
+  border: none;
+  background: none;
+  padding: 4px;
+  font-size: 20px;
+  line-height: 1;
+  color: var(--secondary-label);
+  cursor: pointer;
+}
+
+.bookmark-filter.active {
+  color: var(--tint);
 }
 
 main {
@@ -81,11 +98,9 @@ main {
 
 .post-row {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
+  align-items: center;
+  gap: 8px;
   padding: 12px 16px;
-  text-decoration: none;
-  color: inherit;
   border-bottom: 0.5px solid var(--separator);
 }
 
@@ -93,8 +108,18 @@ main {
   border-bottom: none;
 }
 
-.post-row:active {
-  background: var(--separator);
+.post-link {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.post-link:active {
+  opacity: 0.6;
 }
 
 .post-title {
@@ -121,6 +146,30 @@ main {
   color: var(--secondary-label);
 }
 
+.post-bookmark {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  padding: 0;
+  font-size: 18px;
+  line-height: 1;
+  color: var(--tertiary-label);
+  cursor: pointer;
+}
+
+.post-bookmark.is-active {
+  color: var(--tint);
+}
+
+.post-bookmark:active {
+  opacity: 0.6;
+}
+
 .loading-state {
   display: flex;
   align-items: center;
@@ -132,7 +181,6 @@ main {
 }
 
 .loading-state[hidden],
-.load-more[hidden],
 .empty-state[hidden],
 .error-state[hidden] {
   display: none;
@@ -159,20 +207,3 @@ main {
   padding: 40px 16px;
 }
 
-.load-more {
-  display: block;
-  width: 100%;
-  margin-top: 8px;
-  padding: 12px;
-  border: none;
-  border-radius: 10px;
-  background: var(--card-bg);
-  color: var(--tint);
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.load-more:active {
-  background: var(--separator);
-}
