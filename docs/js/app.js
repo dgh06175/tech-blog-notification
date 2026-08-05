@@ -15,7 +15,8 @@ const RECENT_LABEL = "최신";
 const RECENT_DAY_THRESHOLD = 1;
 const EXCLUDED_BLOG_NAMES = new Set(["Aws"]);
 const BOOKMARKS_KEY = "tbn-bookmarks";
-// 모바일은 스크롤 시 자동 로딩, 화면이 넓은 PC에서는 "더 보기" 버튼으로 직접 로딩.
+// 스크롤 자동 로딩은 화면 크기와 무관하게 항상 켜져 있고, 화면이 넓은 PC에서는
+// "더 보기" 버튼도 함께 노출해 자동 로딩이 실패했을 때 수동으로 재시도할 수 있게 한다.
 const desktopMql = window.matchMedia("(min-width: 700px)");
 
 const app = initializeApp(firebaseConfig);
@@ -255,7 +256,7 @@ function setLoading(isLoading) {
   if (isLoading) loadMoreBtn.hidden = true;
 }
 
-// PC 화면에서만 "더 보기" 버튼을 보여준다. 모바일은 스크롤 자동 로딩만 사용.
+// "더 보기" 버튼은 PC 화면에서만 보여준다(모바일은 스크롤 자동 로딩만으로 충분).
 function refreshLoadMoreUI() {
   loadMoreBtn.hidden = viewMode !== "all" || !desktopMql.matches || !hasMore;
 }
@@ -308,7 +309,7 @@ async function fetchNextPage() {
   // IntersectionObserver는 교차 상태가 "변할 때"만 발화한다. 한 페이지 분량이 화면(+rootMargin)을
   // 다 못 채우면 sentinel이 처음부터 계속 화면 안에 머물러 다시는 콜백이 오지 않으므로,
   // 매 로드 후 직접 한 번 더 확인해서 필요하면 이어서 불러온다.
-  if (!desktopMql.matches && viewMode === "all" && hasMore && errorStateEl.hidden && !isFetching) {
+  if (viewMode === "all" && hasMore && errorStateEl.hidden && !isFetching) {
     const rect = sentinelEl.getBoundingClientRect();
     if (rect.top < window.innerHeight + 200) fetchNextPage();
   }
@@ -359,9 +360,10 @@ loadMoreBtn.addEventListener("click", () => {
 
 desktopMql.addEventListener("change", refreshLoadMoreUI);
 
+// PC에서도 스크롤 자동 로딩을 켜둔다. "더 보기" 버튼은 자동 로딩이 실패했을 때 쓰는 수동 대안.
 const scrollObserver = new IntersectionObserver(
   (entries) => {
-    if (viewMode !== "all" || desktopMql.matches) return;
+    if (viewMode !== "all") return;
     if (!entries[0].isIntersecting) return;
     if (!errorStateEl.hidden) return;
     if (!hasMore || isFetching) return;
