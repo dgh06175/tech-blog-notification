@@ -181,6 +181,7 @@ main {
 }
 
 .loading-state[hidden],
+.load-more[hidden],
 .empty-state[hidden],
 .error-state[hidden] {
   display: none;
@@ -205,5 +206,23 @@ main {
   color: var(--secondary-label);
   font-size: 15px;
   padding: 40px 16px;
+}
+
+.load-more {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: var(--card-bg);
+  color: var(--tint);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.load-more:active {
+  background: var(--separator);
 }
 

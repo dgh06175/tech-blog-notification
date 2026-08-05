@@ -15,6 +15,8 @@ const RECENT_LABEL = "최신";
 const RECENT_DAY_THRESHOLD = 1;
 const EXCLUDED_BLOG_NAMES = new Set(["Aws"]);
 const BOOKMARKS_KEY = "tbn-bookmarks";
+// 모바일은 스크롤 시 자동 로딩, 화면이 넓은 PC에서는 "더 보기" 버튼으로 직접 로딩.
+const desktopMql = window.matchMedia("(min-width: 700px)");
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -23,6 +25,7 @@ const postsRef = collection(db, "posts");
 const sectionsEl = document.getElementById("sections");
 const loadingEl = document.getElementById("loading");
 const sentinelEl = document.getElementById("scroll-sentinel");
+const loadMoreBtn = document.getElementById("load-more");
 const emptyStateEl = document.getElementById("empty-state");
 const errorStateEl = document.getElementById("error-state");
 const bookmarkFilterBtn = document.getElementById("bookmark-filter");
@@ -224,6 +227,12 @@ function renderPost(post) {
 
 function setLoading(isLoading) {
   loadingEl.hidden = !isLoading;
+  if (isLoading) loadMoreBtn.hidden = true;
+}
+
+// PC 화면에서만 "더 보기" 버튼을 보여준다. 모바일은 스크롤 자동 로딩만 사용.
+function refreshLoadMoreUI() {
+  loadMoreBtn.hidden = viewMode !== "all" || !desktopMql.matches || !hasMore;
 }
 
 async function fetchNextPage() {
@@ -268,6 +277,7 @@ async function fetchNextPage() {
   } finally {
     isFetching = false;
     setLoading(false);
+    refreshLoadMoreUI();
   }
 }
 
@@ -282,11 +292,13 @@ function applyAllPostsView() {
   clearSections();
   loadedPosts.forEach(renderPost);
   emptyStateEl.hidden = loadedPosts.length > 0;
+  refreshLoadMoreUI();
 }
 
 function applyBookmarksView() {
   loadingEl.hidden = true;
   errorStateEl.hidden = true;
+  loadMoreBtn.hidden = true;
   emptyStateEl.textContent = "북마크된 게시글이 없습니다.";
   clearSections();
   const list = getBookmarks();
@@ -307,9 +319,16 @@ bookmarkFilterBtn.addEventListener("click", () => {
   setViewMode(viewMode === "all" ? "bookmarks" : "all");
 });
 
+loadMoreBtn.addEventListener("click", () => {
+  if (isFetching || !hasMore) return;
+  fetchNextPage();
+});
+
+desktopMql.addEventListener("change", refreshLoadMoreUI);
+
 const scrollObserver = new IntersectionObserver(
   (entries) => {
-    if (viewMode !== "all") return;
+    if (viewMode !== "all" || desktopMql.matches) return;
     if (!entries[0].isIntersecting) return;
     if (!errorStateEl.hidden) return;
     if (!hasMore || isFetching) return;
