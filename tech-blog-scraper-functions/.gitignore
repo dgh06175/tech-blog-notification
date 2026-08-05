@@ -3,6 +3,11 @@
 firebase-debug.log
 firebase-debug.*.log
 
+# Firebase 서비스 계정 키 (로컬에서만 사용, 절대 커밋 금지)
+serviceAccountKey.json
+*serviceAccountKey*.json
+*firebase-adminsdk*.json
+
 # Python
 __pycache__/
 *.py[cod]
