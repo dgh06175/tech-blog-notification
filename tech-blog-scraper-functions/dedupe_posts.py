@@ -10,6 +10,10 @@
 
 기본은 dry-run이며 실제로 쓰기/삭제하려면 --apply 를 명시해야 한다.
 
+인증: Firebase 콘솔 > 프로젝트 설정 > 서비스 계정에서 발급받은 키 JSON을 이 스크립트와
+같은 폴더에 serviceAccountKey.json 이름으로 두면 자동으로 인식한다(.gitignore 등록됨).
+GOOGLE_APPLICATION_CREDENTIALS 환경변수가 설정돼 있으면 그쪽을 우선한다.
+
 사용법:
     python dedupe_posts.py                # dry-run (미리보기만)
     python dedupe_posts.py --apply         # 실제 정리 실행
@@ -110,7 +114,12 @@ def main():
     parser.add_argument("--apply", action="store_true", help="실제로 삭제/마이그레이션 실행 (기본은 dry-run)")
     args = parser.parse_args()
 
-    service_account_path = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS")
+    # 환경변수가 없으면 이 스크립트와 같은 폴더의 serviceAccountKey.json을 자동으로 찾는다.
+    # (.gitignore에 이미 등록돼 있어 커밋되지 않음 — 프로젝트 폴더 안에서만 로컬로 관리)
+    default_key_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "serviceAccountKey.json")
+    service_account_path = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS") or (
+        default_key_path if os.path.exists(default_key_path) else None
+    )
     uploader = FirestoreUploader(service_account_path) if service_account_path else FirestoreUploader()
 
     print(f"=== '{args.collection}' 컬렉션 중복 문서 조사 ({'dry-run' if not args.apply else 'APPLY'}) ===\n")
