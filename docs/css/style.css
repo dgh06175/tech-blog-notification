@@ -60,17 +60,23 @@ html, body {
 }
 
 .bookmark-filter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: none;
   background: none;
   padding: 4px;
-  font-size: 20px;
-  line-height: 1;
   color: var(--secondary-label);
   cursor: pointer;
 }
 
 .bookmark-filter.active {
   color: var(--tint);
+}
+
+.bookmark-filter svg,
+.post-bookmark svg {
+  display: block;
 }
 
 main {
