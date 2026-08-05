@@ -68,7 +68,7 @@ pip install -r requirements-dev.txt
 - 순수 HTML/CSS/JS, 빌드 도구 없음. Firebase JS SDK는 `js/app.js`에서 gstatic CDN의 ES 모듈을 직접 import.
 - `js/firebase-config.js`의 `firebaseConfig`는 공개 저장소에 그대로 커밋되어 있음 — Firestore 보안 규칙(`allow read: if true; allow write: if false;`)이 실제 접근 제어를 담당하므로 의도된 것. `appId`는 별도 웹앱을 등록하지 않아 iOS 앱의 값을 재사용 중(Firestore 읽기엔 문제없음).
 - `js/app.js`가 iOS `MainView.groupPostsByDate` / `PostManager` 로직을 그대로 재현: `date` 내림차순 + 커서 페이지네이션, 오늘/어제 글은 "최신" 섹션, 나머지는 월별 섹션, `blog_name === "Aws"` 제외.
-- 페이지네이션은 iOS의 `LastListLoadingView().onAppear`와 동일하게 `#scroll-sentinel`을 관찰하는 `IntersectionObserver` 기반 무한 스크롤(수동 "더 보기" 버튼 없음).
+- 페이지네이션은 화면 폭에 따라 분기: 좁은 화면(모바일, `(min-width: 700px)` 미만)은 iOS의 `LastListLoadingView().onAppear`와 동일하게 `#scroll-sentinel`을 관찰하는 `IntersectionObserver` 기반 무한 스크롤, 넓은 화면(PC)은 `#load-more` 버튼을 눌러야 다음 페이지를 가져오는 수동 방식. `window.matchMedia` 변경 이벤트로 화면 폭이 바뀌면 버튼 표시 여부를 다시 계산.
 - 북마크는 Firestore 쓰기가 막혀 있어(`allow write: if false`) `localStorage`(`tbn-bookmarks` 키, 단일 배열)에만 저장 — iOS의 `UserDefaults` 두 저장소(ID 목록 + 스냅샷) 분리는 웹의 단일 `setItem` 쓰기에는 불필요해 하나로 단순화. iOS는 상세 화면 툴바에서 북마크를 토글하지만, 웹은 상세 화면 없이 각 행이 바로 외부 링크로 연결되므로 북마크 별 아이콘이 리스트 행(`.post-bookmark`) 위에 직접 있고, nav-bar의 `#bookmark-filter` 토글로 북마크만 모아 볼 수 있다.
 
 ## 커밋 컨벤션
